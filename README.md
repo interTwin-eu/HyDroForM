@@ -1,6 +1,16 @@
 
 ## Instruction
 
+
+### HydroMT
+
+TBD
+
+
+### Wflow 
+
+`cd wflow`
+
 Build Wflow app image
 
 `./build.sh`
