@@ -25,7 +25,7 @@ function main()
 
   println("using Wflow!")
 
-  config = Wflow.Config("wflow_sbm.toml")
+  config = Wflow.Config("/src/wflow_sbm.toml")
 
   args = parse_commandline()
 

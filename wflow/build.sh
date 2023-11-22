@@ -6,4 +6,4 @@ if [ $# -eq 0 ]
     tag=$1
 fi
 
-docker build -t intertwin:$tag . --no-cache 
+docker build -t intertwin:$tag .

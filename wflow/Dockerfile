@@ -7,15 +7,19 @@ RUN mkdir /env
 COPY Project.toml /env
 COPY Manifest.toml /env
 
-RUN mkdir /data
+RUN julia -e 'using Pkg;Pkg.activate("/env");Pkg.instantiate()'
 
-WORKDIR /src
+RUN mkdir /data
+RUN mkdir /src
+
+# WORKDIR /src
 
 COPY ./src/run.jl /src
 COPY ./src/wflow_sbm.toml /src
+COPY ./src/run_wflow.sh /usr/bin/run_wflow
 
-RUN julia -e 'using Pkg;Pkg.activate("/env");Pkg.instantiate()'
+RUN chmod +x /usr/bin/run_wflow
 
-ENTRYPOINT ["julia", "--project=/env", "-t 4", "run.jl"]
+#ENTRYPOINT ["julia", "--project=/env", "-t 4", "run.jl"]
 
 
