@@ -39,3 +39,13 @@ TBD
 ### Parameter Learning
 
 TBD
+
+
+## TODO
+
+- [] Diagram 
+- [] CWL workflow
+- [] OpenEO processes
+- [] HydroMT reads and writes to STAC
+- [] Surrogate components
+- [] Parameter Learning component
