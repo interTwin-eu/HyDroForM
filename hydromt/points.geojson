@@ -1,0 +1,29 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "basid": 2, "subcatchment": "DN1" }, "geometry": { "type": "Point", "coordinates": [ 14.03, 48.39 ] } },
+{ "type": "Feature", "properties": { "basid": 8, "subcatchment": "DN7" }, "geometry": { "type": "Point", "coordinates": [ 13.99, 48.14 ] } },
+{ "type": "Feature", "properties": { "basid": 5, "subcatchment": "DN4" }, "geometry": { "type": "Point", "coordinates": [ 12.88, 48.77 ] } },
+{ "type": "Feature", "properties": { "basid": 4, "subcatchment": "DN3" }, "geometry": { "type": "Point", "coordinates": [ 10.28, 48.47 ] } },
+{ "type": "Feature", "properties": { "basid": 6, "subcatchment": "DN5" }, "geometry": { "type": "Point", "coordinates": [ 14.43, 48.04 ] } },
+{ "type": "Feature", "properties": { "basid": 13, "subcatchment": "SW3" }, "geometry": { "type": "Point", "coordinates": [ 7.6, 47.58 ] } },
+{ "type": "Feature", "properties": { "basid": 7, "subcatchment": "DN6" }, "geometry": { "type": "Point", "coordinates": [ 10.89, 48.41 ] } },
+{ "type": "Feature", "properties": { "basid": 9, "subcatchment": "DR1" }, "geometry": { "type": "Point", "coordinates": [ 15.43, 47.08 ] } },
+{ "type": "Feature", "properties": { "basid": 11, "subcatchment": "SW1" }, "geometry": { "type": "Point", "coordinates": [ 8.33, 47.57 ] } },
+{ "type": "Feature", "properties": { "basid": 3, "subcatchment": "DN2" }, "geometry": { "type": "Point", "coordinates": [ 13.43, 48.46 ] } },
+{ "type": "Feature", "properties": { "basid": 12, "subcatchment": "SW2" }, "geometry": { "type": "Point", "coordinates": [ 8.23, 47.52 ] } },
+{ "type": "Feature", "properties": { "basid": 10, "subcatchment": "DR2" }, "geometry": { "type": "Point", "coordinates": [ 14.52, 46.1 ] } },
+{ "type": "Feature", "properties": { "basid": 16, "subcatchment": "PO3" }, "geometry": { "type": "Point", "coordinates": [ 11.95, 45.92 ] } },
+{ "type": "Feature", "properties": { "basid": 23, "subcatchment": "PI1" }, "geometry": { "type": "Point", "coordinates": [ 11.91, 46.01 ] } },
+{ "type": "Feature", "properties": { "basid": 15, "subcatchment": "PO2" }, "geometry": { "type": "Point", "coordinates": [ 9.43, 45.79 ] } },
+{ "type": "Feature", "properties": { "basid": 24, "subcatchment": "BR1" }, "geometry": { "type": "Point", "coordinates": [ 11.92, 45.66 ] } },
+{ "type": "Feature", "properties": { "basid": 17, "subcatchment": "PO4" }, "geometry": { "type": "Point", "coordinates": [ 8.81, 45.69 ] } },
+{ "type": "Feature", "properties": { "basid": 1, "subcatchment": "AD1" }, "geometry": { "type": "Point", "coordinates": [ 11.0, 45.44 ] } },
+{ "type": "Feature", "properties": { "basid": 18, "subcatchment": "PO5" }, "geometry": { "type": "Point", "coordinates": [ 8.37, 45.38 ] } },
+{ "type": "Feature", "properties": { "basid": 21, "subcatchment": "RH1" }, "geometry": { "type": "Point", "coordinates": [ 5.34, 45.88 ] } },
+{ "type": "Feature", "properties": { "basid": 22, "subcatchment": "RH2" }, "geometry": { "type": "Point", "coordinates": [ 5.72, 45.19 ] } },
+{ "type": "Feature", "properties": { "basid": 19, "subcatchment": "PO6" }, "geometry": { "type": "Point", "coordinates": [ 7.85, 45.18 ] } },
+{ "type": "Feature", "properties": { "basid": 20, "subcatchment": "PO7" }, "geometry": { "type": "Point", "coordinates": [ 8.25, 44.65 ] } },
+{ "type": "Feature", "properties": { "basid": 14, "subcatchment": "PO1" }, "geometry": { "type": "Point", "coordinates": [ 10.71, 45.39 ] } }
+]
+}

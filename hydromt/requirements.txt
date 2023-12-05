@@ -1,0 +1,3 @@
+hydromt==0.9.1
+hydromt_wflow==0.4.1
+pyflwdir==0.5.8
