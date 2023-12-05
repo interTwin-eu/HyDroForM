@@ -4,6 +4,9 @@
 
 ### HydroMT
 
+
+`cd wflow`
+
 Build Hydromt app image
 
 `./build.sh`
