@@ -1,0 +1,8 @@
+hydromt:
+  setupconfig:
+    class: File
+    path: /wflow.ini
+  catalog: 
+    class: File
+    path: /hydromt_wflow.yaml
+  region: "{'subbasin':'./points.geojson', 'strord':3}"

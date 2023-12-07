@@ -13,10 +13,8 @@ RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 RUN mkdir /data
-
 RUN mkdir /model
 
-
-CMD hydromt build wflow ./model -r "{'subbasin':'./points.geojson', 'strord':3}" -i wflow.ini -d hydromt_data.yaml -vvv 
-
+COPY ./src/build.sh /usr/bin/build
+RUN chmod +x /usr/bin/build
 

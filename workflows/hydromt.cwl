@@ -1,4 +1,4 @@
-cwlVersion: v1.0
+cwlVersion: v1.2
 $graph:
 - class: Workflow
   label: HydroMT 
@@ -10,26 +10,29 @@ $graph:
       type: File
       label: Sentinel-2 inputs
       doc: Sentinel-2 Level-1C or Level-2A input reference
+      default: wflow.ini
     catalog:
       type: File
       label: Sentinel-2 band
       doc: Sentinel-2 band to crop (e.g. B02)
+      default: hydromt_data.yaml
     region:
       type: string
       label: region
       doc: Area of interest expressed as a bounding bbox
+      default: "{'subbasin':'./points.geojson', 'strord':3}"
 
   outputs:
     results:
       outputSource:
-      - hydromt_build/wflow_model
+      - node_hydromt/wflow_model
       type: Directory
 
   steps:
 
-    hydromt_build:
+    node_hydromt:
 
-      run: "#hydromt_build"
+      run: "#hydromt-build"
 
       in:
         setupconfig: setupconfig
@@ -39,44 +42,33 @@ $graph:
       out:
         - wflow_model
 
-
 - class: CommandLineTool
 
-  id: hydromt_build
+  id: hydromt-build
 
   requirements:
     DockerRequirement:
-      dockerPull: docker.io/terradue/crop-container
+      dockerPull: gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:hydromt
 
-  baseCommand: crop
+  baseCommand: build
   arguments: []
 
   inputs:
-    product:
-      type: Directory
+    setupconfig:
+      type: File
       inputBinding:
         position: 1
-    band:
-      type: string
+    catalog:
+      type: File
       inputBinding:
         position: 2
-    bbox:
+    region:
       type: string
       inputBinding:
         position: 3
-    epsg:
-      type: string
-      inputBinding:
-        position: 4
 
   outputs:
-    cropped_tif:
+    wflow_model:
       outputBinding:
         glob: .
       type: Directory
-
-$namespaces:
-  s: https://schema.org/
-s:softwareVersion: 1.0.0
-schemas:
-- http://schema.org/version/9.0/schemaorg-current-http.rdf
