@@ -20,6 +20,4 @@ COPY ./src/run_wflow.sh /usr/bin/run_wflow
 
 RUN chmod +x /usr/bin/run_wflow
 
-#ENTRYPOINT ["julia", "--project=/env", "-t 4", "run.jl"]
-
 

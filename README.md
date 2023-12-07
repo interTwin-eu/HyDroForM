@@ -1,47 +1,98 @@
 
-## Instruction
+# Instruction
 
 
-### HydroMT
+## HydroMT
+
+>Inputs:
+>- data catalog
+>- setup file
+>- region
+>
+>Outputs:
+>- WFLOW's model directory with required data and config file to run WFLOW
+>
+>User Parameters:
+>- MODELNAME
+>- ...
+>
+>Volumes:
+>- v1: data catalog
+>- v2: model directory, the model will be saved in a subdirectory  \<MODELNAME\> in /model directory...
+
+`cd wflow`
+
+### Build Hydromt image
+
+`./build.sh`
+
+### Build Wflow model
+
+`docker run -v /mnt/CEPH_PROJECTS/InterTwin/Wflow/data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt build`
+
+### Update Wflow model 
+
+Once the model is built, there may be a need to update the original configuration. For example changing land cover or forcings, or updating some model parameters.
+When updating the model, the user should be able to select whether to overwrite the current model or not, then creating a new model. 
+
+`docker run -v /mnt/CEPH_PROJECTS/InterTwin/Wflow/data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt update --overwrite`
+
+## Wflow
+
+>Inputs: (all produced by HydroMT)
+>- config file
+>- staticmaps.nc
+>- forcings.nc
+>- state.nc (optional)
+>
+>Outputs:
+>- hydrological variables
+>
+>User Parameters: 
+>- Warm-up period 
+>- ... 
+>
+>Volumes:
+>- v1: model directory, corresponding subdirectory <MODELNAME> as created by HydroMT
+
 
 
 `cd wflow`
 
-Build Hydromt app image
+### Build Wflow app image
 
 `./build.sh`
 
-
-Build Wflow model
-
-`docker run -v /mnt/CEPH_PROJECTS/InterTwin/Wflow/data:/data -it --rm intertwin:hydromt`
-
-
-### Wflow 
-
-`cd wflow`
-
-Build Wflow app image
-
-`./build.sh`
-
-
-Run Wflow model in container 
-
+### Run Wflow model in container 
 
 `docker run -v /mnt/CEPH_PROJECTS/InterTwin/Wflow/Wflow_ERA5_Adige_Catchment/Adige_clipped/:/data -it intertwin:wflow-latest forcings.nc outptut.nc`
 
+## Surrogate
 
-### Surrogate
+>Inputs:
+>- WFLOW's parameters
+>- WFLOW's forcings
+>- WFLOW's outputs (surrogate training target)
+>
+>Outputs:
+>- trained weights
+>
+>User Parameters:
+>- set of WFLOW's parameters 
+>
+>Volumes:
+>- v1: data catalog
+>- v2: WFLOW's model directory, in subdirectory <MODELNAME/surrogate>
+
 
 TBD
 
-### Parameter Learning
+## Parameter Learning
 
 TBD
 
 
-## TODO
+# TODO
 
 - [] Diagram 
 - [] CWL workflow
