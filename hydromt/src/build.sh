@@ -1,18 +1,16 @@
 #!/bin/bash
 
 ## processing arguments
-setupconfig=$1
-catalog=$2
-region=$3
-
-## get item/asset
+region=$1
+setupconfig=$2
+catalog=$3
 
 ## run application
 
-hydromt build wflow \
--o /model \
+hydromt build wflow model \
 -r "$region" \
 -d "$catalog" \
 -i "$setupconfig" 
 
-## add result to catalog
+## add results to STAC catalog
+

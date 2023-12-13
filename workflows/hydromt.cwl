@@ -1,3 +1,5 @@
+#!/usr/bin/env cwl-runner
+
 cwlVersion: v1.2
 $graph:
 - class: Workflow

@@ -30,6 +30,24 @@
 
 `docker run -v /mnt/CEPH_PROJECTS/InterTwin/Wflow/data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt build`
 
+
+### CWL 
+
+`cwltool -w output.json hydromt-build.cwl params.yaml`
+
+```yaml
+region: "{'subbasin':[ 11.4750, 46.8717 ], 'strord':3}"
+setupconfig:
+  class: File
+  path: wflow.ini
+catalog: 
+  class: File
+  path: hydromt_data.yaml
+volume_data: 
+  class: Directory
+  path: /mnt/CEPH_PROJECTS/InterTwin/Wflow/data
+```
+
 ### Update Wflow model 
 
 Once the model is built, there may be a need to update the original configuration. For example changing land cover or forcings, or updating some model parameters.

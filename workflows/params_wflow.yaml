@@ -1,0 +1,6 @@
+runconfig:
+  class: File
+  path: /home/iferrario/dev/InterTwin-wflow-app/workflows/truhzoxv/model/wflow_sbm.toml
+volume_data: 
+  class: Directory
+  path: /home/iferrario/dev/InterTwin-wflow-app/workflows/truhzoxv/model
