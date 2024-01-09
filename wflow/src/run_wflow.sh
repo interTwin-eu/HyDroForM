@@ -11,7 +11,7 @@ runconfig=$1
 
 ## run application
 
-julia --project=/env -t 4 run.jl --runconfig ${runconfig}
+julia --project=/env -t 4 wflow --runconfig ./data/${runconfig}
 
 #julia --project=/env -t 4 -e 'using Wflow; Wflow.run(ENV["runconfig"])'
 
