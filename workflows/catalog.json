@@ -1,0 +1,21 @@
+{
+  "type": "Catalog",
+  "id": "wflow-catalog",
+  "stac_version": "1.0.0",
+  "description": "a catalog of the datasets for running wflow hydrological model",
+  "links": [
+    {
+      "rel": "child",
+      "href": "/collection.json",
+      "type": "application/json",
+      "title": "wflow-variables"
+    },
+    {
+      "rel": "child",
+      "href": "/collection.json",
+      "type": "application/json",
+      "title": "wflow-variables"
+    }
+  ],
+  "title": "WFLOW Catalog"
+}
