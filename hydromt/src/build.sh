@@ -10,7 +10,7 @@ catalog=$3
 hydromt build wflow model \
 -r "$region" \
 -d "$catalog" \
--i "$setupconfig" 
+-i "$setupconfig" -vvv 
 
 ## add results to STAC catalog
 

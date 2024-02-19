@@ -1,0 +1,47 @@
+{
+    "output": {
+        "location": "file:///home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn",
+        "basename": "xx3986yn",
+        "class": "Directory",
+        "listing": [
+            {
+                "class": "Directory",
+                "location": "file:///home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn/model",
+                "basename": "model",
+                "listing": [
+                    {
+                        "class": "Directory",
+                        "location": "file:///home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn/model/run_default",
+                        "basename": "run_default",
+                        "listing": [],
+                        "path": "/home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn/model/run_default"
+                    },
+                    {
+                        "class": "Directory",
+                        "location": "file:///home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn/model/staticgeoms",
+                        "basename": "staticgeoms",
+                        "listing": [],
+                        "path": "/home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn/model/staticgeoms"
+                    },
+                    {
+                        "class": "Directory",
+                        "location": "file:///home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn/model/instate",
+                        "basename": "instate",
+                        "listing": [],
+                        "path": "/home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn/model/instate"
+                    },
+                    {
+                        "class": "File",
+                        "location": "file:///home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn/model/hydromt.log",
+                        "basename": "hydromt.log",
+                        "size": 1301,
+                        "checksum": "sha1$2b7dd25b8392b1bec0172aed6bf828f57658a3b9",
+                        "path": "/home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn/model/hydromt.log"
+                    }
+                ],
+                "path": "/home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn/model"
+            }
+        ],
+        "path": "/home/iferrario/dev/InterTwin-wflow-app/nb/xx3986yn"
+    }
+}

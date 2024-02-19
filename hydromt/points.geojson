@@ -1,6 +1,0 @@
-{
-"type": "FeatureCollection",
-"features": [
-{ "type": "Feature", "properties": { "basid": 14, "subcatchment": "PO1" }, "geometry": { "type": "Point", "coordinates": [ 10.71, 45.39 ] } }
-]
-}

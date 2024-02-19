@@ -14,10 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN mkdir /output
 
 COPY wflow.ini ./output
-COPY hydromt_data.yaml ./output
-COPY points.geojson ./
+COPY data_catalog.yaml ./output
 
-# directory where there are datasets referred by catalog.yaml
+# directory where there are datasets referred by datacatalog.yaml
 RUN mkdir /data 
 
 COPY ./src/build.sh /usr/bin/build

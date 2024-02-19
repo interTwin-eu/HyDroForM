@@ -28,7 +28,7 @@
 
 ### Build Wflow model
 
-`docker run -v /mnt/CEPH_PROJECTS/InterTwin/Wflow/data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt build`
+`docker run -v /mnt/CEPH_PROJECTS/InterTwin/hydrologic_data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt build`
 
 
 ### CWL 
@@ -57,7 +57,7 @@ When updating the model, the user should be able to select whether to overwrite 
 
 ### Publish
 
-`docker build -t gitlab.inf.unibz.it:4567/remsen/cdr/climax meteo-data-pipeline:hydromt .`
+`docker build -t gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:hydromt .`
 `docker push gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:hydromt`
 
 ## Wflow
