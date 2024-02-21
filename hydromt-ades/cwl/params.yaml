@@ -1,0 +1,10 @@
+region: "{'subbasin': [11.142, 46.666]}" # {'subbasin':[ 11.4750, 46.8717 ], 'strord':3}"
+setupconfig:
+  class: File
+  path: ../wflow.ini
+catalog: 
+  class: File
+  path: ../data_catalog.yaml
+volume_data: 
+  class: Directory
+  path: /mnt/CEPH_PROJECTS/InterTwin/hydrologic_data
