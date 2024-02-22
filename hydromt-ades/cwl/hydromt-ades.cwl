@@ -1,4 +1,4 @@
-cwlVersion: v1.0
+cwlVersion: v1.2
 $graph:
   - id: hydromt-build-workflow
     class: Workflow
@@ -16,7 +16,6 @@ $graph:
         outputSource:
           - hydromt-build_step/output
         type: Directory
-        outputBinding: {}
     steps:
       - id: hydromt-build_step
         in:
@@ -38,13 +37,17 @@ $graph:
         requirements:
           DockerRequirement:
             dockerPull: gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:hydromt
-    doc: Workflow to build the HydroMT model
+    doc: workflow to build the HydroMT model
+    requirements:
+      InitialWorkDirRequirement:
+        listing:
+          - entryname: /data
+            entry: $(inputs.volume_data)
   - id: hydromt-build
     class: CommandLineTool
     baseCommand:
       - build
-    arguments:
-      - ''
+    arguments: []
     doc: Build the HydroMT model
     inputs:
       - id: region
@@ -70,12 +73,16 @@ $graph:
     outputs:
       - id: output
         type: Directory
-        outputBinding: {}
+        outputBinding:
+          glob: .
     requirements:
       DockerRequirement:
         dockerPull: gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:hydromt
-        pullSecrets:
-          - name: gitlablogin
+        dockerOutputDirectory: /output
+      InitialWorkDirRequirement:
+        listing:
+          - entryname: /data
+            entry: $(inputs.volume_data)
 $namespaces:
   s: https://schema.org/
 s:softwareVersion: 0.0.1
