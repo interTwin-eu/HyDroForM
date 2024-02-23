@@ -1,5 +1,9 @@
 #using Pkg;Pkg.instantiate()
 
+
+# TODO: compile to an executable https://github.com/tshort/StaticCompiler.jl
+
+
 using Wflow
 using ArgParse
 
