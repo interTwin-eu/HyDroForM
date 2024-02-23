@@ -17,10 +17,14 @@ baseCommand: run_wflow
 arguments: []
 
 inputs:
-    runconfig:
+    runner:
         type: File
         inputBinding:
             position: 1
+    runconfig:
+        type: File
+        inputBinding:
+            position: 2
     volume_data:
         type: Directory
         inputBinding:

@@ -1,0 +1,9 @@
+runner:
+  class: File
+  path: ../run.jl
+runconfig:
+  class: File
+  path: ../wflow_sbm.toml
+volume_data: 
+  class: Directory
+  path: ../../hydromt/cwl/81iegmjn/model

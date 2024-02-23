@@ -1,4 +1,4 @@
-#using Pkg;Pkg.instantiate()
+using Pkg;Pkg.instantiate()
 
 using Wflow
 using ArgParse

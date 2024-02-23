@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 if [ $# -eq 0 ]
   then
-    tag='wflow-latest'
+    tag='wflow'
   else
     tag=$1
 fi
