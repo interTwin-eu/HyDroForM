@@ -21,7 +21,7 @@ function main()
 
    runconfig = args["runconfig"]
 
-   println(runconfig.output.path, runconfig.input.forcing_path)
+   println(runconfig)
 
   Wflow.run(runconfig)
 

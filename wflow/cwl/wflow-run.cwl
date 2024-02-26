@@ -6,7 +6,7 @@ id: wflow-run
 
 requirements:
     DockerRequirement:
-        dockerPull: gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:wflow
+        dockerPull: intertwin:wflow #gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:wflow
         dockerOutputDirectory: /output
     InitialWorkDirRequirement:
         listing:
@@ -28,7 +28,7 @@ inputs:
     volume_data:
         type: Directory
         inputBinding:
-            position: 2
+            position: 3
 outputs:
     output:
         outputBinding:

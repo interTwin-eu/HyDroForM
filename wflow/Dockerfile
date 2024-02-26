@@ -1,4 +1,4 @@
-FROM  julia:1.10.0-bookworm
+FROM  julia:1.10.1-bookworm
 
 RUN apt update
 RUN apt install -y git

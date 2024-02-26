@@ -1,6 +1,3 @@
-#using Pkg;Pkg.instantiate()
-
-
 # TODO: compile to an executable https://github.com/tshort/StaticCompiler.jl
 
 
@@ -13,7 +10,7 @@ function parse_commandline()
     @add_arg_table s begin
         "--runconfig"
             help = "an option with an argument"
-	    required = true
+	    required = true 
     end
 
     return parse_args(s)
@@ -25,7 +22,7 @@ function main()
 
    runconfig = args["runconfig"]
 
-   println(runconfig.output.path, runconfig.input.forcing_path)
+   println(runconfig)
 
   Wflow.run(runconfig)
 
