@@ -5,8 +5,11 @@ class: CommandLineTool
 id: wflow-run
 
 requirements:
+    NetworkAccess:
+        class: NetworkAccess
+        networkAccess: true
     DockerRequirement:
-        dockerPull: intertwin:wflow #gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:wflow
+        dockerPull: gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:wflow
         dockerOutputDirectory: /output
     InitialWorkDirRequirement:
         listing:
@@ -29,6 +32,7 @@ inputs:
         type: Directory
         inputBinding:
             position: 3
+
 outputs:
     output:
         outputBinding:
