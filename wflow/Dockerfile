@@ -24,5 +24,5 @@ RUN chmod +x /usr/bin/run_wflow
 # This is just for testing. Just providing a config file to wflow.
 # Running wflow in a docker container, without being called from cwl, works.
 # Once we are able to run properly wflow and this is fixed, this line should be removed 
-# COPY wflow_sbm.toml /
+COPY wflow_sbm.toml /
 
