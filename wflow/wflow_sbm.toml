@@ -39,33 +39,6 @@ land_routing = "kinematic-wave"
 [output]
 path = "/data/run_default/output.nc"
 
-[csv]
-path = "/data/run_default/output.csv"
-[[csv.column]]
-header = "Q_outlet"
-map = "gauges"
-parameter = "lateral.river.q_av"
-
-[[csv.column]]
-header = "Q"
-map = "gauges_grdc"
-parameter = "lateral.river.q_av"
-
-[[csv.column]]
-header = "P"
-map = "gauges_grdc"
-parameter = "vertical.precipitation"
-
-[[csv.column]]
-header = "Q"
-map = "gauges_eurac"
-parameter = "lateral.river.q_av"
-
-[[csv.column]]
-header = "P"
-map = "gauges_eurac"
-parameter = "vertical.precipitation"
-
 [state.vertical]
 satwaterdepth = "satwaterdepth"
 snow = "snow"

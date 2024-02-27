@@ -1,6 +1,3 @@
-runner:
-  class: File
-  path: ../run.jl
 runconfig:
   class: File
   path: ../wflow_sbm.toml
