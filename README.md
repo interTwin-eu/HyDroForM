@@ -123,3 +123,10 @@ TBD
 - [] HydroMT reads and writes to STAC
 - [] Surrogate components
 - [] Parameter Learning component
+
+
+# TODO JURAJ
+
+python3 movedata.py --input_dir "./cwl/hydromt-output/" --output_dir "./SAMPLEMOVEDOUTPUT"
+
+cwltool --outdir ./hydromt-output run_hydromt.cwl#hydromt-build params.yaml
