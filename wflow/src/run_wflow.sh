@@ -2,20 +2,16 @@
 
 ## read STAC catalogue
 
+## get assets (forcings.nc, staticmaps.nc, ..)
+
 ## processing arguments
 
-runconfig=$1
-#output=$2
-
-## get item/asset
-
+runner=$1
+runconfig=$2
+ 
 ## run application
 
-julia --project=/env -t 4 wflow --runconfig ./data/${runconfig}
-
-#julia --project=/env -t 4 -e 'using Wflow; Wflow.run(ENV["runconfig"])'
-
-#    --forcing ${forcing} \
-#    --output ${output}
+julia --project=/env -t 4 "$runner" --runconfig "$runconfig" # default to 4 threads 
 
 ## add result to catalog
+

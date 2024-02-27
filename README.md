@@ -20,20 +20,17 @@
 >- v1: data catalog
 >- v2: model directory, the model will be saved in a subdirectory  \<MODELNAME\> in /model directory...
 
-`cd wflow`
-
-### Build Hydromt image
-
-`./build.sh`
-
-### Build Wflow model
-
-`docker run -v /mnt/CEPH_PROJECTS/InterTwin/hydrologic_data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt build`
 
 
-### CWL 
+### Build and publish Hydromt image to eurac registry
 
-`cwltool -w output.json hydromt-build.cwl params.yaml`
+`cd hydromt`
+
+`./docker_build_and_publish.sh`
+
+### Required inputs
+
+### params.yaml
 
 ```yaml
 region: "{'subbasin':[ 11.4750, 46.8717 ], 'strord':3}"
@@ -48,12 +45,20 @@ volume_data:
   path: /mnt/CEPH_PROJECTS/InterTwin/Wflow/data
 ```
 
+`cwltool -w output.json hydromt-build.cwl params.yaml`
+
+### Build Wflow model
+
+`docker run -v /mnt/CEPH_PROJECTS/InterTwin/hydrologic_data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt build`
+
+
+
 ### Update Wflow model 
 
 Once the model is built, there may be a need to update the original configuration. For example changing land cover or forcings, or updating some model parameters.
 When updating the model, the user should be able to select whether to overwrite the current model or not, then creating a new model. 
 
-`docker run -v /mnt/CEPH_PROJECTS/InterTwin/Wflow/data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt update --overwrite`
+`docker run -v /mnt/CEPH_PROJECTS/InterTwin/hydrologic_data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt build --overwrite`
 
 ### Publish
 
