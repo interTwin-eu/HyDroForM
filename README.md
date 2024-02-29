@@ -92,7 +92,8 @@ When updating the model, the user should be able to select whether to overwrite 
 
 `cd wflow/cwl`
 
-`cwltool wflow-run.cwl params_wflow.yaml`
+
+`cwltool --no-read-only --no-match-user wflow-run.cwl params_wflow.yaml`
 
 
 ## Surrogate
