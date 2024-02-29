@@ -3,6 +3,7 @@
 *.geojson
 *.nc
 *.log
+*.julia
 
 
 # Byte-compiled / optimized / DLL files

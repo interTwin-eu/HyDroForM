@@ -129,9 +129,60 @@ TBD
 - [] Surrogate components
 - [] Parameter Learning component
 
+## CWL updates
 
-# TODO JURAJ
+I have created a new folder structure for running the HydroMT and WFLOW demo. \
+The main folder `hydromt-wflow-demo` contains the `hydromt` and `wflow` folders. \
+The `hydromt` folder contains the CWL files for running the HydroMT workflow. \
+The `wflow` folder contains the CWL files for running the WFLOW workflow. \
+Otherwise it is the same as before.
 
-python3 movedata.py --input_dir "./cwl/hydromt-output/" --output_dir "./SAMPLEMOVEDOUTPUT"
+The `HydroMT` CWL can be found in:
+`hydromt-wflow-demo/hydromt/cwl/run_hydromt.cwl`
 
+The `WFLOW` CWL can be found in:
+`hydromt-wflow-demo/wflow/cwl/wflow-run.cwl`
+
+I tried a bunch of CWLs for Wflow without any major success. \
+The latest one is one of the simpler ones I tried. \
+I need to go over it to see what the f is going on. 
+
+### Run HydroMT
+
+to run HydroMT you would do the following:
+
+```zsh
+cd hydromt-wflow-demo/hydromt/cwl
 cwltool --outdir ./hydromt-output run_hydromt.cwl#hydromt-build params.yaml
+```
+
+The HydroMT process is fully functional in CWL.
+
+### Run Wflow
+
+(Functional) To run Wflow in a docker container without CWL:
+
+ ```zsh
+ docker run -v /home/jzvolensky/eurac/projects/InterTwin-wflow-app/hydromt-wflow-demo/hydromt/cwl/hydromt-output/99qvg3ki/model:/data -w /data -it --rm gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:wflow run_wflow wflow_sbm.toml
+```
+
+("Work in Progress" but more like work and no progress) To run Wflow via CWL:
+
+```zsh
+ cwltool  --outdir ./wflow-output --no-read-only --debug --relax-path-checks wflow-run.cwl#wflow-build params_wflow.yaml > output.json
+```
+
+Alternative CWL execution engine [Toil](https://toil.readthedocs.io/en/latest/cwl/introduction.html):
+
+I explored another CWL execution to see if it would work better than cwltool. \
+spoiler alert, it does not.
+
+```zsh
+ toil-cwl-runner --outdir ./wflow-output wflow-run.cwl#wflow-build params_wflow.yaml
+```
+
+*Note*: Currently fails due to the Julia environment not being correctly setup and missing packages. \
+This is likely due to the restrictive nature of the CWL execution environment. \
+The CWL runners run a bunch of configurations and volume mounts, temporary directories, etc. \
+This is likely causing the Julia environment to not be correctly setup. \
+My disappointment is immeasurable and my day is ruined.

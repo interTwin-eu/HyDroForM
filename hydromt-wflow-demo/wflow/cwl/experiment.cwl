@@ -13,17 +13,34 @@ $graph:
           - wflow-build_step/output
         type: Directory
     steps:
-      - id: wflow-build_step
-        in:
-          - id: runconfig
-            source:
-              - runconfig
-          - id: volume_data
-            source:
-              - volume_data
-        out:
-          - output
-        run: '#wflow-build'
+  - id: pkg-instantiate
+    run:
+      class: CommandLineTool
+      baseCommand: ["/usr/bin/env", "-S", "julia", "--project=/env", "-e", "println('Running pkg-instantiate step'); using Pkg; Pkg.instantiate()"]
+      outputs: 
+        - id: dummy_output
+          type: string
+          outputBinding:
+            glob: dummy.txt
+      requirements:
+        DockerRequirement:
+          dockerPull: gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:wflow
+    out:
+      - dummy_output
+  - id: wflow-build_step
+    in:
+      - id: runconfig
+        source:
+          - workflow-build/runconfig
+      - id: volume_data
+        source:
+          - workflow-build/volume_data
+      - id: dummy_input
+        source:
+          - pkg-instantiate/dummy_output
+    out:
+      - output
+    run: '#wflow-build'
   - id: wflow-build
     class: CommandLineTool
     baseCommand: ["/usr/bin/env", "-S", "julia", "--project=/env", "/usr/bin/run_wflow"]
@@ -66,5 +83,3 @@ s:author:
   - s:name: Juraj Zvolensky
     s:email: juraj.zvolensky@eurac.edu
     s:affiliation: CWL enthusiast
-
-

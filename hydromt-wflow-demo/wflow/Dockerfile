@@ -17,9 +17,12 @@ ENV PATH="$PATH:/usr/local/julia/bin"
 # configuration files for wflow
 #RUN mkdir /output
 
+WORKDIR /env
+
 COPY ./src/run_wflow_2.sh /usr/bin/run_wflow
 
 RUN chmod +x /usr/bin/run_wflow
+
 
 # This is just for testing. Just providing a config file to wflow.
 # Running wflow in a docker container, without being called from cwl, works.
