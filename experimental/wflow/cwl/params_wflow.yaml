@@ -1,0 +1,6 @@
+runconfig:
+  class: File
+  path: ../wflow_sbm.toml
+volume_data: 
+  class: Directory
+  path: ../../hydromt/cwl/hydromt-output/cyxle4p2/model

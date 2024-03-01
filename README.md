@@ -123,9 +123,21 @@ TBD
 
 # TODO
 
-- [] Diagram 
+- [] Diagram
 - [] CWL workflow
 - [] OpenEO processes
 - [] HydroMT reads and writes to STAC
 - [] Surrogate components
 - [] Parameter Learning component
+
+## To run WFLOW
+
+TODO JURAJ:
+
+- Merge all the READMEs and put together all of the functional commands for HydroMT and Wflow.
+- Fix all of the REAMDE markdown errors because they bother me.
+- Try to fix the output of Wflow.
+
+```zsh
+ cwltool --no-read-only --no-match-user wflow-run.cwl#workflow-build params_wflow.yaml 
+ ```

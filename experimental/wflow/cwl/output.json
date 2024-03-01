@@ -1,0 +1,18 @@
+{
+    "output": {
+        "location": "file:///home/jzvolensky/eurac/projects/InterTwin-wflow-app/experimental/wflow/cwl/wflow-output/mdsuii3o",
+        "basename": "mdsuii3o",
+        "class": "Directory",
+        "listing": [
+            {
+                "class": "File",
+                "location": "file:///home/jzvolensky/eurac/projects/InterTwin-wflow-app/experimental/wflow/cwl/wflow-output/mdsuii3o/log.txt",
+                "basename": "log.txt",
+                "size": 13,
+                "checksum": "sha1$48b00f37800b71b93f82865a6d8558742ed81017",
+                "path": "/home/jzvolensky/eurac/projects/InterTwin-wflow-app/experimental/wflow/cwl/wflow-output/mdsuii3o/log.txt"
+            }
+        ],
+        "path": "/home/jzvolensky/eurac/projects/InterTwin-wflow-app/experimental/wflow/cwl/wflow-output/mdsuii3o"
+    }
+}

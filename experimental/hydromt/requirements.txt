@@ -1,0 +1,5 @@
+hydromt==0.9.3
+hydromt_wflow==0.5.0
+pyflwdir==0.5.8
+gwwapi==0.0.2
+requests
