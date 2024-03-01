@@ -1,6 +1,4 @@
-
 # Instruction
-
 
 ## HydroMT
 
@@ -19,7 +17,6 @@
 >Volumes:
 >- v1: data catalog
 >- v2: model directory, the model will be saved in a subdirectory  \<MODELNAME\> in /model directory...
-
 
 
 ### Build and publish Hydromt image to eurac registry
@@ -83,17 +80,21 @@ When updating the model, the user should be able to select whether to overwrite 
 >Volumes:
 >- v1: model directory, corresponding subdirectory <MODELNAME> as created by HydroMT
 
-
-
 `cd wflow`
 
 ### Build Wflow app image
 
-`./build.sh`
+`./docker_build_and_update.sh`
 
 ### Run Wflow model in container 
 
-`docker run -v /mnt/CEPH_PROJECTS/InterTwin/Wflow/Wflow_ERA5_Adige_Catchment/Adige_clipped/:/data -it intertwin:wflow-latest forcings.nc outptut.nc`
+`docker run -v $HOME/dev/InterTwin-wflow-app/hydromt/cwl/81iegmjn/model:/data -it --rm gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:wflow run_wflow wflow_sbm.toml`
+
+`cd wflow/cwl`
+
+
+`cwltool --no-read-only --no-match-user wflow-run.cwl params_wflow.yaml`
+
 
 ## Surrogate
 

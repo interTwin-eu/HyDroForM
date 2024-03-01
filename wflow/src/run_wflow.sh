@@ -6,12 +6,11 @@
 
 ## processing arguments
 
-runner=$1
-runconfig=$2
+runconfig=$1
  
 ## run application
 
-julia --project=/env -t 4 "$runner" --runconfig "$runconfig" # default to 4 threads 
+wflow "$runconfig" # default to 4 threads 
 
 ## add result to catalog
 

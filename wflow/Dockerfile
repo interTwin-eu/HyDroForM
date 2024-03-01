@@ -7,22 +7,21 @@ RUN mkdir /env
 COPY Project.toml /env
 COPY Manifest.toml /env
 
-RUN julia --project=/env -e 'using Pkg;Pkg.instantiate()'
-
 # directory where there are wflow input datasets produced by HydroMT
 RUN mkdir /data
 
-ENV PATH="$PATH:/usr/local/julia/bin"
+RUN mkdir -p /env/repo
 
-# configuration files for wflow
-#RUN mkdir /output
+ENV JULIA_DEPOT_PATH=/env/repo
+ENV JULIA_PROJECT=/env
 
-COPY ./src/run_wflow_2.sh /usr/bin/run_wflow
+RUN chmod -R 777 /env/repo
+
+RUN julia --project=/env -e 'using Pkg;Pkg.instantiate()'
+
+COPY ./src/run_wflow.sh /usr/bin/run_wflow
+COPY ./src/wflow.jl /usr/bin/wflow
 
 RUN chmod +x /usr/bin/run_wflow
-
-# This is just for testing. Just providing a config file to wflow.
-# Running wflow in a docker container, without being called from cwl, works.
-# Once we are able to run properly wflow and this is fixed, this line should be removed 
-COPY wflow_sbm.toml /
+RUN chmod +x /usr/bin/wflow
 
