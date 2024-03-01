@@ -1,0 +1,42 @@
+{
+    "output": {
+        "location": "file:///home/jzvolensky/eurac/projects/InterTwin-wflow-app/hydromt-wflow-demo/wflow/cwl/wflow-output/swm5_eqy",
+        "basename": "swm5_eqy",
+        "class": "Directory",
+        "listing": [
+            {
+                "class": "File",
+                "location": "file:///home/jzvolensky/eurac/projects/InterTwin-wflow-app/hydromt-wflow-demo/wflow/cwl/wflow-output/swm5_eqy/log.txt",
+                "basename": "log.txt",
+                "size": 13,
+                "checksum": "sha1$48b00f37800b71b93f82865a6d8558742ed81017",
+                "path": "/home/jzvolensky/eurac/projects/InterTwin-wflow-app/hydromt-wflow-demo/wflow/cwl/wflow-output/swm5_eqy/log.txt"
+            },
+            {
+                "class": "Directory",
+                "location": "file:///home/jzvolensky/eurac/projects/InterTwin-wflow-app/hydromt-wflow-demo/wflow/cwl/wflow-output/swm5_eqy/.julia",
+                "basename": ".julia",
+                "listing": [
+                    {
+                        "class": "Directory",
+                        "location": "file:///home/jzvolensky/eurac/projects/InterTwin-wflow-app/hydromt-wflow-demo/wflow/cwl/wflow-output/swm5_eqy/.julia/logs",
+                        "basename": "logs",
+                        "listing": [
+                            {
+                                "class": "File",
+                                "location": "file:///home/jzvolensky/eurac/projects/InterTwin-wflow-app/hydromt-wflow-demo/wflow/cwl/wflow-output/swm5_eqy/.julia/logs/manifest_usage.toml",
+                                "basename": "manifest_usage.toml",
+                                "size": 57,
+                                "checksum": "sha1$7fced70ddf98ac0f34390258380b7ac80bab85cc",
+                                "path": "/home/jzvolensky/eurac/projects/InterTwin-wflow-app/hydromt-wflow-demo/wflow/cwl/wflow-output/swm5_eqy/.julia/logs/manifest_usage.toml"
+                            }
+                        ],
+                        "path": "/home/jzvolensky/eurac/projects/InterTwin-wflow-app/hydromt-wflow-demo/wflow/cwl/wflow-output/swm5_eqy/.julia/logs"
+                    }
+                ],
+                "path": "/home/jzvolensky/eurac/projects/InterTwin-wflow-app/hydromt-wflow-demo/wflow/cwl/wflow-output/swm5_eqy/.julia"
+            }
+        ],
+        "path": "/home/jzvolensky/eurac/projects/InterTwin-wflow-app/hydromt-wflow-demo/wflow/cwl/wflow-output/swm5_eqy"
+    }
+}
