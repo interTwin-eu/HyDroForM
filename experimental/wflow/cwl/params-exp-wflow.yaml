@@ -1,0 +1,15 @@
+runconfig:
+  class: File
+  path: /home/jzvolensky/eurac/projects/InterTwin-wflow-app/experimental/hydromt/cwl/hydromt-output/52_qc77w/model/wflow_sbm.toml
+forcings:
+  class: File
+  path: /home/jzvolensky/eurac/projects/InterTwin-wflow-app/experimental/hydromt/cwl/hydromt-output/52_qc77w/model/forcings.nc
+hydromtdata:
+  class: File
+  path: /home/jzvolensky/eurac/projects/InterTwin-wflow-app/experimental/hydromt/cwl/hydromt-output/52_qc77w/model/hydromt_data.yml
+volume_data:
+  class: Directory
+  path: /home/jzvolensky/eurac/projects/InterTwin-wflow-app/experimental/hydromt/cwl/hydromt-output/52_qc77w/model
+staticmaps:
+  class: File
+  path: /home/jzvolensky/eurac/projects/InterTwin-wflow-app/experimental/hydromt/cwl/hydromt-output/52_qc77w/model/staticmaps.nc

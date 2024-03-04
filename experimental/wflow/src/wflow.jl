@@ -5,7 +5,7 @@
 
 using Pkg
 
-Pkg.activate("/env");
+Pkg.activate("/app/env");
 
 Pkg.status()
 

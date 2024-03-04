@@ -40,24 +40,21 @@ $graph:
       - id: output
         type: Directory
         outputBinding:
-          glob: "run_default/outstate"
+          glob: .
     requirements:
       DockerRequirement:
         dockerPull: potato55/wflow:latest
         dockerFile: |
           FROM potato55/wflow:latest
-          VOLUME /data
-        dockerOutputDirectory: /data
+          VOLUME /app/data
       NetworkAccess:
         class: NetworkAccess
         networkAccess: true
       InitialWorkDirRequirement:
         listing:
           - entry: $(inputs.volume_data)
-            entryname: /data
+            entryname: data
             writable: true
-          - entry: ''
-            entryname: 'log.txt'
 $namespaces:
   s: https://schema.org/
 s:softwareVersion: 0.0.1

@@ -1,23 +1,29 @@
 FROM  julia:1.10.1-bookworm
 
+USER root
+
 RUN apt update
 
-RUN mkdir /env 
+WORKDIR /app
 
-COPY Project.toml /env
-COPY Manifest.toml /env
+RUN mkdir /app/env 
+
+COPY Project.toml /app/env
+COPY Manifest.toml /app/env
 
 # directory where there are wflow input datasets produced by HydroMT
-RUN mkdir -p /data && chmod -R 777 /data
-RUN mkdir -p /data/run_default && chmod -R 777 /data/run_default
-RUN mkdir -p /env/repo
+RUN mkdir -p /app/data && chmod -R 777 /app/data
+RUN mkdir -p /app/data/run_default && chmod -R 777 /app/data/run_default
+RUN mkdir -p /app/env/repo
 
-ENV JULIA_DEPOT_PATH=/env/repo
-ENV JULIA_PROJECT=/env
+RUN mkdir -p /output/run_default/outstate && chmod -R 777 /output
 
-RUN chmod -R 777 /env/repo
+ENV JULIA_DEPOT_PATH=/app/env/repo
+ENV JULIA_PROJECT=/app/env
 
-RUN julia --project=/env -e 'using Pkg;Pkg.instantiate()'
+RUN chmod -R 777 /app/env/repo
+
+RUN julia --project=/app/env -e 'using Pkg; Pkg.instantiate()'
 
 COPY ./src/run_wflow.sh /usr/bin/run_wflow
 COPY ./src/wflow.jl /usr/bin/wflow
