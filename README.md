@@ -29,15 +29,15 @@ workflow, input parameters, and metadata files.
 - [Table of Contents](#table-of-contents)
 - [Model description](#model-description)
   - [HydroMT](#hydromt)
-    - [Build and publish Hydromt image to eurac registry](#build-and-publish-hydromt-image-to-eurac-registry)
-    - [Required inputs](#required-inputs)
+    - [HydroMT Required inputs](#hydromt-required-inputs)
     - [params.yaml](#paramsyaml)
-    - [Build Wflow model](#build-wflow-model)
-    - [Update Wflow model](#update-wflow-model)
-    - [Publish](#publish)
+    - [Building the HydroMT image](#building-the-hydromt-image)
   - [Wflow](#wflow)
-    - [Build Wflow app image](#build-wflow-app-image)
+    - [Wflow Required inputs](#wflow-required-inputs)
+    - [params-wflow.yaml](#params-wflowyaml)
+    - [Building the Wflow image](#building-the-wflow-image)
     - [Run Wflow model in container](#run-wflow-model-in-container)
+    - [TODO: Update Wflow model](#todo-update-wflow-model)
 - [TODO: Surrogate](#todo-surrogate)
 - [Parameter Learning](#parameter-learning)
 - [HydroMT and Wflow as OGC Application Packages](#hydromt-and-wflow-as-ogc-application-packages)
@@ -51,34 +51,22 @@ workflow, input parameters, and metadata files.
 
 HydroMT (Hydro Model Tools) is an open-source Python package that facilitates the process of building and analyzing spatial geoscientific models with a focus on water system models. It does so by automating the workflow to go from raw data to a complete model instance which is ready to run and to analyse model results once the simulation has finished. HydroMT builds on the latest packages in the scientific and geospatial python eco-system including xarray, rasterio, rioxarray, geopandas, scipy and pyflwdir. Source: [Deltares HydroMT](https://deltares.github.io/hydromt/latest/)
 
-**HydroMT** inputs: \
-`1. data catalog` \
-`2. setup file` \
-`3. region`
+#### HydroMT Required inputs
 
-**HydroMT** outputs:
-
-`1. WFLOW's model directory with required data and config file to run WFLOW`
-
-`2. User Parameters:` \
- MODELNAME
- ADD MORE?
-
-Data volumes: \
-`1. v1: data catalog` \
-`2. v2: model directory, the model will be saved in a subdirectory  \<MODELNAME\> in /model directory...`
-
-#### Build and publish Hydromt image to eurac registry
-
-**Note**: Requires access to eurac registry
-
-`cd hydromt`
-
-`./docker_build_and_publish.sh`
-
-#### Required inputs
+`1. region` \
+`2. setupconfig` \
+`3. catalog` \
+`4. volume_data`
 
 #### params.yaml
+
+The `params.yaml` file contains the definitions of the required inputs for the HydroMT application. The user can specify the region by providing a bounding box.
+
+The `setupconfig` is a configuration file for setting up the model resolution, time range etc.
+
+The `catalog` is a HydroMT catalog which provides references to all of the datasets used in the model. **Note**: The catalog is going to be replaced by STAC catalog in the future.
+
+The `volume_data` is the directory mounted to the docker container. It contains the output of the HydroMT application.
 
 ```yaml
 region: "{'subbasin':[ 11.4750, 46.8717 ], 'strord':3}"
@@ -93,44 +81,66 @@ volume_data:
   path: /mnt/CEPH_PROJECTS/InterTwin/Wflow/data
 ```
 
-`cwltool -w output.json hydromt-build.cwl params.yaml`
+#### Building the HydroMT image
 
-#### Build Wflow model
+The HydroMT image is built using the following command and can be found in the `/experimental/hydromt` directory:
 
-`docker run -v /mnt/CEPH_PROJECTS/InterTwin/hydrologic_data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt build`
+```zsh
+./docker_build_and_publish.sh
+```
 
-#### Update Wflow model
+The script automatically builds the image and publishes it to the eurac registry.
+
+### Wflow
+
+Wflow is Deltares’ solution for modelling hydrological processes, allowing users to account for precipitation, interception, snow accumulation and melt, evapotranspiration, soil water, surface water and groundwater recharge in a fully distributed environment. Successfully applied worldwide for analyzing flood hazards, drought, climate change impacts and land use changes, wflow is growing to be a leader in hydrology solutions. Wflow is conceived as a framework, within which multiple distributed model concepts are available, which maximizes the use of open earth observation data, making it the hydrological model of choice for data scarce environments. Based on gridded topography, soil, land use and climate data, wflow calculates all hydrological fluxes at any given grid cell in the model at a given time step. Source: [Deltares Wflow](https://deltares.github.io/Wflow.jl/stable/)
+
+#### Wflow Required inputs
+
+`1. runconfig` \
+`2. forcings.nc` \
+`3. hydromtdata` \
+`4. volume data` \
+`5. staticmaps.nc`
+
+**Note**: The outputs of HydroMT are used as inputs to Wflow.
+
+#### params-wflow.yaml
+
+The `params-wflow.yaml` file contains the definitions of the required inputs for the Wflow application. The user needs to specify the following inputs. Similarly to HydroMT, these inputs can be described in a `yaml file`:
+  
+  ```yaml
+  runconfig:
+    class: File
+    path: path/to/wflow_sbm.toml
+  forcings:
+    class: File
+    path: path/to/forcings.nc
+  hydromtdata:
+    class: Directory
+    path: path/to/hydromt_data.yaml
+  volume_data:
+    class: Directory
+    path: path/to/mnt/CEPH_PROJECTS/InterTwin/Wflow/data
+  staticmaps:
+    class: File
+    path: path/to/staticmaps.nc
+  ```
+
+#### Building the Wflow image
+
+The Wflow image is built using the following command and can be found in the `/experimental/wflow` directory:
+
+```zsh
+./docker_build_and_publish.sh
+```
+
+#### TODO: Update Wflow model
 
 Once the model is built, there may be a need to update the original configuration. For example changing land cover or forcings, or updating some model parameters.
 When updating the model, the user should be able to select whether to overwrite the current model or not, then creating a new model.
 
 `docker run -v /mnt/CEPH_PROJECTS/InterTwin/hydrologic_data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt build --overwrite`
-
-#### Publish
-
-`docker build -t gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:hydromt .`
-`docker push gitlab.inf.unibz.it:4567/remsen/cdr/climax/meteo-data-pipeline:hydromt`
-
-### Wflow
-
-Wflow inputs: **(all produced by HydroMT)** \
-`1. config file` \
-`2. staticmaps.nc` \
-`3. forcings.nc` \
-`4. state.nc` **(optional)**
-
-Wflow outputs: \
-`1.hydrological variables` \
-`2. User Parameters:` \
-`3. Warm-up period` \
-Data Volumes: \
-`1. v1: model directory, corresponding subdirectory <MODELNAME> as created by HydroMT`
-
-#### Build Wflow app image
-
-`cd wflow`
-
-`./docker_build_and_update.sh`
 
 #### Run Wflow model in container
 
