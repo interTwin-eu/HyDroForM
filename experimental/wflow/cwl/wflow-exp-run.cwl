@@ -20,11 +20,6 @@ $graph:
           - chmod_step/netcdf_output
         type: File
         outputBinding: {}
-      - id: csv_output
-        outputSource:
-          - run-wflow_step/csv_output
-        type: File?
-        outputBinding: {}
     steps:
       - id: run-wflow_step
         in:
@@ -45,7 +40,6 @@ $graph:
               - staticmaps
         out:
           - netcdf_output
-          - csv_output
         run: '#run-wflow'
         requirements:
           DockerRequirement:
@@ -101,14 +95,9 @@ $graph:
           position: 5
     outputs:
       - id: netcdf_output
-        format: .nc
-        type: File
+        type: Directory
         outputBinding:
-          glob: "/output/run_default/outstate/outstates.nc"
-      - id: csv_output
-        format: .csv
-        type: File?
-        outputBinding: {}
+          glob: . 
     requirements:
       DockerRequirement:
         dockerPull: potato55/wflow
