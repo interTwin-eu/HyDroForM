@@ -101,5 +101,5 @@
 │   Δt = 86400 seconds
 │   endtime = CFTime.DateTimeProlepticGregorian(2019-03-31T00:00:00)
 └   nthreads() = 1
-[ Info: Simulation duration: 11 seconds, 439 milliseconds
+[ Info: Simulation duration: 11 seconds, 402 milliseconds
 [ Info: Write output states to NetCDF file `/output/run_default/outstate/outstates.nc`.
