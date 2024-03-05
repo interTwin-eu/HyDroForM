@@ -1,0 +1,66 @@
+{
+  "id": "hydromt build wflow",
+  "summary": "Build Wflow model",
+  "description": "coming soon",
+  "categories": [
+    "hydrology",
+    "modeling"
+  ],
+  "parameters": [
+    {
+      "name": "region",
+      "description": "",
+      "schema": {
+        "type": "string",
+        "dimensions": [
+          {
+            "type": "temporal"
+          }
+        ]
+      }
+    },
+    {
+      "name": "spatial resolution",
+      "description": "The model spatial resolution",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "250",
+          "500",
+          "1000",
+          "5000"
+        ]
+      }
+    }
+  ],
+  "returns": {
+    "description": "Input datasets and configuration file to run Wflow",
+    "schema": {
+      "type": "object",
+      "subtype": "datacube",
+      "dimensions": [
+        {
+          "type": "temporal"
+        }
+      ]
+    }
+  },
+  "exceptions": {
+    "TooManyDimensions": {
+      "message": "The data cube contains multiple temporal dimensions. The parameter `dimension` must be specified."
+    },
+    "DimensionNotAvailable": {
+      "message": "A dimension with the specified name does not exist."
+    },
+    "DistinctDimensionLabelsRequired": {
+      "message": "The dimension labels have duplicate values. Distinct labels must be specified."
+    }
+  },
+  "links": [
+    {
+      "href": "",
+      "rel": "about",
+      "title": ""
+    }
+  ]
+}
