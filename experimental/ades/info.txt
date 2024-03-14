@@ -1,0 +1,4 @@
+The 2 yaml files in the folder are my attempt and creating a PVC
+within the cluster which points to the shared storage. For now,
+unsuccessful with getting the CWL to understand the PVC because
+it is not officially possible.

@@ -196,7 +196,7 @@ The HydroMT Application Package is available in the following directory: \
 
 HydroMT process diagram:
 
-![HydroMT CWL workflow](/experimental/images/hydromt_workflow.png)
+![HydroMT CWL workflow](/images/hydromt_workflow.png)
 
 The directory contains everything needed to run the HydroMT application. The Dockerfile contains the \
 environment setup and dependencies for the HydroMT application. \
@@ -225,7 +225,7 @@ The Wflow Application Package is available in the following directory: \
 
 Wflow process diagram:
 
-![Wflow CWL workflow](/experimental/images/wflow_workflow.png)
+![Wflow CWL workflow](/images/wflow_workflow.png)
 
 The following inputs as described in the params-exp-wflow.yaml file are required to run the Wflow application:
 
