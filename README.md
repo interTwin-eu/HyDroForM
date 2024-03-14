@@ -186,6 +186,10 @@ cwltool --outdir ./hydromt-output hydromt-build.cwl#hydromt-build params.yaml
 The Wflow Application Package is available in the following directory: \
 `/experimental/wflow/`
 
+Wflow process diagram:
+
+![Wflow CWL workflow](/images/wflow_workflow.png)
+
 The following inputs as described in the params-exp-wflow.yaml file are required to run the Wflow application:
 
 `1. runconfig` \
