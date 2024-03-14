@@ -2,22 +2,26 @@
 
 ## HydroMT
 
-**HydroMT** inputs: \
-`1. data catalog` \
-`2. setup file` \
-`3. region`
+Short description..
+
+**HydroMT** inputs: 
+1. `data_catalog.yaml`: describes the name and metadata of data collections
+2. `wflow_init.yaml`: declares which collection from data_catalog.yaml to use and model setup options 
+3. `region`: this is an argument to pass to **HydroMT CLI** that defines the region of interest
 
 **HydroMT** outputs:
 
-`1. WFLOW's model directory with required data and config file to run WFLOW`
+1. Directory with required data and config file to run [Wflow](#Wflow)
 
-`2. User Parameters:` \
- MODELNAME
- ADD MORE?
+**HydroMT CLI**
+
+`hydromt build wflow -r "{'subbasin':[ 11.4750, 46.8717 ], 'strord':3}" -d data_catalog.yaml -i wflow_init.yaml`
+
 
 Data volumes: \
 `1. v1: data catalog` \
 `2. v2: model directory, the model will be saved in a subdirectory  \<MODELNAME\> in /model directory...`
+
 
 ### Build and publish Hydromt image to eurac registry
 
@@ -50,12 +54,6 @@ volume_data:
 
 `docker run -v /mnt/CEPH_PROJECTS/InterTwin/hydrologic_data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt build`
 
-### Update Wflow model
-
-Once the model is built, there may be a need to update the original configuration. For example changing land cover or forcings, or updating some model parameters.
-When updating the model, the user should be able to select whether to overwrite the current model or not, then creating a new model.
-
-`docker run -v /mnt/CEPH_PROJECTS/InterTwin/hydrologic_data:/data -v /mnt/CEPH_PROJECTS/InterTwin/workflows/wflow:/model -it --rm intertwin:hydromt build --overwrite`
 
 ### Publish
 
@@ -64,17 +62,19 @@ When updating the model, the user should be able to select whether to overwrite 
 
 ## Wflow
 
-Wflow inputs: **(all produced by HydroMT)** \
+Description ...
+
+### Wflow inputs: **(all produced by [HydroMT](#HydroMT))** \
 `1. config file` \
 `2. staticmaps.nc` \
 `3. forcings.nc` \
 `4. state.nc` **(optional)**
 
-Wflow outputs: \
+### Wflow outputs: \
 `1.hydrological variables` \
 `2. User Parameters:` \
 `3. Warm-up period` \
-Data Volumes: \
+### Data Volumes: \
 `1. v1: model directory, corresponding subdirectory <MODELNAME> as created by HydroMT`
 
 ### Build Wflow app image
@@ -91,39 +91,6 @@ Data Volumes: \
 
 `cwltool --no-read-only --no-match-user wflow-run.cwl params_wflow.yaml`
 
-## TODO: Surrogate 
-
->Inputs:
->- WFLOW's parameters
->- WFLOW's forcings
->- WFLOW's outputs (surrogate training target)
->
->Outputs:
->- trained weights
->
->User Parameters:
->- set of WFLOW's parameters 
->
->Volumes:
->- v1: data catalog
->- v2: WFLOW's model directory, in subdirectory <MODELNAME/surrogate>
-
-
-TBD
-
-## Parameter Learning
-
-TBD
-
-
-# TODO
-
-- [] Diagram
-- [] CWL workflow
-- [] OpenEO processes
-- [] HydroMT reads and writes to STAC
-- [] Surrogate components
-- [] Parameter Learning component
 
 ## (WIP) HydroMT and Wflow as OGC Application Packages
 
