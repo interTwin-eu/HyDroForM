@@ -1,0 +1,190 @@
+[1;30mINFO[0m /home/jzvolensky/miniconda3/envs/cwl/bin/cwltool 3.1.20240112164112
+[1;30mINFO[0m Resolved 'hydromt-build.cwl#hydromt-workflow' to 'file:///home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-build.cwl#hydromt-workflow'
+[1;30mINFO[0m [workflow ] start
+[1;30mINFO[0m [workflow ] starting step config-generator_step
+[1;30mINFO[0m [step config-generator_step] start
+[1;30mINFO[0m [job config-generator_step] /tmp/tiijp5xf$ docker \
+    run \
+    -i \
+    --mount=type=bind,source=/tmp/tiijp5xf,target=/hydromt \
+    --mount=type=bind,source=/tmp/srrxj1mx,target=/tmp \
+    --mount=type=bind,source=/tmp/tmppbf32dgx,target=/hydromt/config_gen.py,readonly \
+    --workdir=/hydromt \
+    --user=1149421890:1149400513 \
+    --rm \
+    --cidfile=/tmp/sen7qe9t/20240410142341-887876.cid \
+    --env=TMPDIR=/tmp \
+    --env=HOME=/hydromt \
+    potato55/hydromt:expython \
+    python3 \
+    /hydromt/config_gen.py \
+    0.0091111 \
+    cerra_land_stac
+2024-04-10 12:23:42 - __main__ - INFO - Parser setup complete.
+2024-04-10 12:23:42 - __main__ - INFO - Set permissions for /hydromt to 777
+2024-04-10 12:23:42 - __main__ - INFO - Contents of config file: {'setup_config': {'starttime': '2001-01-01T00:00:00', 'endtime': '2001-03-31T00:00:00', 'timestepsec': 86400, 'input.path_forcing': 'forcings.nc'}, 'setup_basemaps': {'hydrography_fn': 'merit_hydro', 'basin_index_fn': 'merit_hydro_index', 'upscale_method': 'ihu', 'res': 0.0091111}, 'setup_rivers': {'hydrography_fn': 'merit_hydro', 'river_geom_fn': 'rivers_lin2019', 'river_upa': 30, 'rivdph_method': 'powlaw', 'min_rivdph': 1, 'min_rivwth': 30, 'slope_len': 2000, 'smooth_len': 5000}, 'setup_lakes': {'lakes_fn': 'hydrolakes_v10', 'min_area': 2.0}, 'setup_reservoirs': {'reservoirs_fn': 'grand_v1.3', 'timeseries_fn': 'gww', 'min_area': 0.5}, 'setup_glaciers': {'glaciers_fn': 'rgi60_global', 'min_area': 1.0}, 'setup_gauges': {'gauges_fn': 'ado_gauges', 'index_col': 'id', 'snap_to_river': 'True', 'derive_subcatch': 'False'}, 'setup_lulcmaps': {'lulc_fn': 'corine_2012', 'lulc_mapping_fn': 'corine_mapping'}, 'setup_laimaps': {'lai_fn': 'modis_lai_v061'}, 'setup_soilmaps': {'soil_fn': 'soilgrids_2020', 'ptf_ksatver': 'brakensiek'}, 'setup_precip_forcing': {'precip_fn': 'cerra_land_stac', 'precip_clim_fn': 'None', 'chunksize': 1}, 'setup_temp_pet_forcing': {'temp_pet_fn': 'cerra_stac', 'kin_fn': 'cerra_land_stac', 'press_correction': 'True', 'temp_correction': 'True', 'wind_correction': 'False', 'dem_forcing_fn': 'cerra_orography', 'pet_method': 'makkink', 'skip_pet': 'False', 'chunksize': 1}, 'setup_constant_pars': {'KsatHorFrac': 100, 'Cfmax': 3.75653, 'cf_soil': 0.038, 'EoverR': 0.11, 'InfiltCapPath': 5, 'InfiltCapSoil': 600, 'MaxLeakage': 0, 'rootdistpar': -500, 'TT': 0, 'TTI': 2, 'TTM': 0, 'WHC': 0.1, 'G_Cfmax': 5.3, 'G_SIfrac': 0.002, 'G_TT': 1.3}}
+2024-04-10 12:23:42 - __main__ - INFO - Config file written to path: /hydromt/wflow.ini)]
+2024-04-10 12:23:42 - __main__ - INFO - CONFIG UPDATE STEP COMPLETE. WOOHOO!
+[1;30mINFO[0m [job config-generator_step] completed success
+[1;30mINFO[0m [step config-generator_step] completed success
+[1;30mINFO[0m [workflow ] starting step hydromt-build-model_step
+[1;30mINFO[0m [step hydromt-build-model_step] start
+[1;30mINFO[0m [job hydromt-build-model_step] /tmp/jy8miln8$ docker \
+    run \
+    -i \
+    --mount=type=bind,source=/tmp/jy8miln8,target=/hydromt \
+    --mount=type=bind,source=/tmp/8hdp3jes,target=/tmp \
+    --mount=type=bind,source=/tmp/tmplm38txvj,target=/var/lib/cwl/stg59598365-fe45-4ef2-bbc6-2f43d50c1b81/data_catalog.yaml,readonly \
+    --mount=type=bind,source=/mnt/CEPH_PROJECTS/InterTwin/hydrologic_data,target=/var/lib/cwl/stg405bcee8-4e40-43bc-9b34-f2417e13c5ec/hydrologic_data,readonly \
+    --mount=type=bind,source=/tmp/tiijp5xf/wflow.ini,target=/hydromt/wflow.ini,readonly \
+    --workdir=/hydromt \
+    --user=1149421890:1149400513 \
+    --rm \
+    --cidfile=/tmp/3n5ynrfz/20240410142342-950208.cid \
+    --env=TMPDIR=/tmp \
+    --env=HOME=/hydromt \
+    potato55/hydromt:expython \
+    build \
+    '{'"'"'subbasin'"'"': [11.69, 46.666]}' \
+    /hydromt/wflow.ini \
+    /var/lib/cwl/stg59598365-fe45-4ef2-bbc6-2f43d50c1b81/data_catalog.yaml \
+    /var/lib/cwl/stg405bcee8-4e40-43bc-9b34-f2417e13c5ec/hydrologic_data
+Running update_config.py
+python3: can't open file '/usr/bin/update_config.py': [Errno 2] No such file or directory
+Finished running update_config.py
+Running hydromt build wflow model
+Did not load machine learning processes due to missing dependencies: Install them like this: `pip install openeo-processes-dask[implementations, ml]`
+2024-04-10 12:23:45,430 - build - log - DEBUG - Writing log messages to new file /hydromt/model/hydromt.log.
+2024-04-10 12:23:45,431 - build - log - INFO - HydroMT version: 0.9.5.dev0
+2024-04-10 12:23:45,431 - build - main - INFO - Building instance of wflow model at /hydromt/model.
+2024-04-10 12:23:45,431 - build - main - INFO - User settings:
+2024-04-10 12:23:45,445 - build - data_catalog - INFO - Parsing data catalog from /var/lib/cwl/stg59598365-fe45-4ef2-bbc6-2f43d50c1b81/data_catalog.yaml
+2024-04-10 12:23:45,465 - build - model_api - INFO - Initializing wflow model from hydromt_wflow (v0.5.0).
+2024-04-10 12:23:45,465 - build - data_catalog - INFO - Parsing data catalog from /usr/local/lib/python3.10/site-packages/hydromt_wflow/data/parameters_data.yml
+2024-04-10 12:23:45,475 - build - model_api - DEBUG - Setting model config options.
+2024-04-10 12:23:45,476 - build - model_api - DEBUG - Default config read from /usr/local/lib/python3.10/site-packages/hydromt_wflow/data/wflow/wflow_sbm.toml
+2024-04-10 12:23:45,477 - build - model_api - INFO - setup_basemaps.region: {'subbasin': [11.69, 46.666]}
+2024-04-10 12:23:45,477 - build - model_api - INFO - setup_basemaps.hydrography_fn: merit_hydro
+2024-04-10 12:23:45,477 - build - model_api - INFO - setup_basemaps.basin_index_fn: merit_hydro_index
+2024-04-10 12:23:45,477 - build - model_api - INFO - setup_basemaps.res: 0.0091111
+2024-04-10 12:23:45,477 - build - model_api - INFO - setup_basemaps.upscale_method: ihu
+2024-04-10 12:23:45,478 - build - wflow - INFO - Preparing base hydrography basemaps.
+2024-04-10 12:23:45,478 - build - main - ERROR - No such file found: /data/wflow_hydrography/*.tif
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/hydromt/cli/main.py", line 224, in build
+    mod.build(region, opt=opt)
+  File "/usr/local/lib/python3.10/site-packages/hydromt/models/model_api.py", line 246, in build
+    self._run_log_method(method, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/hydromt/models/model_api.py", line 188, in _run_log_method
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/hydromt_wflow/wflow.py", line 215, in setup_basemaps
+    ds_org = self.data_catalog.get_rasterdataset(hydrography_fn)
+  File "/usr/local/lib/python3.10/site-packages/hydromt/data_catalog.py", line 1393, in get_rasterdataset
+    obj = source.get_data(
+  File "/usr/local/lib/python3.10/site-packages/hydromt/data_adapter/rasterdataset.py", line 307, in get_data
+    fns = self._resolve_paths(
+  File "/usr/local/lib/python3.10/site-packages/hydromt/data_adapter/rasterdataset.py", line 367, in _resolve_paths
+    fns = super()._resolve_paths(
+  File "/usr/local/lib/python3.10/site-packages/hydromt/data_adapter/data_adapter.py", line 407, in _resolve_paths
+    raise FileNotFoundError(f"No such file found: {path}{postfix}")
+FileNotFoundError: No such file found: /data/wflow_hydrography/*.tif
+Traceback (most recent call last):
+  File "/usr/local/bin/hydromt", line 8, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python3.10/site-packages/click/core.py", line 1157, in __call__
+    return self.main(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+  File "/usr/local/lib/python3.10/site-packages/click/core.py", line 1688, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/usr/local/lib/python3.10/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/usr/local/lib/python3.10/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/click/decorators.py", line 33, in new_func
+    return f(get_current_context(), *args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/hydromt/cli/main.py", line 224, in build
+    mod.build(region, opt=opt)
+  File "/usr/local/lib/python3.10/site-packages/hydromt/models/model_api.py", line 246, in build
+    self._run_log_method(method, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/hydromt/models/model_api.py", line 188, in _run_log_method
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/hydromt_wflow/wflow.py", line 215, in setup_basemaps
+    ds_org = self.data_catalog.get_rasterdataset(hydrography_fn)
+  File "/usr/local/lib/python3.10/site-packages/hydromt/data_catalog.py", line 1393, in get_rasterdataset
+    obj = source.get_data(
+  File "/usr/local/lib/python3.10/site-packages/hydromt/data_adapter/rasterdataset.py", line 307, in get_data
+    fns = self._resolve_paths(
+  File "/usr/local/lib/python3.10/site-packages/hydromt/data_adapter/rasterdataset.py", line 367, in _resolve_paths
+    fns = super()._resolve_paths(
+  File "/usr/local/lib/python3.10/site-packages/hydromt/data_adapter/data_adapter.py", line 407, in _resolve_paths
+    raise FileNotFoundError(f"No such file found: {path}{postfix}")
+FileNotFoundError: No such file found: /data/wflow_hydrography/*.tif
+Finished running hydromt build wflow model
+[1;30mINFO[0m [job hydromt-build-model_step] Max memory used: 169MiB
+[1;30mINFO[0m [job hydromt-build-model_step] completed success
+[1;30mINFO[0m [step hydromt-build-model_step] completed success
+[1;30mINFO[0m [workflow ] completed success
+{
+    "output": {
+        "location": "file:///home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8",
+        "basename": "jy8miln8",
+        "class": "Directory",
+        "listing": [
+            {
+                "class": "File",
+                "location": "file:///home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/wflow.ini",
+                "basename": "wflow.ini",
+                "size": 1463,
+                "checksum": "sha1$748edec254ab3bb6c8175a274390dd916d3d8f93",
+                "path": "/home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/wflow.ini"
+            },
+            {
+                "class": "File",
+                "location": "file:///home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/workdir",
+                "basename": "workdir",
+                "size": 8,
+                "checksum": "sha1$5ec1104a45aca77cf73ed8490a398385fc8e4bcf",
+                "path": "/home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/workdir"
+            },
+            {
+                "class": "Directory",
+                "location": "file:///home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/model",
+                "basename": "model",
+                "listing": [
+                    {
+                        "class": "Directory",
+                        "location": "file:///home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/model/run_default",
+                        "basename": "run_default",
+                        "listing": [],
+                        "path": "/home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/model/run_default"
+                    },
+                    {
+                        "class": "Directory",
+                        "location": "file:///home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/model/staticgeoms",
+                        "basename": "staticgeoms",
+                        "listing": [],
+                        "path": "/home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/model/staticgeoms"
+                    },
+                    {
+                        "class": "Directory",
+                        "location": "file:///home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/model/instate",
+                        "basename": "instate",
+                        "listing": [],
+                        "path": "/home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/model/instate"
+                    },
+                    {
+                        "class": "File",
+                        "location": "file:///home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/model/hydromt.log",
+                        "basename": "hydromt.log",
+                        "size": 2948,
+                        "checksum": "sha1$ccf2e1e681bc30458855d02da660ffb583e5edeb",
+                        "path": "/home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/model/hydromt.log"
+                    }
+                ],
+                "path": "/home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8/model"
+            }
+        ],
+        "path": "/home/jzvolensky/eurac/projects/HyDroForM/STAC/cwl/hydromt-output/jy8miln8"
+    }
+}[1;30mINFO[0m Final process status is success

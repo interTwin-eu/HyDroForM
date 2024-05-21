@@ -6,21 +6,21 @@
 # {'subbasin':[ 11.4750, 46.8717 ], 'strord':3}"
 region: "{'subbasin': [11.69, 46.666]}" 
 # Resolution of the Model
-res: 0.005
+res: 0.0091111
 # Precipitation forcing dataset
 precip_fn: "cerra_land_stac"
 # Wflow.ini configuration file
 setupconfig:
   class: File
-  path: "/hydromt/output/wflow.ini"
+  path: "https://gitlab.inf.unibz.it/Juraj.Zvolensky/hydromt-cwl/-/raw/main/wflow.ini"
 # HydroMT Data Catalog
 catalog: 
   class: File
-  path: "https://gitlab.inf.unibz.it/Juraj.Zvolensky/hydromt-cwl/-/raw/main/data_catalog_old.yaml"
+  path: "https://gitlab.inf.unibz.it/Juraj.Zvolensky/hydromt-cwl/-/raw/main/data_catalog.yaml"
 # Script to update the Wflow.ini configuration file
-update_config_script:
+config_gen:
   class: File
-  path: "https://gitlab.inf.unibz.it/Juraj.Zvolensky/hydromt-cwl/-/raw/main/update_config.py"
+  path: "https://gitlab.inf.unibz.it/Juraj.Zvolensky/hydromt-cwl/-/raw/main/config_gen.py"
 # Data volume to mount while we use local data
 volume_data: 
   class: Directory

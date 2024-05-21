@@ -35,7 +35,7 @@ $graph:
         type: File
       - id: catalog
         type: File
-      - id: update_config_script
+      - id: config_gen
         type: File
       - id: volume_data
         type: Directory
@@ -49,7 +49,7 @@ $graph:
           - hydromt-build_step/output
         type: Directory
     steps:
-      - id: hydromt-config-update
+      - id: config_gen_step
         in:
           - id: res
             source:
@@ -60,14 +60,14 @@ $graph:
           - id: setupconfig
             source:
               - setupconfig
-          - id: update_config_script
+          - id: config_gen
             source:
-              - update_config_script
-          - id: volume_data
-            source:
-              - volume_data
+              - config_gen
+          # - id: volume_data
+          #   source:
+          #     - volume_data
         out:
-          - updated_config
+          - hydromt_config
         run: update-config.cwl
       - id: hydromt-build_step
         in:
@@ -76,10 +76,10 @@ $graph:
               - region
           - id: setupconfig
             source:
-              - hydromt-config-update/updated_config
-          - id: update_config_script
+              - config_gen_step/hydromt_config
+          - id: config_gen
             source:
-              - update_config_script
+              - config_gen
           - id: catalog
             source:
               - catalog
@@ -92,7 +92,7 @@ $graph:
     requirements:
       InitialWorkDirRequirement:
         listing:
-          - entryname: /hydromt/data
+          - entryname: /data
             entry: $(inputs.volume_data)
   - id: hydromt-build
     class: CommandLineTool
@@ -118,7 +118,7 @@ $graph:
         type: File
         inputBinding:
           position: 3
-      - id: update_config_script
+      - id: config_gen
         label: Script to update config file
         type: File
         inputBinding:
@@ -135,8 +135,8 @@ $graph:
           glob: .
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt:test
-        dockerOutputDirectory: /hydromt/output
+        dockerPull: potato55/hydromt:expython
+        dockerOutputDirectory: /hydromt
       InitialWorkDirRequirement:
         listing:
           - entryname: /data
