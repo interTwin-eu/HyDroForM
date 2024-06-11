@@ -1,0 +1,21 @@
+{
+  "region": "{'subbasin': [11.69, 46.666]}",
+  "res": 0.005,
+  "precip_fn": "cerra_land_stac",
+  "setupconfig": {
+    "class": "File",
+    "path": "/hydromt/output/wflow.ini"
+  },
+  "catalog": {
+    "class": "File",
+    "path": "https://gitlab.inf.unibz.it/Juraj.Zvolensky/hydromt-cwl/-/raw/main/data_catalog_old.yaml"
+  },
+  "update_config_script": {
+    "class": "File",
+    "path": "https://gitlab.inf.unibz.it/Juraj.Zvolensky/hydromt-cwl/-/raw/main/update_config.py"
+  },
+  "volume_data": {
+    "class": "Directory",
+    "path": "/mnt/CEPH_PROJECTS/InterTwin/hydrologic_data"
+  }
+}
