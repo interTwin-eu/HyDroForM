@@ -1,0 +1,18 @@
+{
+  "type": "Catalog",
+  "id": "my-catalog",
+  "stac_version": "1.0.0",
+  "description": "My Catalog",
+  "links": [
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./hydromt.log/hydromt.log.json",
+      "type": "application/json"
+    }
+  ]
+}
