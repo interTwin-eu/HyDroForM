@@ -247,3 +247,11 @@ The output of the Wflow application package is a set of hydrological variables. 
 
 - [] Produce the outputs of HydroMT and Wflow on the eurac filesystem as a showcase
 - [] Test these out on the EOEPCA ADES
+
+
+
+## Testing
+
+HydroMT 
+
+`cd HyDroForM && ./tests/test_hydromt.sh`
