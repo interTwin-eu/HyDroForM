@@ -1,9 +1,5 @@
-hydromt_wflow==0.5.0
 pyflwdir==0.5.8
 gwwapi==0.0.2
-openeo==0.29.0
-openeo-processes-dask==2024.3.0
-openeo-pg-parser-networkx==2024.5.0
 dask-geopandas==0.3.1
 xvec==0.2.0
 joblib==1.3.2
@@ -16,5 +12,9 @@ requests
 aiohttp
 pystac
 rio-stac
-# -e git+https://github.com/iacopoff/hydromt.git@cwl#egg=hydromt
-# -e git+https://github.com/clausmichele/openeo-pg-parser-networkx.git@pydantic2#egg=openeo_pg_parser_networkx
+openeo==0.29.0
+odc-stac
+# openeo-processes-dask: install instructions are in the Dockerfile
+openeo-pg-parser-networkx==2024.5.0
+hydromt @ git+https://github.com/interTwin-eu/hydromt.git@stac#egg=hydromt
+hydromt_wflow @ git+https://github.com/interTwin-eu/hydromt_wflow.git@stac#egg=hydromt_wflow

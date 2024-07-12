@@ -7,11 +7,15 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt wflow.ini /hydromt/
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt && \
-    pip install git+https://github.com/interTwin-eu/hydromt.git@stac#egg=hydromt && \
-    pip install git+https://github.com/Open-EO/openeo-pg-parser-networkx@main#egg=openeo_pg_parser_networkx && \
-    pip install git+https://github.com/interTwin-eu/hydromt_wflow@stac#egg=hydromt_wflow
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt 
+
+# 
+RUN git clone -b feature/load_stac_odc https://github.com/interTwin-eu/openeo-processes-dask.git
+RUN cd openeo-processes-dask/openeo_processes_dask/specs && \ 
+    git clone https://github.com/eodcgmbh/openeo-processes.git -b 2024.7.0
+RUN cd .
+RUN cd openeo-processes-dask && pip install . 
+RUN cd .
 
 RUN mkdir -p /hydromt/output /hydromt/data
 # COPY data_catalog.yaml /hydromt/
