@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
-docker build -t hydromt-test ./workflows/hydromt/
+echo $PWD
 
-docker container run \
+HYDROMT_DIR=$PWD/workflows/hydromt
+
+docker build --no-cache -t hydromt-test $HYDROMT_DIR
+
+docker container run -v /mnt/CEPH_PROJECTS/InterTwin/hydrologic_data:/data \
     -it hydromt-test hydromt build wflow model \
     -r "{'subbasin': [11.4750, 46.8720]}" \
-    -d https://raw.githubusercontent.com/jzvolensky/Itwin-tech-meeting/main/example/hydromt/cwl/tempcatalog.yaml \
-    -i wflow.ini -vvv
+    -d data_catalog.yaml -i wflow.ini -vvv

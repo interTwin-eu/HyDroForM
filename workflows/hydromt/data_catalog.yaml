@@ -52,8 +52,11 @@ cerra_daily:
     description: ""
 cerra_orography:
   data_type: RasterDataset
-  path: https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/cerra_land/orography/CERRAL_orography.nc
-  driver: netcdf
+  path: http://10.8.244.74:8082/collections/CERRA_LAND_OROGRAPHY #https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/cerra_land/orography/CERRAL_orography.nc
+  driver: stac
+  driver_kwargs:
+    bands: ["orog"]
+    static: True # STAC assumes time is always present
   filesystem: http
   crs: 4326
   meta:
@@ -112,8 +115,10 @@ merit_hydro_index:
     category: hydrography
 modis_lai_v061:
   data_type: RasterDataset
-  path: https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/MCD12A3H.v061/modis_lai.nc
-  driver: netcdf
+  path: https://stac.eurac.edu/collections/MODIS_LAI    #data/MCD12A3H.v061/modis_lai.nc #https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/MCD12A3H.v061/modis_lai.nc
+  driver: stac
+  driver_kwargs:
+    bands: ["LAI"]
   filesystem: http
   crs: 4326
   unit_mult:
@@ -130,12 +135,13 @@ corine_2012:
     category: landuse & landcover
 corine_2018_stac:
   data_type: RasterDataset
-  path: http://10.8.244.74:8082/collections/CLC2018
+  path: https://stac.eurac.edu/collections/CLC2018
   driver: stac
   driver_kwargs:
     bands: ["corine_lcl"]
+    static: True # STAC assumes time is always present
   filesystem: http
-  crs: 4326
+  crs: 3035
   meta:
     category: landuse & landcover
 ecodatacube_2018:
@@ -165,11 +171,49 @@ corine_mapping:
     category: landuse & landcover
 soilgrids_2020_stac:
   data_type: RasterDataset
-  path: https://stac.eurac.edu/collections/SOILGRIDS
+  path: https://stac.eurac.edu/collections/SOILGRIDS  #https://stac.eurac.edu/collections/SOILGRIDS
   driver: stac
   filesystem: http
+  nodata: -32768
   crs: 4326
   mask_nodata: True
+  unit_mult: # soil grids -> wflow , depths 0-5, 5-15, 15-30, 30-60, 60-100, 100-200 cm 
+    bd_sl1: 0.01 # cg/cm3 ->  g/cm3 
+    bd_sl2: 0.01
+    bd_sl3: 0.01
+    bd_sl4: 0.01
+    bd_sl5: 0.01
+    bd_sl6: 0.01
+    clyppt_sl1: 0.1 # g/kg -> g/g (%)
+    clyppt_sl2: 0.1
+    clyppt_sl3: 0.1
+    clyppt_sl4: 0.1
+    clyppt_sl5: 0.1
+    clyppt_sl6: 0.1
+    sltppt_sl1: 0.1
+    sltppt_sl2: 0.1
+    sltppt_sl3: 0.1
+    sltppt_sl4: 0.1
+    sltppt_sl5: 0.1
+    sltppt_sl6: 0.1
+    sndppt_sl1: 0.1
+    sndppt_sl2: 0.1
+    sndppt_sl3: 0.1
+    sndppt_sl4: 0.1
+    sndppt_sl5: 0.1
+    sndppt_sl6: 0.1
+    ph_sl1: 0.1 # pH 10 -> pH 
+    ph_sl2: 0.1
+    ph_sl3: 0.1
+    ph_sl4: 0.1
+    ph_sl5: 0.1
+    ph_sl6: 0.1
+    oc_sl1: 0.01 # dg/kg -> (g/g)%
+    oc_sl2: 0.01
+    oc_sl3: 0.01
+    oc_sl4: 0.01
+    oc_sl5: 0.01
+    oc_sl6: 0.01
   driver_kwargs:
     bands: ["bd_sl1","bd_sl2","bd_sl3", "bd_sl4", "bd_sl5", "bd_sl6",
     "clyppt_sl1","clyppt_sl2","clyppt_sl3", "clyppt_sl4", "clyppt_sl5", "clyppt_sl6",

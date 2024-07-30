@@ -14,6 +14,8 @@ pystac
 rio-stac
 openeo==0.29.0
 odc-stac
+fsspec # to read netcdf on S3
+h5netcdf # to read netcd on S3
 # openeo-processes-dask: install instructions are in the Dockerfile
 openeo-pg-parser-networkx==2024.5.0
 hydromt @ git+https://github.com/interTwin-eu/hydromt.git@stac#egg=hydromt
