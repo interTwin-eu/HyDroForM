@@ -23,8 +23,8 @@ RUN cd .
 RUN mkdir -p /hydromt/output /hydromt/data
 
 # COMMENT THESE TWO LINES BELOW
-#COPY data_catalog.yaml /hydromt/
-#RUN mkdir /data
+COPY data_catalog.yaml /hydromt/
+RUN mkdir /data
 
 # COPY ./config_gen.py /hydromt
 
