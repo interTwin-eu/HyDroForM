@@ -52,7 +52,7 @@ cerra_daily:
     description: ""
 cerra_orography:
   data_type: RasterDataset
-  path: http://10.8.244.74:8082/collections/CERRA_LAND_OROGRAPHY #https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/cerra_land/orography/CERRAL_orography.nc
+  path: https://stac.eurac.edu/collections/CERRA_LAND_OROGRAPHY #https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/cerra_land/orography/CERRAL_orography.nc
   driver: stac
   driver_kwargs:
     bands: ["orog"]
