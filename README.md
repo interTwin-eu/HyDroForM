@@ -252,6 +252,16 @@ The output of the Wflow application package is a set of hydrological variables. 
 
 ## Testing
 
-HydroMT 
+- HydroMT 
 
 `cd HyDroForM && ./tests/test_hydromt.sh`
+
+- Wflow
+Requires running HydroMT test to produce outputs in the ./tests/tmp folder
+
+Note: The containers are running as root and the folder and data in ./tests/tmp will be
+owned by root, therefore you can't write or execute anything there. As an interim solution
+before figuring out how to run the container with a non-root user, after running test_hydromt.sh
+and before running test_wflow.sh remember to change ownership of the files to your user and group.
+
+`cd HyDroForM && ./tests/test_wflow.sh`
