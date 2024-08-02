@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
-docker build -t wflow-test ./workflows/wflow/
+WFLOW_DIR=$PWD/workflows/wflow
 
-cd tests/hydromt/model
+docker build -f $WFLOW_DIR/TestDockerfile -t wflow-test $WFLOW_DIR
+
 
 docker container run \
-    -it wflow-test
+    -v $PWD/tests/tmp/:/data \
+    -it --rm wflow-test \
+    run_wflow /data/wflow_sbm.toml 
+

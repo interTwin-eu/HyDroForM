@@ -24,7 +24,10 @@ RUN mkdir -p /hydromt/output /hydromt/data
 
 # COMMENT THESE TWO LINES BELOW
 COPY data_catalog.yaml /hydromt/
-RUN mkdir /data
+
+# change permission of output files
+RUN chmod -R 777 /hydromt
+
 
 # COPY ./config_gen.py /hydromt
 

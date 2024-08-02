@@ -1,5 +1,7 @@
 !hydromt/cwl/81iegmjn/
 
+tests/tmp/
+
 .venv
 object_urls.txt
 
