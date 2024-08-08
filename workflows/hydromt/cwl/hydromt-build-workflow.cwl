@@ -35,8 +35,13 @@ $graph:
           glob: "wflow.ini"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt:vienna
+        dockerPull: potato55/hydromt-test:0.1
         dockerOutputDirectory: /hydromt
+      ResourceRequirement:
+        coresMin: 1
+        coresMax: 2
+        ramMin: 1024
+        ramMax: 2048
       NetworkAccess:
         class: NetworkAccess
         networkAccess: true
@@ -67,8 +72,13 @@ $graph:
           glob: .
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt:vienna
+        dockerPull: potato55/hydromt-test:0.1
         dockerOutputDirectory: /hydromt
+      ResourceRequirement:
+        coresMin: 1
+        coresMax: 2
+        ramMin: 1024
+        ramMax: 2048
       InitialWorkDirRequirement:
         listing:
           - entryname: /data
@@ -96,8 +106,13 @@ $graph:
           glob: "$(inputs.output_dir)"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt:vienna
+        dockerPull: potato55/hydromt-test:0.1
         dockerOutputDirectory: /hydromt
+      ResourceRequirement:
+        coresMin: 1
+        coresMax: 2
+        ramMin: 1024
+        ramMax: 2048
   - class: Workflow
     id: hydromt-workflow
     requirements:
