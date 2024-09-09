@@ -1,4 +1,4 @@
-FROM ghcr.io/intertwin-eu/itwinai:0.2.2-torch-2.1
+FROM ghcr.io/intertwin-eu/itwinai:0.2.2-torch2.1
 
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt 
 
