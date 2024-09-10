@@ -1,7 +1,7 @@
 # General configuration
 surrogate_input: https://eurac-eo.s3.amazonaws.com/INTERTWIN/SURROGATE_INPUT/adg1km_eobs_preprocessed.zarr/
-surrogate_model_output: /p/scratch/intertwin/datasets/eurac/model
-tmp_stats: /p/scratch/intertwin/datasets/eurac/stats
+surrogate_model_output: ./
+tmp_stats: ./
 
 experiment: "drought use case lstm"
 run_name: "test"
@@ -24,7 +24,7 @@ training_pipeline:
       - class_path: hython.itwinai.data.RNNProcessor
         init_args:
           dataset: LSTMDataset
-      - class_path: trainer.RNNDistributedTrainer
+      - class_path: hython.itwinai.trainer.RNNDistributedTrainer
         init_args:
           config:
             experiment: ${run_name}
@@ -36,7 +36,7 @@ training_pipeline:
               seq_length: 60
               target_names:  [ "vwc","actevap"]
               dp_weights: ${surrogate_model_output}
-              distributed: True
+              distributed: False
           model:
             class_path: hython.models.cudnnLSTM.CuDNNLSTM
             init_args:

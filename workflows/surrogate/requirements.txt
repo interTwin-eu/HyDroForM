@@ -1,1 +1,3 @@
-hython @ git+https://github.com/interTwin-eu/hython.git@itwinai#egg=hython
+hython[io] @ git+https://github.com/interTwin-eu/hython.git@itwinai#egg=hython
+scikit-learn
+tqdm
