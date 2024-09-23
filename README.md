@@ -265,3 +265,16 @@ before figuring out how to run the container with a non-root user, after running
 and before running test_wflow.sh remember to change ownership of the files to your user and group.
 
 `cd HyDroForM && ./tests/test_wflow.sh`
+
+- Itwinai-hython surrogate training
+
+NOTE: if you are running the test on a VM, remember to install this library https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html
+
+`cd HyDroForM && ./tests/test_surrogate.sh`
+
+
+
+
+
+
+
