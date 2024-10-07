@@ -17,3 +17,5 @@ hydromt build wflow model \
 -i "$setupconfig" -vvv 
 
 echo "Finished running hydromt build wflow model"
+
+#hydromt build wflow model -r "{'subbasin': [11.4750, 46.8720]}" -d "https://raw.githubusercontent.com/jzvolensky/Itwin-tech-meeting/main/example/hydromt/cwl/tempcatalog.yaml" -i "https://raw.githubusercontent.com/jzvolensky/Itwin-tech-meeting/main/example/hydromt/wflow.ini" -vvv

@@ -1,0 +1,63 @@
+{
+  "type": "Catalog",
+  "id": "my-catalog",
+  "stac_version": "1.0.0",
+  "description": "My Catalog",
+  "links": [
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./wflow_sbm.toml/wflow_sbm.toml.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./hydromt.log/hydromt.log.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./staticmaps.nc/staticmaps.nc.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./hydromt_data.yml/hydromt_data.yml.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./forcings.nc/forcings.nc.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./gauges_ado-gauges.geojson/gauges_ado-gauges.geojson.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./basins.geojson/basins.geojson.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./region.geojson/region.geojson.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./rivers.geojson/rivers.geojson.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./glaciers.geojson/glaciers.geojson.json",
+      "type": "application/json"
+    }
+  ]
+}

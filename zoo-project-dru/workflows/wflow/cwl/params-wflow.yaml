@@ -1,0 +1,15 @@
+runconfig:
+  class: File
+  path: /home/jzvolensky/eurac/projects/Itwin-tech-meeting/hydromt-output/8oos22g2/model/wflow_sbm.toml
+forcings:
+  class: File
+  path: /home/jzvolensky/eurac/projects/Itwin-tech-meeting/hydromt-output/8oos22g2/model/forcings.nc
+hydromtdata:
+  class: File
+  path: /home/jzvolensky/eurac/projects/Itwin-tech-meeting/hydromt-output/8oos22g2/model/hydromt_data.yml
+volume_data:
+  class: Directory
+  path: /home/jzvolensky/eurac/projects/Itwin-tech-meeting/hydromt-output/8oos22g2/model
+staticmaps:
+  class: File
+  path: /home/jzvolensky/eurac/projects/Itwin-tech-meeting/hydromt-output/8oos22g2/model/staticmaps.nc

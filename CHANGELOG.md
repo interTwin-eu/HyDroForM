@@ -5,6 +5,59 @@
 Since we are working on 1 branch now and my commit messages are getting \
 ridiculously long, I thought it would be a good idea to start a changelog.
 
+## 10/07/2024 Reworking the project structure in preparation for OpenEO demo
+
+### Fixes
+
+- Fixed HydroMT CWL to run with `cwltool`
+- Created a fixed directory for `inputs` which are now the main source of input files for our model
+
+- inputs
+  - README_inputs.md
+  - inputs_hydromt
+    - catalog.yaml
+    - config_gen.py
+    - wflow.ini
+
+### Changes
+
+- Created a `scripts` directory for all the scripts that are used to do various one time tasks
+
+- scripts
+  - README_scripts.md
+  - upload_data.py
+  - upload_modis.py
+  - upload_soilgrids.py
+  - upload_uparea.py
+
+- Created a `zoo-project-dru` directory for future K8s CWL work
+
+- zoo-project-dru
+  - examples
+    - ades
+      - delete.py
+      - hydromt-build-workflow.cwl
+      - hydromt-output
+      - object_urls.txt
+      - params.yaml
+    - notebooks
+      - cwltool_hydromt.ipynb
+      - cwltool_wflow.ipynb
+
+- Created a `openeo` directory for all the OpenEO related work (e.g. CWL workflows)
+
+- openeo
+  - hydromt
+    - hydromt-build-workflow.cwl
+    - hydromt-output
+      - qwwwi05c
+    - output.log
+    - params.json
+    - params.yaml
+  - openeo.md
+
+- Removed some unnecessary files and directories or duplicates which were not needed
+
 ## 04/03/2024 (WIP) HydroMT and Wflow as OGC Application Packages
 
 I have been working on packaging Wflow so that it can run as an OGC Application via a CWL workflow.

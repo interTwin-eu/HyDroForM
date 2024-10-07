@@ -1,0 +1,28 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "wflow_sbm.toml",
+  "properties": {
+    "datetime": "2024-08-08T11:49:47.816440Z"
+  },
+  "geometry": null,
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "/var/lib/cwl/stg4a398189-f1e0-465d-9062-47a858d16888/430dnt6i/model/wflow_sbm.toml",
+      "type": "application/json"
+    }
+  },
+  "stac_extensions": []
+}

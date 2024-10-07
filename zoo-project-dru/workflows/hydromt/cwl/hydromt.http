@@ -3,7 +3,7 @@
 # @ades = zoo-open.{{domain}}
 @ades = zoo-open.{{domain}}
 @login = keycloak.{{domain}}
-@user = john
+@user = eric
 @pass = defaultPWD
 @clientId = 8dfa4bf5-e434-42c4-aaa5-f2b876ab4852
 @clientSecret = a7d88bcb-fa91-423d-9ced-4c13d87e3aa6
@@ -69,7 +69,7 @@ Accept: application/json
 ###
 
 # @name executeProcess
-POST https://{{ades}}/{{user}}/ogc-api/processes/water-bodies/execution HTTP/1.1
+POST https://{{ades}}/{{user}}/ogc-api/processes/hydromt-workflow/execution HTTP/1.1
 Authorization: Bearer {{idToken}}
 Accept: application/json
 Content-Type: application/json
@@ -77,18 +77,15 @@ Prefer: respond-async
 
 {
   "inputs": {
-    "stac_items": [
-      "https://earth-search.aws.element84.com/v0/collections/sentinel-s2-l2a-cogs/items/S2B_10TFK_20210713_0_L2A",
-      "https://earth-search.aws.element84.com/v0/collections/sentinel-s2-l2a-cogs/items/S2A_10TFK_20220524_0_L2A"
-    ],
-    "aoi": "-121.399,39.834,-120.74,40.472",
-    "epsg": "EPSG:4326",
-    "bands": [
-      "green",
-      "nir"
-    ]
+    "region": "{'subbasin': [11.4750, 46.8720]}",
+    "res": "0.00899999",
+    "precip_fn": "cerra_land_stac",
+    "setupconfig": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/experimental/workflows/hydromt/wflow.ini",
+    "catalog": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/experimental/workflows/hydromt/data_catalog.yaml",
+    "config_gen": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/experimental/workflows/hydromt/config_gen.py"
   }
 }
+
 
 ###
 
@@ -107,7 +104,7 @@ Accept: application/json
 ###
 
 # @name undeployProcess
-DELETE https://{{ades}}/{{user}}/ogc-api/processes/water-bodies HTTP/1.1
+DELETE https://{{ades}}/{{user}}/ogc-api/processes/hydromt-workflow HTTP/1.1
 Authorization: Bearer {{idToken}}
 Accept: application/json
 
