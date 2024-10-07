@@ -1,0 +1,4 @@
+[deps]
+ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
+Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
+Wflow = "d48b7d99-76e7-47ae-b1d5-ff0c1cf9a818"
