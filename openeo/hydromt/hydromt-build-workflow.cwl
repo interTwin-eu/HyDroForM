@@ -35,7 +35,7 @@ $graph:
           glob: "wflow.ini"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt-test:0.1
+        dockerPull: potato55/hydromt-test:10.08
         dockerOutputDirectory: /hydromt
       ResourceRequirement:
         coresMax: 1
@@ -67,7 +67,7 @@ $graph:
           glob: .
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt-test:0.1
+        dockerPull: potato55/hydromt-test:10.08
         dockerOutputDirectory: /hydromt
       ResourceRequirement:
         coresMax: 1
@@ -95,7 +95,7 @@ $graph:
           glob: "$(inputs.output_dir)"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt-test:0.1
+        dockerPull: potato55/hydromt-test:10.08
         dockerOutputDirectory: /hydromt
       ResourceRequirement:
         coresMax: 1

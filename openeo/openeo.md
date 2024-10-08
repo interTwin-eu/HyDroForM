@@ -19,8 +19,24 @@ cd hydromt
 ```
 
 ```zsh
-cwltool --verbose --no-read-only --force-docker-pull --outdir ./hydromt-output hydromt-build-workflow.cwl#hydromt-workflow params.json > output.log 2>&1
+cwltool --verbose --no-read-only --outdir ./hydromt-output hydromt-build-workflow.cwl#hydromt-workflow params.json > output.log 2>&1
 ```
 
 **Note**: Remove `> output.log 2>&1` to see the output in the terminal. \
 **Note**: Feel free to modify the flags except `--no-read-only`
+
+### Wflow
+
+The input of `Wflow` is generate by HydroMT. As it is right now you need to change the `params-wflow.yaml` file to match the output of `HydroMT`.
+
+It is setup in this repository to show how the output of `HydroMT` can be used as input for `Wflow`.
+
+run with `cwltool`:
+
+```zsh
+cd wflow
+```
+
+```zsh
+cwltool --outdir ./wflow-output --no-read-only --no-match-user wflow-run.cwl#run-wflow params-wflow.yaml
+```
