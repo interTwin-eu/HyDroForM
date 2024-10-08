@@ -1,0 +1,15 @@
+runconfig:
+  class: File
+  path: ../hydromt/hydromt-output/xzf6zkt0/model/wflow_sbm.toml
+forcings:
+  class: File
+  path: ../hydromt/hydromt-output/xzf6zkt0/model/forcings.nc
+hydromtdata:
+  class: File
+  path: ../hydromt/hydromt-output/xzf6zkt0/model/hydromt_data.yml
+volume_data:
+  class: Directory
+  path: ../hydromt/hydromt-output/xzf6zkt0/model
+staticmaps:
+  class: File
+  path: ../hydromt/hydromt-output/xzf6zkt0/model/staticmaps.nc

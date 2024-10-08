@@ -4,14 +4,14 @@
     "precip_fn": "cerra_land_stac",
     "setupconfig": {
       "class": "File",
-      "path": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/refs/heads/experimental/inputs/inputs_hydromt/wflow.ini"
+      "path": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/refs/heads/openeo-integration/inputs/inputs_hydromt/wflow.ini"
     },
     "catalog": {
       "class": "File",
-      "path": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/refs/heads/experimental/inputs/inputs_hydromt/catalog.yaml"
+      "path": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/refs/heads/openeo-integration/inputs/inputs_hydromt/catalog.yaml"
     },
     "config_gen": {
       "class": "File",
-      "path": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/refs/heads/experimental/inputs/inputs_hydromt/config_gen.py"
+      "path": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/refs/heads/openeo-integration/inputs/inputs_hydromt/config_gen.py"
     }
 }
