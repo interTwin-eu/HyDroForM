@@ -1,0 +1,47 @@
+FROM julia:1.10.1-bookworm
+
+USER root
+
+RUN apt-get update && \
+    apt-get -y install vim python3-venv && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create a virtual environment and install packages
+RUN python3 -m venv /opt/venv && \
+    /opt/venv/bin/pip install --upgrade pip && \
+    /opt/venv/bin/pip install toml
+
+# Ensure the virtual environment is used
+ENV PATH="/opt/venv/bin:$PATH"
+
+WORKDIR /app
+
+RUN mkdir /app/env 
+
+COPY Project.toml /app/env
+COPY Manifest.toml /app/env
+
+# Directory where there are wflow input datasets produced by HydroMT
+RUN mkdir -p /app/data && chmod -R 777 /app/data
+RUN mkdir -p /app/data/run_default && chmod -R 777 /app/data/run_default
+RUN mkdir -p /app/env/repo
+
+RUN mkdir -p /output/run_default/outstate && chmod -R 777 /output
+
+ENV JULIA_DEPOT_PATH=/app/env/repo
+ENV JULIA_PROJECT=/app/env
+
+RUN chmod -R 777 /app/env/repo
+
+RUN julia --project=/app/env -e 'using Pkg; Pkg.instantiate()'
+
+COPY ./src/run_wflow.sh /usr/bin/run_wflow
+COPY ./src/wflow.jl /usr/bin/wflow
+
+COPY fix_wflow_sbm.sh /usr/bin/fix_wflow_sbm
+COPY ./convert_lowercase.py /usr/bin/convert_lowercase.py
+
+RUN chmod +x /usr/bin/run_wflow
+RUN chmod +x /usr/bin/wflow
+RUN chmod +x /usr/bin/fix_wflow_sbm
+RUN chmod +x /usr/bin/convert_lowercase.py

@@ -1,15 +1,15 @@
 runconfig:
   class: File
-  path: ../hydromt/hydromt-output/xzf6zkt0/model/wflow_sbm.toml
+  path: ../hydromt/hydromt-output/tc4809_8/model/wflow_sbm.toml
 forcings:
   class: File
-  path: ../hydromt/hydromt-output/xzf6zkt0/model/forcings.nc
+  path: ../hydromt/hydromt-output/tc4809_8/model/forcings.nc
 hydromtdata:
   class: File
-  path: ../hydromt/hydromt-output/xzf6zkt0/model/hydromt_data.yml
+  path: ../hydromt/hydromt-output/tc4809_8/model/hydromt_data.yml # REMOVE HERE AND CWL
 volume_data:
   class: Directory
-  path: ../hydromt/hydromt-output/xzf6zkt0/model
+  path: ../hydromt/hydromt-output/tc4809_8/model
 staticmaps:
   class: File
-  path: ../hydromt/hydromt-output/xzf6zkt0/model/staticmaps.nc
+  path: ../hydromt/hydromt-output/tc4809_8/model/staticmaps.nc
