@@ -1,0 +1,15 @@
+{
+    "_ARRAY_DIMENSIONS": [
+        "gridcell",
+        "feat"
+    ],
+    "coordinates": "layer",
+    "shape": [
+        23,
+        63
+    ],
+    "shape_label": [
+        "lat",
+        "lon"
+    ]
+}

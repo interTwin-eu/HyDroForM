@@ -38,5 +38,14 @@ cd wflow
 ```
 
 ```zsh
-cwltool --outdir ./wflow-output --no-read-only --no-match-user wflow-run.cwl#run-wflow params-wflow.yaml
+cwltool --verbose --no-read-only --outdir ./wflow-output --no-match-user wflow-demo.cwl#wflow-workflow params-wflow.yaml
+```
+
+### Surrogate (WIP)
+```zsh
+cd surrogate
+```
+
+```zsh
+cwltool --verbose --no-read-only --outdir ./surrogate-output  surrogate_demo.cwl#surrogate-demo surrogate_params.yaml
 ```

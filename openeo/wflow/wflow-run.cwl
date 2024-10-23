@@ -20,11 +20,18 @@ $graph:
           - chmod_step/netcdf_output
         type: Directory
     steps:
-      - id: run-wflow_step
+      - id: convert-lowercase
         in:
           - id: runconfig
             source:
               - runconfig
+        out: [runconfig-fixed]
+        run: '#convert-lowercase'
+      - id: run-wflow_step
+        in:
+          - id: runconfig
+            source:
+              - convert-lowercase/runconfig-fixed
           - id: forcings
             source:
               - forcings
@@ -64,7 +71,33 @@ $graph:
               type: Directory
               outputBinding:
                 glob: "$(inputs.netcdf_output.path)"
-    doc: workflow for wflow
+
+  - id: convert-lowercase
+    class: CommandLineTool
+    baseCommand:
+      - convert_lowercase
+    inputs:
+      - id: runconfig
+        type: File
+        inputBinding:
+          position: 1
+    outputs:
+      - id: runconfig-fixed
+        type: File
+        outputBinding:
+          glob: "wflow_sbm.toml"
+    requirements:
+      DockerRequirement:
+        dockerPull: potato55/hydromt-demo:latest #potato55/hydromt-test:buildfix
+        dockerOutputDirectory: /hydromt
+      ResourceRequirement:
+        coresMax: 1
+        ramMax: 2048
+      NetworkAccess:
+        class: NetworkAccess
+        networkAccess: true
+
+
   - id: run-wflow
     class: CommandLineTool
     baseCommand:

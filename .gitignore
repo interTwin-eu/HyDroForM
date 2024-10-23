@@ -1,5 +1,8 @@
 !hydromt/cwl/81iegmjn/
 
+/openeo/hydromt/hydromt-output/
+/openeo/wflow/wflow-output/
+
 tests/tmp/
 
 .venv
