@@ -14,7 +14,9 @@ ENV MLFLOW_TRACKING_USERNAME='iacopo.ferrario@eurac.edu'
 ENV MLFLOW_TRACKING_URI='https://mlflow.intertwin.fedcloud.eu/'
 
 
+
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt 
+
 
 RUN mkdir -p ./use-case
 
