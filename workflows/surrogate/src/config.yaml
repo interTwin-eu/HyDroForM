@@ -5,7 +5,7 @@ tmp_stats: ./
 
 experiment: "drought use case lstm"
 run_name: "test"
-epochs: 4
+epochs: 2
 random_seed: 1010
 
 training_pipeline:

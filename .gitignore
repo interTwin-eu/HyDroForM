@@ -2,6 +2,7 @@
 
 tests/tmp/
 
+.env
 .venv
 object_urls.txt
 
