@@ -16,10 +16,10 @@ docker build --no-cache -f $SURR_DIR/TestDockerfile -t surrogate-test $SURR_DIR
 if [ -z "$1" ]; then
 	# CPU
 	docker run -it --rm \
-	    --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 --env-file ./.env \
+	    --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 --env-file $PWD/tests/.env \
 	    surrogate-test /bin/bash -c "cd ./use-case && $CMD"
 elif [ "$1" == "gpu" ]; then
 	docker run -it --rm \
-		--gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 --env-file ./.env \
+		--gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 --env-file $PWD/tests/.env \
 		surrogate-test /bin/bash -c "cd ./use-case && $CMD"
 fi
