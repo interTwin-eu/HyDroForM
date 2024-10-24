@@ -2,7 +2,9 @@
 
 tests/tmp/
 
+# docker run env file
 .env
+
 .venv
 object_urls.txt
 
