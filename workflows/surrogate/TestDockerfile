@@ -1,4 +1,6 @@
-FROM ghcr.io/intertwin-eu/itwinai:0.2.2-torch2.1
+#FROM ghcr.io/intertwin-eu/itwinai:0.2.2-torch2.1
+
+FROM ghcr.io/intertwin-eu/itwinai-dev:0.2.2.dev-torch2.4-jammy
 
 COPY requirements.txt ./requirements.txt
 
