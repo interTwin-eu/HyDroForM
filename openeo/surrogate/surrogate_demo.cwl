@@ -16,30 +16,34 @@ s:author:
 $graph:
   - class: CommandLineTool
     id: exec-itwinai
-    baseCommand: ["itwinai", "exec-pipeline"]
-    arguments: []
+    baseCommand: ["itwinai", "exec-pipeline", "--config", "/app/use-case/config.yaml"]
+    # baseCommand: ["/bin/bash", "-c"]
+    # arguments: ["itwinai exec-pipeline --config /usr/src/app/use-case/config.yaml"]
     inputs:
-      - id: config
-        type: File
-        inputBinding:
-          position: 1
-          prefix: "--config"
-          valueFrom: $(self.basename)
+      # - id: config            The config is local in the image 
+      #   type: string          so we cant really pass it in cwl
+      #   inputBinding:         so we just call it from the command
+      #     position: 1         In the future replace with a link to the config
+      #     prefix: "--config"
       - id: pipe-key
         type: string
         inputBinding:
-          position: 2
+          position: 1
           prefix: "--pipe-key"
-          valueFrom: $(inputs.pipe-key)
     outputs:
       - id: output
         type: stdout
     requirements:
       DockerRequirement:
-        dockerPull: potato55/surrogate-test:latest
+        dockerPull: surrogate-test:latest
       ResourceRequirement:
         coresMax: 4
         ramMax: 25000
+      InlineJavascriptRequirement: {}
+      # EnvVarRequirement:
+      #   envDef:
+      #     - envName: PYTHONPATH
+      #       envValue: "/jovyan/.local/lib/python3.10/site-packages:/home"
       NetworkAccess:
         class: NetworkAccess
         networkAccess: true
@@ -47,19 +51,20 @@ $graph:
     id: surrogate-demo
     requirements:
       - class: StepInputExpressionRequirement
+      - class: InlineJavascriptRequirement
     inputs:
-      - id: config
-        type: File
+    #   - id: config
+    #     type: string
       - id: pipe-key
         type: string
     outputs:
       - id: output
-        type: stdout
+        type: File
+        outputSource: exec-itwinai/output
     steps:
       - id: exec-itwinai
         in: 
-          config: config
+          # config: config
           pipe-key: pipe-key
         out: [output]
         run: '#exec-itwinai'
-

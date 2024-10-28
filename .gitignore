@@ -2,6 +2,7 @@
 
 /openeo/hydromt/hydromt-output/
 /openeo/wflow/wflow-output/
+/openeo/surrogate/surrogate-output/
 
 tests/tmp/
 
