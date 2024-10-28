@@ -23,3 +23,6 @@ elif [ "$1" == "gpu" ]; then
 		--gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 \
 		surrogate-test /bin/bash -c "cd ./use-case && $CMD"
 fi
+
+
+docker run -it surrogate-test /bin/bash -c "cd ./use-case && itwinai exec-pipeline --config config.yaml --pipe-key training_pipeline"

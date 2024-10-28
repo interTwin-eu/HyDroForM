@@ -42,10 +42,13 @@ cwltool --verbose --no-read-only --outdir ./wflow-output --no-match-user wflow-d
 ```
 
 ### Surrogate (WIP)
+
 ```zsh
 cd surrogate
 ```
 
 ```zsh
-cwltool --verbose --no-read-only --outdir ./surrogate-output  surrogate_demo.cwl#surrogate-demo surrogate_params.yaml
+cwltool --verbose --tmpdir $PWD --no-match-user --no-read-only --outdir ./surrogate-output  surrogate_demo.cwl#surrogate-demo surrogate_params.json
 ```
+
+*NOTE*: Currently the Surrogate output is a bit all over the place, as it generates some stuff in the `./openeo` as well. I dont really know why, we can probably discard this in the future as we will upload online.
