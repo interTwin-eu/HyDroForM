@@ -19,7 +19,7 @@ cd hydromt
 ```
 
 ```zsh
-cwltool --verbose --no-read-only --outdir ./hydromt-output hydromt-build-workflow.cwl#hydromt-workflow params.json > output.log 2>&1
+cwltool --verbose --no-read-only --outdir ./hydromt-output hydromt-build-demo.cwl#hydromt-workflow params.json > output.log 2>&1
 ```
 
 **Note**: Remove `> output.log 2>&1` to see the output in the terminal. \

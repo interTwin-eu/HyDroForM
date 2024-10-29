@@ -37,10 +37,14 @@ RUN chmod -R 777 /hydromt
 COPY ./build.sh /usr/bin/build
 COPY ./update.sh /usr/bin/update
 COPY ./fix_wflow_sbm.sh /usr/bin/fix_wflow_sbm
+COPY ./to_stac.sh /usr/bin/to_stac
 
 COPY ./config_gen.py /usr/bin/config_gen.py
-COPY ./stac.py /usr/bin/stac.py
 COPY ./convert_lowercase.py /usr/bin/convert_lowercase.py
+COPY ./stac.py /usr/bin/stac.py
 
-RUN chmod +x /usr/bin/build /usr/bin/config_gen.py /usr/bin/update /usr/bin/stac.py /usr/bin/convert_lowercase.py /usr/bin/fix_wflow_sbm
+RUN chmod +x /usr/bin/build /usr/bin/config_gen.py \
+             /usr/bin/update /usr/bin/stac.py /usr/bin/convert_lowercase.py \
+             /usr/bin/fix_wflow_sbm \
+             /usr/bin/to_stac
 # /hydromt/config_gen.py
