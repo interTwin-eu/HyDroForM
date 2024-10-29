@@ -33,37 +33,7 @@ $graph:
           glob: "wflow.ini"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt-demo:stac  #potato55/hydromt-test:buildfix
-        dockerOutputDirectory: /hydromt
-      ResourceRequirement:
-        coresMax: 1
-        ramMax: 2048
-      NetworkAccess:
-        class: NetworkAccess
-        networkAccess: true
-
-  - class: CommandLineTool
-    id: save-to-stac
-    baseCommand: to_stac
-    inputs:
-      - id: staticmaps_out
-        type: File
-        inputBinding:
-          prefix: "--staticmaps_out"
-          position: 1
-      - id: forcings_out
-        type: File
-        inputBinding:
-          prefix: "--forcings_out"
-          position: 2
-    outputs:
-      - id: json_collection
-        type: File
-        outputBinding:
-          glob: .
-    requirements:
-      DockerRequirement:
-        dockerPull: potato55/hydromt-demo:stac  #potato55/hydromt-test:buildfix
+        dockerPull: potato55/hydromt-demo:latest  #potato55/hydromt-test:buildfix
         dockerOutputDirectory: /hydromt
       ResourceRequirement:
         coresMax: 1
@@ -93,17 +63,9 @@ $graph:
         type: Directory
         outputBinding:
           glob: .
-      - id: staticmaps_out
-        type: File
-        outputBinding:
-          glob: "model/staticmaps.nc"
-      - id: forcings_out
-        type: File
-        outputBinding:
-          glob: "model/forcings.nc"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt-demo:stac #potato55/hydromt-test:buildfix
+        dockerPull: potato55/hydromt-demo:latest #potato55/hydromt-test:buildfix
         dockerOutputDirectory: /hydromt
       ResourceRequirement:
         coresMax: 1
@@ -130,12 +92,6 @@ $graph:
       - id: model
         type: Directory
         outputSource: build-hydromt/model
-      - id: staticmaps_out
-        type: File
-        outputSource: build-hydromt/staticmaps_out
-      - id: forcings_out
-        type: File
-        outputSource: build-hydromt/forcings_out
     steps:
       - id: update-config
         in:
@@ -153,13 +109,5 @@ $graph:
             source: update-config/setupconfig
           - id: catalog
             source: catalog
-        out: [model, staticmaps_out, forcings_out]
+        out: [model]
         run: '#build-hydromt'
-      - id: save-to-stac
-        in:
-          - id: staticmaps_out
-            source: build-hydromt/staticmaps_out
-          - id: forcings_out
-            source: build-hydromt/forcings_out
-        out: [json_collection]
-        run: '#save-to-stac'
