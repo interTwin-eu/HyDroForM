@@ -3,7 +3,7 @@ surrogate_input: https://eurac-eo.s3.amazonaws.com/INTERTWIN/SURROGATE_INPUT/adg
 surrogate_model_output: ./
 tmp_stats: ./
 
-experiment: "drought use case demo"
+experiment: "Drought early warnings demo"
 run_name: "test"
 epochs: 2
 random_seed: 1010
