@@ -1,10 +1,12 @@
 cwlVersion: v1.2
 $namespaces:
   s: https://schema.org/
-s:softwareVersion: 0.9.9
-s:dateCreated: '2024-10-17'
+s:softwareVersion: 0.0.1
+s:dateCreated: '2024-06-05'
 s:keywords: Hydrology, EO, CWL, AP, InterTwin, Magic
 s:codeRepository: https://github.com/jzvolensky/Itwin-tech-meeting
+s:releaseNotes: https://github.com/jzvolensky/Itwin-tech-meeting/blob/main/README.md
+s:license: https://github.com/jzvolensky/Itwin-tech-meeting/blob/main/LICENSE
 s:author:
   - s:name: Iacopo Federico Ferrario
     s:email: iacopofederico.ferrario@eurac.edu
@@ -33,55 +35,7 @@ $graph:
           glob: "wflow.ini"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt-demo:stac  #potato55/hydromt-test:buildfix
-        dockerOutputDirectory: /hydromt
-      ResourceRequirement:
-        coresMax: 1
-        ramMax: 2048
-      NetworkAccess:
-        class: NetworkAccess
-        networkAccess: true
-
-  - class: CommandLineTool
-    id: save-to-stac
-    # baseCommand: to_stac
-    # inputs:
-    #   - id: staticmaps_out
-    #     type: File
-    #     inputBinding:
-    #       prefix: "--staticmaps_path"
-    #       position: 1
-    #   - id: forcings_out
-    #     type: File
-    #     inputBinding:
-    #       prefix: "--forcings_path"
-    #       position: 2
-    baseCommand: ["python3", "/usr/bin/stac.py"]
-    inputs:
-      - id: staticmaps_out
-        type: File
-        inputBinding:
-          prefix: "--staticmaps_path"
-          position: 1
-          valueFrom: $(self.path)
-      - id: forcings_out
-        type: File
-        inputBinding:
-          prefix: "--forcings_path"
-          position: 2
-          valueFrom: $(self.path)
-    outputs:
-      - id: json_collection
-        type: File
-        outputBinding:
-          glob: "WFLOW_FORCINGS_STATICMAPS/*.json"
-      - id: json_items
-        type: File[]
-        outputBinding:
-          glob: "WFLOW_FORCINGS_STATICMAPS/items/*.json"
-    requirements:
-      DockerRequirement:
-        dockerPull: potato55/hydromt-demo:stac  #potato55/hydromt-test:buildfix
+        dockerPull: potato55/hydromt-demo:stac  
         dockerOutputDirectory: /hydromt
       ResourceRequirement:
         coresMax: 1
@@ -111,18 +65,64 @@ $graph:
         type: Directory
         outputBinding:
           glob: .
-      - id: staticmaps_out
+      - id: staticmaps
         type: File
         outputBinding:
           glob: "model/staticmaps.nc"
-      - id: forcings_out
+      - id: forcings
         type: File
         outputBinding:
           glob: "model/forcings.nc"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt-demo:stac #potato55/hydromt-test:buildfix
+        dockerPull: potato55/hydromt-demo:stac 
         dockerOutputDirectory: /hydromt
+      ResourceRequirement:
+        coresMax: 1
+        ramMax: 2048
+      NetworkAccess:
+        class: NetworkAccess
+        networkAccess: true
+
+  - class: CommandLineTool
+    id: save-to-stac
+    baseCommand: ["python3", "/usr/bin/stac.py"]
+    inputs:
+      - id: staticmaps
+        type: File
+        inputBinding:
+          prefix: "--staticmaps_path"
+          position: 1
+      - id: forcings
+        type: File
+        inputBinding:
+          prefix: "--forcings_path"
+          position: 2
+      - id: output_dir
+        type: Directory
+        inputBinding:
+          prefix: "--output_dir"
+          position: 3
+    outputs:
+      - id: output_stac
+        type: Directory
+        outputBinding:
+          glob: "*"
+    requirements:
+      DockerRequirement:
+        dockerPull: potato55/hydromt-demo:stac  
+        dockerOutputDirectory: /hydromt
+      InitialWorkDirRequirement:
+        listing:
+          # - entryname: model/output_stac
+          #   entry: "model/output_stac"
+          #   writable: true
+          - entryname: model
+            entry: $(inputs.output_dir.path)
+            writable: true
+          # - entryname: model/STAC
+          #   entry: "model/STAC"
+          #   writable: true
       ResourceRequirement:
         coresMax: 1
         ramMax: 2048
@@ -134,7 +134,6 @@ $graph:
     id: hydromt-workflow
     requirements:
       - class: StepInputExpressionRequirement
-      - class: InlineJavascriptRequirement
     inputs:
       - id: res
         type: float
@@ -148,18 +147,15 @@ $graph:
       - id: model
         type: Directory
         outputSource: build-hydromt/model
-      - id: staticmaps_out
+      - id: staticmaps
         type: File
-        outputSource: build-hydromt/staticmaps_out
-      - id: forcings_out
+        outputSource: build-hydromt/staticmaps
+      - id: forcings
         type: File
-        outputSource: build-hydromt/forcings_out
-      - id: json_collection
-        type: File
-        outputSource: save-to-stac/json_collection
-      - id: item_jsons
-        type: File[]
-        outputSource: save-to-stac/json_items
+        outputSource: build-hydromt/forcings
+      - id: output_stac
+        type: Directory
+        outputSource: save-to-stac/output_stac
     steps:
       - id: update-config
         in:
@@ -177,13 +173,16 @@ $graph:
             source: update-config/setupconfig
           - id: catalog
             source: catalog
-        out: [model, staticmaps_out, forcings_out]
+        out: [model, staticmaps, forcings]
         run: '#build-hydromt'
       - id: save-to-stac
         in:
-          - id: staticmaps_out
-            source: build-hydromt/staticmaps_out
-          - id: forcings_out
-            source: build-hydromt/forcings_out
-        out: [json_collection, json_items]
+          - id: staticmaps
+            source: build-hydromt/staticmaps
+          - id: forcings
+            source: build-hydromt/forcings
+          - id: output_dir
+            source: build-hydromt/model
+        out: [output_stac]
+        # out: [json_collection, json_items]
         run: '#save-to-stac'

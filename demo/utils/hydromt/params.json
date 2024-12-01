@@ -1,0 +1,17 @@
+{
+    "region": "{'subbasin': [11.4750, 46.8720]}",
+    "res": 0.00899999,
+    "precip_fn": "cerra_land_stac",
+    "setupconfig": {
+      "class": "File",
+      "path": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/refs/heads/openeo-integration/inputs/inputs_hydromt/wflow.ini"
+    },
+    "catalog": {
+      "class": "File",
+      "path": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/refs/heads/openeo-integration/inputs/inputs_hydromt/catalog.yaml"
+    },
+    "config_gen": {
+      "class": "File",
+      "path": "https://raw.githubusercontent.com/interTwin-eu/HyDroForM/refs/heads/openeo-integration/inputs/inputs_hydromt/config_gen.py"
+    }
+}

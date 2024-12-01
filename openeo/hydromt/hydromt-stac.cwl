@@ -44,30 +44,16 @@ $graph:
 
   - class: CommandLineTool
     id: save-to-stac
-    # baseCommand: to_stac
-    # inputs:
-    #   - id: staticmaps_out
-    #     type: File
-    #     inputBinding:
-    #       prefix: "--staticmaps_path"
-    #       position: 1
-    #   - id: forcings_out
-    #     type: File
-    #     inputBinding:
-    #       prefix: "--forcings_path"
-    #       position: 2
-    baseCommand: ["python3", "/usr/bin/stac.py"]
+    baseCommand: ["/bin/bash", "/usr/bin/build"]
     inputs:
       - id: staticmaps_out
         type: File
         inputBinding:
-          prefix: "--staticmaps_path"
           position: 1
           valueFrom: $(self.path)
       - id: forcings_out
         type: File
         inputBinding:
-          prefix: "--forcings_path"
           position: 2
           valueFrom: $(self.path)
     outputs:

@@ -23,6 +23,8 @@ RUN cd .
 RUN cd openeo-processes-dask && pip install . 
 RUN cd .
 
+RUN pip uninstall -y pydantic && pip install pydantic==2.8.2 openeo_pg_parser_networkx==2024.10.0
+
 RUN mkdir -p /hydromt/output /hydromt/data
 
 # COMMENT THESE TWO LINES BELOW

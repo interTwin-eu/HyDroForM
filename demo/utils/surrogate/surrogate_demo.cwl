@@ -16,7 +16,7 @@ s:author:
 $graph:
   - class: CommandLineTool
     id: exec-itwinai
-    baseCommand: ["itwinai", "exec-pipeline", "--config", "./use-case/config.yaml"] #/app
+    baseCommand: ["itwinai", "exec-pipeline", "--config", "/app/use-case/config.yaml"]
     # baseCommand: ["/bin/bash", "-c"]
     # arguments: ["itwinai exec-pipeline --config /usr/src/app/use-case/config.yaml"]
     inputs:
@@ -36,7 +36,6 @@ $graph:
     requirements:
       DockerRequirement:
         dockerPull: surrogate-test:latest
-        dockerOutputDirectory: /usr/src/app
       ResourceRequirement:
         coresMax: 4
         ramMax: 25000

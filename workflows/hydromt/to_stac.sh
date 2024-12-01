@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 staticmaps_out=$1
 forcings_out=$2
