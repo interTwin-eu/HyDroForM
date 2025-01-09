@@ -16,7 +16,7 @@ Currently we only expose two parameters for testing. This step can be run using 
 
 **All paths are predefined so you do not need to touch or change anything.**
 
-**All scripts are available in the container as well, I don't know if you can call those directly in OSCAR or not.**
+**All scripts and required files (such as data_catalog.yaml) are available in the container as well, I don't know if you can call those directly in OSCAR or not.**
 
 ```bash
 python /usr/bin/config_gen.py 0.008999999999 cerra_land_stac
