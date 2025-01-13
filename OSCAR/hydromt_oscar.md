@@ -74,3 +74,42 @@ items/
 ```
 
 That is all. These files can then be used in our later steps.
+
+## Experiment: Running HydroMT workflows with OSCAR (interTwin cluster)
+
+This experiment is to test the feasibility of running HydroMT workflows with OSCAR on the interTwin cluster.
+
+OSCAR cluster: https://beautiful-lederberg3.im.grycap.net/
+
+To access the OSCAR cluster you need to have an EGI account and join the interTwin VO: https://aai.egi.eu/registry/co_petitions/start/coef:622
+
+### Step 1: Create the OSCAR Service for HydroMT
+
+First we need to create a new OSCAR service for HydroMT. This can be done through the OSCAR web interface in Services -> Deploy with FDL. The following files are required:
+* hydroform_oscar_svc.yaml (FDL file that defines the OSCAR Service)
+* script.sh (Shell script that will be executed inside the container)
+
+![Deploy with FDL](hydromt_oscar_img/hydroform_create_svc.png)
+
+
+### Step 2: Invoke the OSCAR Service
+
+After the OSCAR service is created, we can invoke it through the OSCAR web interface in Services -> More Options for hydroform Service -> Invoke -> Run.
+
+![Invoke OSCAR Service](hydromt_oscar_img/hydroform_invoke.png)
+
+![Run OSCAR Service](hydromt_oscar_img/hydroform_run.png)
+
+### Step 3: Monitor the OSCAR Service
+
+We can monitor the OSCAR service through the OSCAR web interface in Services -> More Options for hydroform Service -> Logs.
+
+![Monitor OSCAR Service](hydromt_oscar_img/hydroform_logs.png)
+
+### Step 4: Retrieve the OSCAR Service Output
+
+After the OSCAR service is completed, we can retrieve the output from MinIO through the OSCAR web interface in Minio Storage -> hydroform.
+
+**Note**: The output files are stored in the MinIO bucket for testing purposes.
+
+![Retrieve OSCAR Service Output](hydromt_oscar_img/hydroform_minio.png)
