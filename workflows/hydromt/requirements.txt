@@ -7,10 +7,10 @@ planetary-computer==1.0.0
 stackstac==0.5.0
 stac-validator==3.3.2
 odc-geo==0.4.3
-dask[dataframe]
+dask[dataframe]==2024.9.1
 requests
 aiohttp
-pystac
+pystac==1.11.0
 rio-stac
 openeo==0.29.0
 odc-stac
