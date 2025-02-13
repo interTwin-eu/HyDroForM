@@ -3,7 +3,7 @@
 The container is available on Docker Hub:
 
 ```bash
-potato55/hydromt-demo:latest
+iacopoff/hydromt-test
 ```
 
 By default it starts in the `/hydromt` directory. Everything happens here so there is no need to `cd` anywhere.
