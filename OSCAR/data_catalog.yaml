@@ -25,7 +25,7 @@ cerra_land_stac:
     category: meteo
 cerra_stac:
   data_type: RasterDataset
-  path: https://stac.eurac.edu/collections/CERRA
+  path: https://stac.openeo.eurac.edu/api/v1/pgstac/collections/CERRA #https://stac.eurac.edu/collections/CERRA
   driver: stac
   driver_kwargs:
     bands: ["t2m","sp"]
