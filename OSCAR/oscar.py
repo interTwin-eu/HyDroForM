@@ -2,39 +2,59 @@ import argparse
 import json
 import os
 import sys
+import subprocess
 from minio import Minio
 from oscar_python.client import Client
 import oscar_python._utils as utils
 import tarfile
 import uuid
 import requests
-
+import openeo
+import subprocess
 
 def parse_arguments():
-    parser = argparse.ArgumentParser()
+    # parser = argparse.ArgumentParser()
 
-    parser.add_argument("--endpoint", required=True, help="The endpoint URL to OSCAR.")
-    parser.add_argument("--token", help="The authentication EGI token.")
-    parser.add_argument("--service", required=True, help="The service name.")
-    parser.add_argument("--service_config", required=True, help="The path to the service definition fdl.")
-    parser.add_argument("--output", required=True, help="The output directory.")
-    parser.add_argument("--user", help="The username for basic auth.")
-    parser.add_argument("--password", help="The password for basic auth.")
+    # parser.add_argument("--endpoint", required=True, help="The endpoint URL to OSCAR.")
+    # parser.add_argument("--token", help="The authentication EGI token.")
+    # parser.add_argument("--service", required=True, help="The service name.")
+    # parser.add_argument("--service_config", required=True, help="The path to the service definition fdl.")
+    # parser.add_argument("--output", required=True, help="The output directory.")
+    # parser.add_argument("--user", help="The username for basic auth.")
+    # parser.add_argument("--password", help="The password for basic auth.")
 
-    if len(sys.argv) == 1:
-        parser.print_help(sys.stderr)
-        sys.exit(1)
+    # if len(sys.argv) == 1:
+    #     parser.print_help(sys.stderr)
+    #     sys.exit(1)
 
-    args = parser.parse_args()
-    variables = vars(args)
+    # args = parser.parse_args()
+    # variables = vars(args)
 
-    endpoint = variables['endpoint']
-    user = variables.get('user')
-    password = variables.get('password')
-    token = variables.get('token')
-    service = variables['service']
-    service_config = variables['service_config']  # os.path.abspath(
-    output = variables['output']
+    # endpoint = variables['endpoint']
+    # user = variables.get('user')
+    # password = variables.get('password')
+    # token = variables.get('token')
+    # service = variables['service']
+    # service_config = variables['service_config']  # os.path.abspath(
+    # output = variables['output']
+
+    conn = openeo.connect("https://openeo.intertwin.fedcloud.eu/1.1.0").authenticate_oidc()
+
+    TOKEN = "/home/jzvolensky/.local/share/openeo-python-client/refresh-tokens.json"
+    result = subprocess.run(['cat', TOKEN], stdout=subprocess.PIPE, text=True)
+    token_data = json.loads(result.stdout)
+    print(token_data)
+    refresh_token = token_data["https://aai.egi.eu/auth/realms/egi"]["openeo-platform-default-client"]["refresh_token"].strip()
+
+    token = get_access_token(refresh_token)
+
+    endpoint = "https://oscar-grnet.intertwin.fedcloud.eu"
+    user = ""
+    password = ""
+    token = f'{token}'
+    service = "hydroform"
+    service_config = "oscar_services/hydroform_oscar_svc.yaml"
+    output = "output"
 
     if user and password:
         token = None
@@ -45,6 +65,24 @@ def parse_arguments():
     return endpoint, user, password, token, service, service_config, output
 
 
+def get_access_token(refresh_token):
+    url = "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect/token"
+    data = f"grant_type=refresh_token&refresh_token={refresh_token}&client_id=token-portal&scope=openid%20email%20profile%20voperson_id%20eduperson_entitlement"
+    
+    result = subprocess.run(
+        ["curl", "-X", "POST", url, "-d", data],
+        stdout=subprocess.PIPE,
+        text=True
+    )
+    
+    if result.returncode == 0:
+        token_info = json.loads(result.stdout)
+        print(json.dumps(token_info, indent=4))
+        return token_info
+    else:
+        print(f"Failed to get access token: {result.returncode}")
+        return None
+    
 def check_oscar_connection():
     # Check the service or create it
     print("Checking OSCAR connection status")

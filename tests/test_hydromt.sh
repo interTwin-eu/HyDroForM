@@ -12,8 +12,6 @@ docker build --no-cache -f $HYDROMT_DIR/TestDockerfile -t hydromt-test $HYDROMT_
 
 docker container run \
     -v $PWD/tests/tmp:/hydromt/model \
-    -it --rm hydromt-test hydromt build wflow model \
-    -r "{'subbasin': [11.4750, 46.8720]}" \
-    -d data_catalog.yaml -i wflow.ini -vvv
+    -it --rm hydromt-test /bin/bash -c "python config_gen.py  && hydromt build wflow model -r \"{'subbasin': [11.4750, 46.8720]}\" -d data_catalog.yaml -i wflow.ini -vvv"
 
 

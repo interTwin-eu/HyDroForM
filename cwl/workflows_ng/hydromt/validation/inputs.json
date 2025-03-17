@@ -1,0 +1,7 @@
+{
+    "region": "{'subbasin': [11.4750, 46.8720]}",
+    "res": 0.009,
+    "precip_fn": "cerra_land_stac",
+    "aws_access_key": "string",
+    "aws_secret_key": "string"
+}

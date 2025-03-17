@@ -1,0 +1,39 @@
+digraph G {
+bgcolor="#eeeeee";
+clusterrank=local;
+labeljust=right;
+labelloc=bottom;
+subgraph cluster_inputs {
+label="Workflow Inputs";
+rank=same;
+style=dashed;
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/catalog" [fillcolor="#94DDF4", label="hydromt-workflow/catalog", shape=record, style=filled];
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/region" [fillcolor="#94DDF4", label="hydromt-workflow/region", shape=record, style=filled];
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/precip_fn" [fillcolor="#94DDF4", label="hydromt-workflow/precip_fn", shape=record, style=filled];
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/res" [fillcolor="#94DDF4", label="hydromt-workflow/res", shape=record, style=filled];
+}
+
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/catalog" -> "file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/build-hydromt";
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/region" -> "file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/build-hydromt";
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/precip_fn" -> "file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/update-config";
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/res" -> "file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/update-config";
+subgraph cluster_outputs {
+label="Workflow Outputs";
+labelloc=b;
+rank=same;
+style=dashed;
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/forcings_out" [fillcolor="#94DDF4", label="hydromt-workflow/forcings_out", shape=record, style=filled];
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/json_collection" [fillcolor="#94DDF4", label="hydromt-workflow/json_collection", shape=record, style=filled];
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/json_items" [fillcolor="#94DDF4", label="hydromt-workflow/json_items", shape=record, style=filled];
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/model" [fillcolor="#94DDF4", label="hydromt-workflow/model", shape=record, style=filled];
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/setupconfig" [fillcolor="#94DDF4", label="hydromt-workflow/setupconfig", shape=record, style=filled];
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/staticmaps_out" [fillcolor="#94DDF4", label="hydromt-workflow/staticmaps_out", shape=record, style=filled];
+}
+
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/build-hydromt" -> "file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/forcings_out";
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/to-stac" -> "file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/json_collection";
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/to-stac" -> "file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/json_items";
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/build-hydromt" -> "file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/model";
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/update-config" -> "file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/setupconfig";
+"file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/build-hydromt" -> "file:///home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows_ng/hydromt/hydromt-workflow.cwl#hydromt-workflow/staticmaps_out";
+}

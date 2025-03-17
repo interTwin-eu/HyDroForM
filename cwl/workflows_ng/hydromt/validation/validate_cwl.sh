@@ -1,0 +1,1 @@
+TMPDIR=/hydromt cwltool --debug --no-read-only --no-match-user --outdir ./hydromt-validation-output ../hydromt-workflow.cwl inputs.json

@@ -1,0 +1,13 @@
+- Interface between each container to transfer data
+    - Probably stac.py or something similar
+    - Wflow results need STAC and zarr.py implemented
+    - Check diagram here: https://drive.google.com/file/d/1To5pcyQWAsfQOd-AskMhXOI18col6NKa/view
+    - Inputs->HydroMT->R2S->STAC Collection-
+    - STAC Inputs->Wflow->Zarr conversion->R2S STAC Collection
+    - STAC Inputs->Surrogate->MLFlow
+
+- Update Config script for Wflow
+    - Which config to update with what?
+
+- Update Config script for Surrogate
+    - Which config to update with what?
