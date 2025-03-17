@@ -41,10 +41,10 @@ def parse_arguments():
     conn = openeo.connect("https://openeo.intertwin.fedcloud.eu/1.1.0").authenticate_oidc()
 
     TOKEN = "/home/jzvolensky/.local/share/openeo-python-client/refresh-tokens.json"
-    result = subprocess.run(['cat', TOKEN], stdout=subprocess.PIPE, text=True)
-    token_data = json.loads(result.stdout)
-    print(token_data)
-    refresh_token = token_data["https://aai.egi.eu/auth/realms/egi"]["openeo-platform-default-client"]["refresh_token"].strip()
+    with open(TOKEN) as f:
+        token_data = json.load(f)
+        refresh_token = token_data["https://aai.egi.eu/auth/realms/egi"]["openeo-platform-default-client"]["refresh_token"].strip()
+    print(refresh_token)
 
     token = get_access_token(refresh_token)
 
@@ -67,21 +67,19 @@ def parse_arguments():
 
 def get_access_token(refresh_token):
     url = "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect/token"
-    data = f"grant_type=refresh_token&refresh_token={refresh_token}&client_id=token-portal&scope=openid%20email%20profile%20voperson_id%20eduperson_entitlement"
-    
+    data = f"grant_type=refresh_token&refresh_token={refresh_token}&client_id=openeo-platform-default-client&scope=openid%20email%20offline_access%20eduperson_scoped_affiliation%20eduperson_entitlement"
     result = subprocess.run(
-        ["curl", "-X", "POST", url, "-d", data],
-        stdout=subprocess.PIPE,
-        text=True
+    ["curl", "-X", "POST", url, "-d", data],
+    stdout=subprocess.PIPE,
+    text=True
     )
-    
     if result.returncode == 0:
         token_info = json.loads(result.stdout)
         print(json.dumps(token_info, indent=4))
-        return token_info
     else:
         print(f"Failed to get access token: {result.returncode}")
-        return None
+
+    return token_info["access_token"]
     
 def check_oscar_connection():
     # Check the service or create it
