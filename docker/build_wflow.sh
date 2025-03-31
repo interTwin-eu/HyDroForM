@@ -1,0 +1,1 @@
+docker build -f wflow/Dockerfile -t wflow-app .

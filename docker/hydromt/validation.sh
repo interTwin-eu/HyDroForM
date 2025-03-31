@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 container_id=$(docker run -d hydromt-app:latest /bin/bash -c "while true; do sleep 30; done;")
 

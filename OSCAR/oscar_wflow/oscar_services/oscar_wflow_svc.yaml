@@ -1,0 +1,16 @@
+functions:
+  oscar:
+  - cluster-id:
+      name: wflow
+      cpu: '1.0'
+      memory: 2Gi
+      image: #TODO
+      script: oscar_services/script.sh # Path to the script from where the script is run
+      log_level: DEBUG   # To avoid supervisor logs in response
+      vo: dev.intertwin.eu
+      input:
+      - storage_provider: minio
+        path: wflow/in
+      output:
+      - storage_provider: minio
+        path: wflow/out
