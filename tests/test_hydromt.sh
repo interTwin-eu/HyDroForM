@@ -2,13 +2,13 @@
 
 echo $PWD
 
-HYDROMT_DIR=$PWD/workflows/hydromt
+HYDROMT_DIR=$PWD/docker/hydromt
 
 if [ ! -d "$HYDROMT_DIR/tmp" ]; then
   mkdir -p $HYDROMT_DIR/tmp 
 fi
 
-docker build --no-cache -f $HYDROMT_DIR/TestDockerfile -t hydromt-test $HYDROMT_DIR
+docker build --no-cache -f $HYDROMT_DIR/Dockerfile -t hydromt-test $HYDROMT_DIR
 
 docker container run \
     -v $PWD/tests/tmp:/hydromt/model \

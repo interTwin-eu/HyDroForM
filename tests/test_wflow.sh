@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-WFLOW_DIR=$PWD/workflows/wflow
+WFLOW_DIR=$PWD/docker/wflow
 
-docker build -f $WFLOW_DIR/TestDockerfile -t wflow-test $WFLOW_DIR
+docker build -f $WFLOW_DIR/Dockerfile -t wflow-test $WFLOW_DIR
 
 
 docker container run \

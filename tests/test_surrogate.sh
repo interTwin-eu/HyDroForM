@@ -5,13 +5,13 @@ echo $PWD
 
 CMD="itwinai exec-pipeline --config config.yaml --pipe-key training_pipeline"
 
-SURR_DIR=$PWD/workflows/surrogate
+SURR_DIR=$PWD/docker/surrogate
 
 if [ ! -d "$SURR_DIR/tmp" ]; then
   mkdir -p $SURR_DIR/tmp 
 fi
 
-docker build --no-cache -f $SURR_DIR/TestDockerfile -t surrogate-test $SURR_DIR
+docker build --no-cache -f $SURR_DIR/Dockerfile -t surrogate-test $SURR_DIR
 
 if [ -z "$1" ]; then
 	# CPU
