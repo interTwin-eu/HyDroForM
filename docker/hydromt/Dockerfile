@@ -15,7 +15,8 @@ RUN apt-get update && \
 
 COPY requirements.txt /hydromt/
 
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt 
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir -r requirements.txt 
 
 RUN git clone -b feature/load_stac_odc https://github.com/interTwin-eu/openeo-processes-dask.git
 RUN cd openeo-processes-dask/openeo_processes_dask/specs && \ 

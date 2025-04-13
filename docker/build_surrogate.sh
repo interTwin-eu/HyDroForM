@@ -1,1 +1,1 @@
-docker build --no-cache -f surrogate/Dockerfile -t surrogate-app .
+docker build --no-cache -f surrogate/Dockerfile -t surrogate-app surrogate

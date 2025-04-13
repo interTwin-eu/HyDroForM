@@ -1,1 +1,1 @@
-docker build -f wflow/Dockerfile -t wflow-app .
+docker build --no-cache -f wflow/Dockerfile -t wflow-app wflow

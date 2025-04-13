@@ -1,0 +1,9 @@
+xarray
+numpy
+numcodecs
+urllib3
+zarr
+cf-xarray==0.10.4
+dask
+hython[io] @ git+https://github.com/interTwin-eu/hython.git@main#egg=hython
+raster2stac @ git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git@feature/add_netcdf_collection_2#egg=raster-to-stac

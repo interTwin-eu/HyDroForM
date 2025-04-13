@@ -2,7 +2,7 @@ FROM  julia:1.10.1-bookworm
 
 USER root
 
-RUN apt update && apt install -y python3 python3-pip
+RUN apt update && apt install -y python3 python3-pip git
 
 WORKDIR /app
 
@@ -32,12 +32,19 @@ RUN chmod +x /usr/bin/run_wflow
 RUN chmod +x /usr/bin/wflow
 
 COPY requirements.txt /app/requirements.txt
-RUN pip3 install -r /app/requirements.txt
+#Test this
+RUN pip3 install --break-system-packages -r /app/requirements.txt
+#Otherwise use this
+#RUN python3 -m venv /app/venv
+#RUN /app/venv/bin/pip install --upgrade pip
+#RUN /app/venv/bin/pip install -r /app/requirements.txt
+#ENV PATH="/app/venv/bin:$PATH"
 
 COPY ./src/stac.py /app/src/stac.py
 COPY ./src/to_zarr.py /app/src/to_zarr.py
+COPY ./src/read_stac.py /app/src/read_stac.py
 
-RUN chmod +x /app/src/stac.py /app/src/to_zarr.py
+RUN chmod +x /app/src/stac.py /app/src/to_zarr.py /app/src/read_stac.py
 
 
 

@@ -1,1 +1,1 @@
-docker build --no-cache -f hydromt/Dockerfile -t hydromt-app .
+docker build --no-cache -f hydromt/Dockerfile -t hydromt-app hydromt
