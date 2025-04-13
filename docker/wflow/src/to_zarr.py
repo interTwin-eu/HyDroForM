@@ -1,244 +1,112 @@
-"""
-
-python wflow2hython.py "/path/to/input/dir" "/path/to/output/dir"
-
-python3 to_zarr.py /home/jzvolensky/eurac/projects/TEMP/HyDroForM/openeo/wflow/wflow-output/37r0fevz/model/forcings.nc \
-      /home/jzvolensky/eurac/projects/TEMP/HyDroForM/openeo/wflow/wflow-output/37r0fevz/model/staticmaps.nc \
-      /home/jzvolensky/eurac/projects/TEMP/HyDroForM/openeo/wflow/wflow-output/37r0fevz/run_default/output.nc \
-      /home/jzvolensky/eurac/projects/TEMP/HyDroForM/workflows/surrogate
-
-"""
-
 import xarray as xr
 import numpy as np
-from hython.preprocessor import reshape
-from hython.io import write_to_zarr, read_from_zarr
-from hython.utils import build_mask_dataarray
 from numcodecs import Blosc
-
 import os
 import sys
 import logging
-from typing import List
+from typing import List, Dict
 
-OUTPUT_NAME: str = "demo"
-
-DYNAMIC: List[str]  = ["precip", "pet", "temp"]
-STATIC: List[str] = ["thetaS", "thetaR"]
-TARGET: List[str] = ["vwc", "actevap"]
-MASK_FROM_STATIC: List[str] = ["thetaS"]
-RENAME_MASK: List[str] = ["mask_missing"]
+DATASET_CONFIG = {
+    "dynamics": {"variables": ["precip", "pet", "temp"], "reshape_type": "dynamic"},
+    "statics": {"variables": ["thetaS", "thetaR"], "reshape_type": "static"},
+    "targets": {"variables": ["vwc", "actevap"], "reshape_type": "target"},
+}
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[logging.StreamHandler()],
 )
-
 logger = logging.getLogger(__name__)
 
-def main(
-    dynamics: xr.Dataset,
-    statics: xr.Dataset,
-    targets: xr.Dataset,
-    zarr_output_path: str,
-) -> None:
-    """
-    Convert HydroMT/Wflow outputs to Zarr format
+def validate_dataset(dataset: xr.Dataset, expected_vars: List[str], dataset_name: str) -> bool:
+    """Validate that the dataset contains the expected variables."""
+    missing_vars = [var for var in expected_vars if var not in dataset.variables]
+    if missing_vars:
+        logger.error(f"{dataset_name.upper()} Error: Missing variables {missing_vars}")
+        return False
+    logger.info(f"{dataset_name.capitalize()} variables: {list(dataset.variables)}")
+    return True
 
-    Parameters
-    ----------
-    dynamics : xarray.Dataset
-        Dataset containing the dynamic variables
-    statics : xarray.Dataset
-        Dataset containing the static variables
-    targets : xarray.Dataset
-        Dataset containing the target variables
-    zarr_output_path : str
-        Path to output zarr file
+def reshape_dataset(dataset: xr.Dataset, reshape_type: str) -> xr.DataArray:
+    """Reshape the dataset based on its type."""
+    if reshape_type == "dynamic":
+        return (
+            dataset.to_array(dim="feat")
+            .stack(gridcell=["lat", "lon"])
+            .transpose("gridcell", "time", "feat")
+        )
+    elif reshape_type == "static":
+        return (
+            dataset.drop_vars("spatial_ref", errors="ignore")
+            .to_array(dim="feat")
+            .stack(gridcell=["lat", "lon"])
+            .transpose("gridcell", "feat")
+        )
+    elif reshape_type == "target":
+        return (
+            dataset.to_array(dim="feat")
+            .stack(gridcell=["lat", "lon"])
+            .transpose("gridcell", "time", "feat")
+        )
+    else:
+        raise ValueError(f"Unknown reshape type: {reshape_type}")
 
-    Returns
-    -------
-    None
-    """
+def write_to_zarr(dataset: xr.DataArray, output_path: str, group: str, compressor: Blosc):
+    """Write the dataset to a Zarr file."""
+    dataset.attrs.pop("_FillValue", None)  # Remove problematic attributes
+    dataset.to_zarr(
+        store=output_path,
+        group=group,
+        mode="a",
+        encoding={var: {"compressor": compressor} for var in dataset.data_vars},
+    )
+    logger.info(f"Written {group} to {output_path}")
 
-    logger.info("Renaming variables to match the expected names")
+def process_and_convert_to_zarr(
+    datasets: Dict[str, str], zarr_output_path: str, compressor: Blosc
+):
+    """Process and convert multiple datasets to Zarr."""
+    for dataset_name, dataset_path in datasets.items():
+        logger.info(f"Processing {dataset_name} from {dataset_path}")
+        if not os.path.isfile(dataset_path):
+            logger.error(f"{dataset_name.upper()} Error: Path is not a file {dataset_path}")
+            continue
 
-    try:
-        dynamics = dynamics.rename({"latitude": "lat", "longitude": "lon"})
-        statics = statics.rename({"latitude": "lat", "longitude": "lon"})
-    except:
-        pass
+        try:
+            dataset = xr.open_dataset(dataset_path)
+            config = DATASET_CONFIG[dataset_name]
+            if not validate_dataset(dataset, config["variables"], dataset_name):
+                continue
 
-    logger.info("Reversing latitude dimension")
+            reshaped_dataset = reshape_dataset(dataset, config["reshape_type"])
+            write_to_zarr(reshaped_dataset, zarr_output_path, dataset_name, compressor)
+        except Exception as e:
+            logger.error(f"{dataset_name.upper()} Error: {e}")
 
-    targets = targets.isel(lat=slice(None, None, -1)).sel(layer=1)
-    statics = statics.sel(layer=1)
+def main():
+    if len(sys.argv) < 5:
+        logger.error("Usage: python to_zarr.py <dynamics_path> <statics_path> <targets_path> <zarr_output_path>")
+        sys.exit(1)
 
-    logger.info("Building masks")
+    # Input paths
+    dynamics_path = sys.argv[1]
+    statics_path = sys.argv[2]
+    targets_path = sys.argv[3]
+    zarr_output_path = sys.argv[4]
 
-    masks = []
-    for i, mask in enumerate(MASK_FROM_STATIC):
-        if i == 0:
-            masks.append(np.isnan(statics[mask]).rename(RENAME_MASK[i]))
-        else:
-            masks.append((statics[mask] > 0).astype(np.bool_).rename(RENAME_MASK[i]))
-
-    masks = build_mask_dataarray(masks, names=RENAME_MASK)
-
-    logger.info("Reshaping and writing to zarr")
-
-    Xd = reshape(dynamics, "dynamic", return_type="xarray")
-    Xs = reshape(statics.drop_dims("time"), "static", return_type="xarray")
-    Y = reshape(targets, "target", return_type="xarray")
-
-    # attrs to pass to output
-    ATTRS = {
-        "shape_label": masks.isel(mask_layer=0).dims,
-        "shape": masks.isel(mask_layer=0).shape,
-    }
-
-    # remove as it cause serialization issues
-    Xd.attrs.pop("_FillValue", None)
-
-    logger.info("Compressing and writing to zarr")
+    os.makedirs(zarr_output_path, exist_ok=True)
 
     compressor = Blosc(cname="zl4", clevel=3, shuffle=Blosc.BITSHUFFLE)
 
-    file_output = f"{zarr_output_path}/{OUTPUT_NAME}.zarr"
+    datasets = {
+        "dynamics": dynamics_path,
+        "statics": statics_path,
+        "targets": targets_path,
+    }
+    process_and_convert_to_zarr(datasets, zarr_output_path, compressor)
 
-    logger.info(f"Writing to {file_output}")
-    logger.info(f"Progress: 0%")
-
-    write_to_zarr(
-        Xd,
-        url=file_output,
-        group="xd",
-        storage_options={"compressor": compressor},
-        chunks="auto",
-        multi_index="gridcell",
-        clear_zarr_storage=True,
-        append_attrs=ATTRS,
-        overwrite="w",
-    )
-
-    logger.info(f"Progress: 25%")
-
-    write_to_zarr(
-        Y,
-        url=file_output,
-        group="y",
-        storage_options={"compressor": compressor},
-        chunks="auto",
-        multi_index="gridcell",
-        append_attrs=ATTRS,
-        overwrite="a",
-    )
-
-    logger.info(f"Progress: 50%")
-
-    write_to_zarr(
-        Xs,
-        url=file_output,
-        group="xs",
-        storage_options={"compressor": compressor},
-        chunks="auto",
-        multi_index="gridcell",
-        append_attrs=ATTRS,
-        overwrite="a",
-    )
-
-    logger.info(f"Progress: 75%")
-
-    write_to_zarr(
-        masks,
-        url=file_output,
-        group="mask",
-        storage_options={"compressor": compressor},
-        overwrite="a",
-    )
-
-    logger.info(f"Progress: 100%")
-
+    logger.info("Conversion to Zarr completed successfully!")
 
 if __name__ == "__main__":
-
-    logger.info("Starting conversion to zarr")
-
-    # Load the Paths and check if they are files
-
-    forcings_path = sys.argv[1]
-    logger.info(f"Reading forcings from {forcings_path}")
-    if os.path.isdir(forcings_path):
-        logger.error(
-            f"FORCINGS Error: Path is a directory {forcings_path}, should be a file"
-        )
-
-    staticmaps_path = sys.argv[2]
-    logger.info(f"Reading staticmaps from {staticmaps_path}")
-    if os.path.isdir(staticmaps_path):
-        logger.error(
-            f"STATICMAPS Error: Path is a directory {staticmaps_path}, should be a file"
-        )
-
-    wflow_output_path = sys.argv[3]
-    logger.info(f"Reading wflow output from {wflow_output_path}")
-    if os.path.isdir(wflow_output_path):
-        logger.error(
-            f"WFLOW_OUTPUT Error: Path is a directory {wflow_output_path}, should be a file"
-        )
-
-    zarr_output_path = sys.argv[4]
-    logger.info(f"Zarr output path {zarr_output_path}")
-    if not os.path.isdir(zarr_output_path):
-        logger.error(f"ZARR_OUTPUT Error: Path is not a directory {zarr_output_path}")
-
-    # Open each dataset and check if the required variables are present
-
-    try:
-        dynamics = xr.open_dataset(forcings_path)
-        logger.info(f"Dynamics variables: {list(dynamics.variables)}")
-
-        if not all([var in dynamics for var in DYNAMIC]):
-            logger.error(
-                f"FORCINGS Error: Missing dynamic variables in {forcings_path}"
-            )
-            sys.exit(1)
-
-    except Exception as e:
-        logger.error(f"FORCINGS Error: Error reading dynamics {e}")
-        sys.exit(1)
-
-    try:
-        statics = xr.open_dataset(staticmaps_path)
-        logger.info(f"Statics variables: {list(statics.variables)}")
-
-        if not all([var in statics for var in STATIC]):
-            logger.error(
-                f"STATICMAPS Error: Missing static variables in {staticmaps_path}"
-            )
-            sys.exit(1)
-
-    except Exception as e:
-        logger.error(f"STATICMAPS Error: Error reading statics {e}")
-        sys.exit(1)
-
-    try:
-        targets = xr.open_dataset(wflow_output_path)
-        logger.info(f"Targets variables: {list(targets.variables)}")
-
-        if not all([var in targets for var in TARGET]):
-            logger.error(
-                f"WFLOW_OUTPUT Error: Missing target variables in {wflow_output_path}"
-            )
-            sys.exit(1)
-
-    except Exception as e:
-        logger.error(f"WFLOW_OUTPUT Error: Error reading targets {e}")
-        sys.exit(1)
-
-    main(dynamics, statics, targets, zarr_output_path)
-
-    logger.info(
-        "Conversion to zarr completed, Congratulations, you survived to see another day!"
-    )
+    main()
