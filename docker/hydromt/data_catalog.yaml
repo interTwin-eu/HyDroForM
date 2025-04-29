@@ -1,3 +1,27 @@
+emo1_stac:
+  data_type: RasterDataset
+  path: https://stac.intertwin.fedcloud.eu/collections/EMO1_TA24_PR_RG_PET_DAILY
+  driver: stac
+  driver_kwargs:
+    bands: ["pet", "ta24", "pr"]
+  filesystem: http
+  crs: 4326
+  rename:
+    pr: precip
+    ta24: temp
+  meta:
+    category: meteo
+emo1_orography_stac:
+  data_type: RasterDataset
+  path: https://stac.intertwin.fedcloud.eu/collections/EMO1_DEM
+  driver: stac
+  driver_kwargs:
+    bands: ["dem"]
+    static: True # STAC assumes time is always present
+  filesystem: http
+  crs: 4326
+  meta:
+    category: topography
 eobs_stac:
   data_type: RasterDataset
   path: https://stac.eurac.edu/collections/EOBSv28

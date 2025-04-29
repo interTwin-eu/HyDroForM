@@ -39,7 +39,7 @@ def setup_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "precip_fn",
         type=str,
-        default="cerra_land_stac",
+        default="emo1_stac",
         help="Precipitation forcing file name",
     )
     logger.info("Parser setup complete.")
@@ -131,13 +131,13 @@ def main():
         },
         "setup_temp_pet_forcing": {
             "temp_pet_fn": "cerra_stac",
-            "kin_fn": "cerra_land_stac",
+            #"kin_fn": "cerra_land_stac",
             "press_correction": "True",
             "temp_correction": "True",
             "wind_correction": "False",
-            "dem_forcing_fn": "cerra_orography",
-            "pet_method": "makkink",
-            "skip_pet": "False",
+            "dem_forcing_fn": "emo1_orography_stac",
+            #"pet_method": "makkink",
+            "skip_pet": "True",
             "chunksize": 1,
         },
         "setup_constant_pars": {

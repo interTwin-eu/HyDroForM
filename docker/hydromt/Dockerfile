@@ -18,7 +18,7 @@ COPY requirements.txt /hydromt/
 RUN pip install --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir -r requirements.txt 
 
-RUN git clone -b feature/load_stac_odc https://github.com/interTwin-eu/openeo-processes-dask.git
+RUN git clone -b feature/stac_zarr_storage https://github.com/interTwin-eu/openeo-processes-dask.git
 RUN cd openeo-processes-dask/openeo_processes_dask/specs && \ 
     git clone https://github.com/eodcgmbh/openeo-processes.git -b 2024.7.0
 RUN cd .
@@ -26,8 +26,8 @@ RUN cd openeo-processes-dask && pip install .
 RUN cd .
 
 RUN pip uninstall -y pydantic && pip install pydantic==2.8.2 openeo_pg_parser_networkx==2024.10.0
-
-RUN pip install raster2stac@git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git@feature/add_netcdf_collection_2#egg=raster-to-stac
+#
+#RUN pip install raster2stac@git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git@feature/custom_endpoint#egg=raster-to-stac
 
 ##################### HydroMT Components setup #####################
 

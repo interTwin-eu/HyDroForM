@@ -1,6 +1,8 @@
 !hydromt/cwl/81iegmjn/
 
 .oscar-venv/
+.env*
+
 
 /openeo/hydromt/hydromt-output/
 /openeo/wflow/wflow-output/

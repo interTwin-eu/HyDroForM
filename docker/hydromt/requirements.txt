@@ -20,4 +20,8 @@ h5netcdf # to read netcd on S3
 openeo-pg-parser-networkx==2024.5.0
 hydromt @ git+https://github.com/interTwin-eu/hydromt.git@stac#egg=hydromt
 hydromt_wflow @ git+https://github.com/interTwin-eu/hydromt_wflow.git@stac#egg=hydromt_wflow
-raster2stac @ git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git@feature/add_netcdf_collection_2#egg=raster-to-stac
+raster2stac==0.0.6
+#raster2stac @ git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git
+s3fs
+rioxarray==0.17.0
+xarray==2024.3.0
