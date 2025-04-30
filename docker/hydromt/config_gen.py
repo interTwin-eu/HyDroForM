@@ -125,12 +125,12 @@ def main():
             "ptf_ksatver": "brakensiek",
         },
         "setup_precip_forcing": {
-            "precip_fn": args.precip_fn or "cerra_land_stac",
+            "precip_fn": args.precip_fn or "emo1_stac",
             "precip_clim_fn": "None",
             "chunksize": 1,
         },
         "setup_temp_pet_forcing": {
-            "temp_pet_fn": "cerra_stac",
+            "temp_pet_fn": args.precip_fn or "emo1_stac",
             #"kin_fn": "cerra_land_stac",
             "press_correction": "True",
             "temp_correction": "True",
@@ -138,6 +138,10 @@ def main():
             "dem_forcing_fn": "emo1_orography_stac",
             #"pet_method": "makkink",
             "skip_pet": "True",
+            "chunksize": 1,
+        },
+        "setup_pet_forcing": { # works when skip_pet is True in setup_temp_pet_forcing
+            "pet_fn": args.precip_fn or "emo1_stac",
             "chunksize": 1,
         },
         "setup_constant_pars": {

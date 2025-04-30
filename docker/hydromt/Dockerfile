@@ -14,6 +14,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /hydromt/
+COPY all_basins.geojson /hydromt/
 
 RUN pip install --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir -r requirements.txt 
@@ -26,8 +27,6 @@ RUN cd openeo-processes-dask && pip install .
 RUN cd .
 
 RUN pip uninstall -y pydantic && pip install pydantic==2.8.2 openeo_pg_parser_networkx==2024.10.0
-#
-#RUN pip install raster2stac@git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git@feature/custom_endpoint#egg=raster-to-stac
 
 ##################### HydroMT Components setup #####################
 
