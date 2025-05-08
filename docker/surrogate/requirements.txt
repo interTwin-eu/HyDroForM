@@ -1,3 +1,1 @@
-hython[io] @ git+https://github.com/interTwin-eu/hython.git@itwinai#egg=hython
-scikit-learn
-tqdm
+itwinai-hython-plugin @ git+https://github.com/interTwin-eu/hython-itwinai-plugin.git@workflow#egg=hython-itwinai-plugin

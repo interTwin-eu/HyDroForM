@@ -2,8 +2,7 @@
 
 echo $PWD
 
-
-CMD="itwinai exec-pipeline --config config.yaml --pipe-key training_pipeline"
+CMD="itwinai exec-pipeline --config-name config"
 
 SURR_DIR=$PWD/docker/surrogate
 
@@ -25,4 +24,4 @@ elif [ "$1" == "gpu" ]; then
 fi
 
 
-docker run -it surrogate-test /bin/bash -c "cd ./use-case && itwinai exec-pipeline --config config.yaml --pipe-key training_pipeline"
+#docker run -it surrogate-test /bin/bash -c "cd ./use-case && itwinai exec-pipeline --config-name config"
