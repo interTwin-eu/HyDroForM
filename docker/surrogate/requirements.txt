@@ -1,1 +1,1 @@
-itwinai-hython-plugin @ git+https://github.com/interTwin-eu/hython-itwinai-plugin.git@workflow#egg=hython-itwinai-plugin
+itwinai-hython-plugin @ git+https://github.com/interTwin-eu/hython-itwinai-plugin.git@main#egg=hython-itwinai-plugin

@@ -16,7 +16,7 @@
 experiment_name: "vega-train-eurac"
 run_id: "vega-train-eurac-1"
 
-work_dir: /app/use-case #/mnt/CEPH_PROJECTS/InterTwin/hython_model_run
+work_dir: /app/model #/mnt/CEPH_PROJECTS/InterTwin/hython_model_run
 
 train_temporal_range: ["2019-01-01", "2019-06-30"]
 valid_temporal_range: ["2020-01-01", "2020-06-30"]
