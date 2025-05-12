@@ -1,7 +1,7 @@
 numpy
 numcodecs
 urllib3
-zarr
+zarr<3.0.0
 cf-xarray==0.10.4
 dask
 raster2stac==0.0.7
