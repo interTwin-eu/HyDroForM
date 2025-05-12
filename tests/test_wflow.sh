@@ -16,6 +16,6 @@ docker container run \
     -v $PWD/tests/tmp/:/data \
     -it --rm wflow-test /bin/bash -c \
     "python3 /app/src/read_stac.py "https://stac.eurac.edu/collections/MERIT_HYDRO" "data" \
-    && run_wflow /data/wflow_sbm.toml \
+    && run_wflow /data/wflow_sbm.toml" # \
     && python3 /app/src/to_zarr.py ADD HERE "
 

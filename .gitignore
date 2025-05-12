@@ -2,7 +2,7 @@
 
 .oscar-venv/
 .env*
-
+tests/*.z*
 
 /openeo/hydromt/hydromt-output/
 /openeo/wflow/wflow-output/
