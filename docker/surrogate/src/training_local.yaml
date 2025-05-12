@@ -13,14 +13,14 @@
 
 #! change run or exp name for each user on JSC (overwrite will fail due to permissions)
 # General configuration
-experiment_name: "vega-train-eurac"
-run_id: "vega-train-eurac-1"
+experiment_name: "drought-workflow"
+run_id: "test-surrogate-local"
 
 work_dir: /app/model #/mnt/CEPH_PROJECTS/InterTwin/hython_model_run
 
-train_temporal_range: ["2019-01-01", "2019-06-30"]
-valid_temporal_range: ["2020-01-01", "2020-06-30"]
-test_temporal_range: ["2019-01-01", "2020-12-31"]
+train_temporal_range: ["2001-01-01", "2001-03-30"]
+valid_temporal_range: ["2001-01-01", "2001-03-30"]
+test_temporal_range: ["2001-01-01", "2001-03-30"]
 
 seed: 10 
 
@@ -64,7 +64,7 @@ seq_length: 20
 
 learning_rate: 0.001
 
-batch: 512
+batch: 16
 
 epochs: 2
 time_ray: False
@@ -112,9 +112,9 @@ trials: 4
 
 data_source:
   file:
-    static_inputs: /data/emo1_static.zarr
-    dynamic_inputs: /data/emo1_dynamic.zarr
-    target_variables: /data/emo1_dynamic.zarr
+    static_inputs: /data/statics.zarr
+    dynamic_inputs: /data/dynamics.zarr
+    target_variables: /data/dynamics.zarr
 # s3:
   #   url: https://eurac-eo.s3.amazonaws.com/INTERTWIN/SURROGATE_INPUT/adg1km_eobs_preprocessed.zarr/
 
@@ -138,7 +138,7 @@ target_variables:
 
 mask_variables:
   - mask_missing
-  - mask_lake
+  # - mask_lake
 
 # Scaling
 

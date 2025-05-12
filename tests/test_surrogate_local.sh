@@ -16,8 +16,7 @@ docker build --no-cache -f $SURR_DIR/Dockerfile -t surrogate-test $SURR_DIR
 if [ -z "$1" ]; then
 	# CPU
 	docker run -it --rm \
-		-v $PWD/tests/tmp:/model \
-		-v /mnt/CEPH_PROJECTS/InterTwin/hydrologic_data/surrogate_input:/data \
+		-v $PWD/tests/tmp:/data \
 	    --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 \
 		-e MLFLOW_TRACKING_URI=$MLFLOW_TRACKING_URI -e MLFLOW_TRACKING_USERNAME=$MLFLOW_TRACKING_USERNAME \
 		-e MLFLOW_TRACKING_INSECURE_TLS=$MLFLOW_TRACKING_INSECURE_TLS -e MLFLOW_TRACKING_PASSWORD=$MLFLOW_TRACKING_PASSWORD \
