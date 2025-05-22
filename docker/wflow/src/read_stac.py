@@ -88,8 +88,8 @@ def download_collection(collection_url: str, output_dir: str) -> None:
                 if asset_url.startswith("s3://"):
                     fs = s3fs.S3FileSystem(
                         anon=False,
-                        key="9DPH3I91JYRSY106ZCB0", #os.getenv("AWS_ACCESS_KEY_ID"),
-                        secret="XIadtArgCzkNlhVjrEkEtHNhrA3Pt1cjtAtdV23K", #os.getenv("AWS_SECRET_ACCESS_KEY"),
+                        key=os.getenv("AWS_ACCESS_KEY_ID"),
+                        secret=os.getenv("AWS_SECRET_ACCESS_KEY"),
                         client_kwargs={'endpoint_url': 'https://objectstore.eodc.eu:2222'}
                     )
                     if fs.exists(asset_url):
