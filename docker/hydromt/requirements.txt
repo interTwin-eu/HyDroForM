@@ -13,14 +13,17 @@ aiohttp
 pystac==1.11.0
 rio-stac
 openeo==0.29.0
-odc-stac
+# Required ODC-STAC fix for datatype mismatch while filling https://github.com/jzvolensky/odc-stac/blob/hotfix/odc/stac/_load.py#L700
+odc-stac @ git+https://github.com/jzvolensky/odc-stac.git@hotfix#egg=odc-stac
 fsspec # to read netcdf on S3
 h5netcdf # to read netcd on S3
 # openeo-processes-dask: install instructions are in the Dockerfile
 openeo-pg-parser-networkx==2024.5.0
 hydromt @ git+https://github.com/interTwin-eu/hydromt.git@stac#egg=hydromt
 hydromt_wflow @ git+https://github.com/interTwin-eu/hydromt_wflow.git@stac#egg=hydromt_wflow
-raster2stac==0.0.7
+#raster2stac==0.0.7
+#https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac/-/tree/update_url
+raster2stac @ git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git@update_url#egg=raster2stac
 s3fs # to access aws s3 bucket
 rioxarray==0.17.0
 xarray==2024.3.0

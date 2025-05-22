@@ -12,8 +12,12 @@ python read_stac.py https://example.com/stac/collection.json /path/to/output
 import os
 import requests
 import pystac
+import s3fs
 import logging
 import xarray as xr
+import boto3
+import botocore.auth
+import botocore.awsrequest
 
 
 logger = logging.getLogger(__name__)
@@ -23,6 +27,7 @@ console_handler.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
+
 
 def validate_stac_availability(collection_url: str) -> bool:
     try:
@@ -77,15 +82,28 @@ def download_collection(collection_url: str, output_dir: str) -> None:
                 asset_url = asset["href"]
                 logger.info(f"Downloading asset '{asset_key}' from {asset_url}")
 
-                response = requests.get(asset_url)
-                response.raise_for_status()
-
-                asset_filename = f"{item_id}_{asset_key}"
+                asset_filename = f"{asset_key}.nc"
                 asset_path = os.path.join(output_dir, asset_filename)
-                with open(asset_path, "wb") as f:
-                    f.write(response.content)
 
-                logger.info(f"Downloaded asset '{asset_key}' to {asset_path}")
+                if asset_url.startswith("s3://"):
+                    fs = s3fs.S3FileSystem(
+                        anon=False,
+                        key="9DPH3I91JYRSY106ZCB0", #os.getenv("AWS_ACCESS_KEY_ID"),
+                        secret="XIadtArgCzkNlhVjrEkEtHNhrA3Pt1cjtAtdV23K", #os.getenv("AWS_SECRET_ACCESS_KEY"),
+                        client_kwargs={'endpoint_url': 'https://objectstore.eodc.eu:2222'}
+                    )
+                    if fs.exists(asset_url):
+                        with fs.open(asset_url, "rb") as fsrc, open(asset_path, "wb") as fdst:
+                            fdst.write(fsrc.read())
+                        logger.info(f"Downloaded asset '{asset_key}' to {asset_path}")
+                    else:
+                        logger.error(f"Asset {asset_url} does not exist in S3.")
+                else:
+                    response = requests.get(asset_url)
+                    response.raise_for_status()
+                    with open(asset_path, "wb") as f:
+                        f.write(response.content)
+                    logger.info(f"Downloaded asset '{asset_key}' to {asset_path}")
 
         logger.info(f"Downloaded all assets to {output_dir}")
     except Exception as e:
@@ -105,23 +123,26 @@ def download_config_file(collection_url: str, output_dir: str) -> None:
     try:
         catalog = pystac.read_file(collection_url)
         links = catalog.links
+
         for link in links:
             if link.rel == "wflow_sbm_toml": 
                 config_url = link.href
-                response = requests.get(config_url)
-                response.raise_for_status()
-                
-                if not os.path.exists(output_dir):
-                    os.makedirs(output_dir)
-                
-                config_file_path = os.path.join(output_dir, "wflow_sbm.toml")
-                with open(config_file_path, "wb") as f:
-                    f.write(response.content)
-                
-                logger.info(f"Downloaded config file to {config_file_path}")
-                return
-        
-        logger.info("No 'wflow_sbm_toml' link found in the STAC collection. Skipping config file download.")
+                fs = s3fs.S3FileSystem(
+                    anon=False,
+                    key="9DPH3I91JYRSY106ZCB0",   #os.getenv("AWS_ACCESS_KEY"),
+                    secret="XIadtArgCzkNlhVjrEkEtHNhrA3Pt1cjtAtdV23K",    #os.getenv("AWS_SECRET_KEY"),
+                    client_kwargs={'endpoint_url': 'https://objectstore.eodc.eu:2222'}
+                )
+                if fs.exists(config_url):
+                    with fs.open(config_url, "rb") as f:
+                        config_content = f.read()
+                    config_file_path = os.path.join(output_dir, "wflow_sbm.toml")
+                    with open(config_file_path, "wb") as f:
+                        f.write(config_content)
+                    logger.info(f"Downloaded config file to {config_file_path}")
+                else:
+                    logger.error(f"Config file {config_url} does not exist in S3.")
+    
     except Exception as e:
         logger.error(f"Error downloading config file from STAC collection {collection_url}: {e}")
 

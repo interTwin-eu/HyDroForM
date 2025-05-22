@@ -5,7 +5,7 @@ echo $PWD
 HYDROMT_DIR=$PWD/docker/hydromt
 
 # Source credentials for AWS S3 bucket
-source $PWD/tests/.env_s3
+source $PWD/tests/.env_s3_intertwin
 echo $AWS_ACCESS_KEY
 echo $AWS_SECRET_KEY
 
@@ -27,6 +27,6 @@ docker container run \
     -it --rm hydromt-test /bin/bash -c "python config_gen.py "0.008999999999" "emo1_stac" \
     && hydromt build wflow model -r \"{'subbasin': [11.4750, 46.8720]}\" -d data_catalog.yaml -i wflow.ini -vvv \
     && python /hydromt/convert_lowercase.py "/hydromt/model/wflow_sbm.toml" \
-    && python /hydromt/stac.py --staticmaps_path "/hydromt/model/staticmaps.nc" --forcings_path "/hydromt/model/forcings.nc" --output_dir "/hydromt/model/stac" "
+    && python /hydromt/stac.py --staticmaps_path "/hydromt/model/staticmaps.nc" --forcings_path "/hydromt/model/forcings.nc" --wflow_sbm_path "/hydromt/model/wflow_sbm.toml" --output_dir "/hydromt/model/stac" "
 
 

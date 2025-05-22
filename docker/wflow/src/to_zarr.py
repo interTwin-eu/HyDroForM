@@ -5,12 +5,10 @@ import os
 import sys
 import logging
 from typing import List, Dict
-
-DATASET_CONFIG = {
-    "dynamics": {"variables": ["precip", "pet", "temp"]},
-    "statics": {"variables": ["thetaR", "KsatVer", "c"]},
-    "targets": {"variables": ["vwc", "actevap"]},
-}
+from raster2stac import Raster2STAC
+import uuid
+import requests
+import json
 
 logging.basicConfig(
     level=logging.INFO,
@@ -18,6 +16,27 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
+
+UUID = str(uuid.uuid4())
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+STAC_API_URL = "https://stac.intertwin.fedcloud.eu/collections/"
+
+if not AWS_ACCESS_KEY_ID or not AWS_SECRET_ACCESS_KEY:
+    raise ValueError("AWS_ACCESS_KEY and AWS_SECRET_KEY environment variables must be set")
+else:
+    logger.info("AWS_ACCESS_KEY and AWS_SECRET_KEY environment variables are set")
+    logger.info(f"AWS_ACCESS_KEY: {AWS_ACCESS_KEY_ID}")
+    logger.info(f"AWS_SECRET_KEY: {AWS_SECRET_ACCESS_KEY}")
+
+
+DATASET_CONFIG = {
+    "dynamics": {"variables": ["precip", "pet", "temp"]},
+    "statics": {"variables": ["thetaR", "KsatVer", "c"]},
+    "targets": {"variables": ["vwc", "actevap"]},
+}
+
+logger.info(f"UUID UUID UUID: {UUID}")
 
 def validate_dataset(dataset: xr.Dataset, expected_vars: List[str], dataset_name: str) -> bool:
     """Validate that the dataset contains the expected variables."""
@@ -42,7 +61,7 @@ def unpack_soil_layers(dataset, dataset_name, soil_layers: List[int], variable) 
 def prepare_dataset(dataset: xr.Dataset, dataset_name, soil_layers = [1]) -> xr.Dataset:
     if dataset_name == "targets":
         # ! Wflow produces netcdf with lat flipped
-        dataset = dataset.isel(lat=slice(None, None, -1))
+        dataset.isel(lat=slice(None, None, -1))
     
     if dataset_name == "dynamics" or dataset_name == "statics":
         dataset = dataset.rename_dims({"latitude":"lat", "longitude":"lon"})
@@ -59,8 +78,8 @@ def prepare_dataset(dataset: xr.Dataset, dataset_name, soil_layers = [1]) -> xr.
         logger.info(f"Unpacking and removing soil layer for {dataset_name}")
         dataset = unpack_soil_layers(dataset, dataset_name, soil_layers, variable = "vwc")
     
-    if dataset_name == "statics":
-        dataset = dataset.drop_dims("time")
+    #if dataset_name == "statics":
+        #dataset = dataset.drop_dims("time")
    
     # Convert to float32 
     dataset = dataset.apply(lambda x: x.astype(np.float32) if x.dtype == np.float64 else x)
@@ -94,31 +113,8 @@ def generate_mask(dataset):
 
     return xr.merge(das).to_dataarray(dim="mask_layer", name="mask").to_dataset(dim="mask_layer")
 
-def reshape_dataset(dataset: xr.Dataset, reshape_type: str) -> xr.DataArray:
-    """Reshape the dataset based on its type."""
-    if reshape_type == "dynamic":
-        return (
-            dataset.to_array(dim="feat")
-            .stack(gridcell=["lat", "lon"])
-            .transpose("gridcell", "time", "feat")
-        )
-    elif reshape_type == "static":
-        return (
-            dataset.drop_vars("spatial_ref", errors="ignore")
-            .to_array(dim="feat")
-            .stack(gridcell=["lat", "lon"])
-            .transpose("gridcell", "feat")
-        )
-    elif reshape_type == "target":
-        return (
-            dataset.to_array(dim="feat")
-            .stack(gridcell=["lat", "lon"])
-            .transpose("gridcell", "time", "feat")
-        )
-    else:
-        raise ValueError(f"Unknown reshape type: {reshape_type}")
 
-def write_to_zarr(dataset: xr.DataArray, output_path: str,name: str, compressor: Blosc):
+def write_to_zarr(dataset: xr.DataArray, output_path: str,name: str):
     """Write the dataset to a Zarr file."""
     dataset.attrs.pop("_FillValue", None)  # Remove problematic attributes
     filename = f"{output_path}/{name}.zarr"
@@ -126,12 +122,11 @@ def write_to_zarr(dataset: xr.DataArray, output_path: str,name: str, compressor:
         store=filename,
         #group=group,
         mode="w",
-        encoding={var: {"compressor": compressor} for var in dataset.data_vars},
     )
     logger.info(f"Written {name} to {output_path}")
 
-def process_and_convert_to_zarr(
-    datasets: Dict[str, str], zarr_output_path: str, compressor: Blosc
+def process_and_convert(
+    datasets: Dict[str, str], zarr_output_path: str,
 ):
     """Process and convert multiple datasets to Zarr."""
     PROCESSED = {}
@@ -161,8 +156,107 @@ def process_and_convert_to_zarr(
     dynamics_merged = xr.merge([PROCESSED["dynamics"], PROCESSED["targets"]])
     statics_merged = xr.merge([PROCESSED["statics"], PROCESSED["mask"]])
 
-    write_to_zarr(dynamics_merged, zarr_output_path, "dynamics", compressor)
-    write_to_zarr(statics_merged, zarr_output_path, "statics", compressor)
+    return dynamics_merged, statics_merged
+
+
+def process_to_stac(AWS_ACCESS_KEY_ID: str, AWS_SECRET_ACCESS_KEY: str, dataset: xr.Dataset, collection_id: str, output_path: str):
+    """Process the datasets and convert them to STAC format.
+    
+    params:
+        statics (xr.Dataset): The static dataset.
+        dynamics (xr.Dataset): The dynamic dataset.
+        targets (xr.Dataset): The target dataset.
+        output_path (str): The output path for the STAC collection.
+
+    returns:
+    """
+    logger.info("Executing Raster2STAC with Zarr conversion")
+    logger.info(f"Input datasets: {dataset}")
+    logger.info(f"Output path: {output_path}")
+
+    try:
+        r2s = Raster2STAC(
+            data=dataset,
+            collection_id=f"{UUID}_{collection_id}",
+            collection_url=STAC_API_URL,
+            output_folder=output_path,
+            description="WFLOW output",
+            title=f"WFLOW output collection_{collection_id}",
+            ignore_warns=False,
+            keywords=['intertwin', 'climate'],
+            links= [{
+                "rel": "license",
+                "href": "https://cds.climate.copernicus.eu/api/v2/terms/static/licence-to-use-copernicus-products.pdf",
+                "title": "License to use Copernicus Products",
+            },
+            ],
+            providers=[
+                {
+                    "url": "https://cds.climate.copernicus.eu/cdsapp#!/dataset/10.24381/cds.622a565a",
+                    "name": "Copernicus",
+                    "roles": [
+                        "producer"
+                    ]
+                },
+                {
+                    "url": "https://cds.climate.copernicus.eu/cdsapp#!/dataset/10.24381/cds.622a565a",
+                    "name": "Copernicus",
+                    "roles": [
+                        "licensor"
+                    ]
+                },
+                {
+                    "url": "https://cds.climate.copernicus.eu/cdsapp#!/dataset/10.24381/cds.622a565a",
+                    "name": "Copernicus",
+                    "roles": [
+                        "licensor"
+                    ]
+                },
+                {
+                "url": "http://www.eurac.edu",
+                "name": "Eurac Research - Institute for Earth Observation",
+                "roles": [
+                    "host"
+                ]
+            }
+        ],
+        stac_version="1.0.0",
+        s3_upload=True,
+        s3_endpoint_url="https://objectstore.eodc.eu:2222",
+        bucket_file_prefix = f"interTwin_EURAC/hydroform/wflow/{UUID}_",
+        bucket_name = "rucio",
+        aws_access_key = AWS_ACCESS_KEY_ID,
+        aws_secret_key = AWS_SECRET_ACCESS_KEY,
+        version=None,
+        license="proprietary",
+        write_collection_assets=True
+    )
+    except Exception as e:
+        logger.error(f"Raster2STAC Error: {e}")
+        return 1
+    logger.info("Raster2STAC initialized successfully")
+    logger.info("Generating STAC collection")
+        
+    r2s.generate_zarr_stac(item_id=f"{collection_id}")
+
+    logger.info("STAC collection generated successfully")
+    logger.info(f"Uploading STAC collection to {r2s.collection_url}")
+
+    try:
+        with open(f"{output_path}/{r2s.collection_id}.json","r") as f:
+            stac_collection_to_post = json.load(f)
+            requests.post(r2s.collection_url,json=stac_collection_to_post)
+            stac_items = []
+            with open(f"{output_path}/inline_items.csv","r") as f:
+                stac_items = f.readlines()
+                for it in stac_items:
+                    stac_data_to_post = json.loads(it)
+                    requests.post(f"{STAC_API_URL}/{r2s.collection_id}/items",json=stac_data_to_post)
+    except Exception as e:
+        logger.error(f"STAC collection upload Error: {e}")
+        return 1
+    
+    logger.info("STAC collection uploaded successfully")
 
 def main():
     if len(sys.argv) < 5:
@@ -177,16 +271,41 @@ def main():
 
     os.makedirs(zarr_output_path, exist_ok=True)
 
-    compressor = Blosc(cname="lz4", clevel=4, shuffle=Blosc.BITSHUFFLE)
-
     datasets = {
         "dynamics": dynamics_path,
         "statics": statics_path,
         "targets": targets_path,
     }
-    process_and_convert_to_zarr(datasets, zarr_output_path, compressor)
 
-    logger.info("Conversion to Zarr completed successfully!")
+    logger.info(f"WE ARE ABOUT TO PROCESS WOO")
+
+    try:
+        dynamics, statics = process_and_convert(
+            datasets,
+            zarr_output_path,
+        )
+    except Exception as e:
+        logger.error(f"Error processing datasets: {e}")
+        sys.exit(1)
+
+
+    logger.info(f" USING UUID: {UUID}")
+
+
+    datasets_to_stac = {
+        "dynamics": dynamics,
+        "statics": statics,
+    }
+
+    logger.info("Processing datasets to STAC")
+
+    for name, dataset in datasets_to_stac.items():
+        logger.info(f"Processing {name} ({type(dataset)})")
+        process_to_stac(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, dataset, output_path=zarr_output_path, collection_id=f"wflow_output_{name}")
+        logger.info(f"Collection {name} can be found at {STAC_API_URL}{UUID}_wflow_output_{name}")
+    logger.info("Processing and conversion to Zarr completed successfully!")
+    
+
 
 if __name__ == "__main__":
     main()
