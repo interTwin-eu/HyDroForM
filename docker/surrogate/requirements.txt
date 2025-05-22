@@ -1,1 +1,4 @@
-itwinai-hython-plugin @ git+https://github.com/interTwin-eu/hython-itwinai-plugin.git@main#egg=hython-itwinai-plugin
+s3fs==2025.5.0
+
+# TODO ITWINAI PLUGIN INSTALLED IN DOCKER
+# itwinai-hython-plugin @ git+https://github.com/interTwin-eu/hython-itwinai-plugin.git@main#egg=hython-itwinai-plugin

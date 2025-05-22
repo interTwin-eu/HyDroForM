@@ -18,6 +18,7 @@ run_id: "test-surrogate-local"
 
 work_dir: /app/model #/mnt/CEPH_PROJECTS/InterTwin/hython_model_run
 
+# ! PARAMETERS TO BE UPDATED
 train_temporal_range: ["2001-01-01", "2001-03-30"]
 valid_temporal_range: ["2001-01-01", "2001-03-30"]
 test_temporal_range: ["2001-01-01", "2001-03-30"]
@@ -110,13 +111,18 @@ gpu_per_worker: 1 # 0. - 1
 trials: 4
 
 
+# ! PARAMETERS TO BE UPDATED
 data_source:
-  file:
-    static_inputs: /data/statics.zarr
-    dynamic_inputs: /data/dynamics.zarr
-    target_variables: /data/dynamics.zarr
-# s3:
-  #   url: https://eurac-eo.s3.amazonaws.com/INTERTWIN/SURROGATE_INPUT/adg1km_eobs_preprocessed.zarr/
+  xarray_kwargs:
+      engine: "zarr"
+      storage_options:
+          client_kwargs:
+              endpoint_url: "https://objectstore.eodc.eu:2222" 
+  s3:
+    static_inputs: "s3://rucio/interTwin_EURAC/hydroform/wflow/be76bdf2-858c-4350-986c-40b57ab0247f_/wflow_output_statics.zarr"
+    dynamic_inputs: "s3://rucio/interTwin_EURAC/hydroform/wflow/be76bdf2-858c-4350-986c-40b57ab0247f_/wflow_output_dynamics.zarr"
+    target_variables: "s3://rucio/interTwin_EURAC/hydroform/wflow/be76bdf2-858c-4350-986c-40b57ab0247f_/wflow_output_dynamics.zarr"
+  
 
 static_categorical_inputs:
    - wflow_landuse

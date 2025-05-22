@@ -9,11 +9,11 @@ tests/*.z*
 /openeo/surrogate/surrogate-output/
 
 tests/tmp/
-
+tests/tmp*
 .venv
 object_urls.txt
 
-*.geojson
+
 *.nc
 *.log
 .vscode/
