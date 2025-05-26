@@ -42,7 +42,8 @@ find_unused_parameters: False
   
 # === Training ===
 
-strategy: null
+# ! CHANGE THIS FOR HYPERPARAMETER DISTRIBUTED COMPUTING
+strategy: null #ddp, horovod
 
 hython_trainer: rnntrainer
 

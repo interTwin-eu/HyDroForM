@@ -5,7 +5,7 @@ echo $PWD
 HYDROMT_DIR=$PWD/docker/hydromt
 
 # Source credentials for AWS S3 bucket
-source $PWD/tests/.env_s3_intertwin
+source $PWD/tests/.env_s3
 echo $AWS_ACCESS_KEY
 echo $AWS_SECRET_KEY
 
