@@ -20,6 +20,7 @@ RUN mkdir -p ./use-case
 RUN mkdir -p ./model
 RUN mkdir -p /data
 
+COPY src/gen_surr_config.py ./use-case
 COPY src/training_local.yaml ./use-case
 COPY src/training_vega.yaml ./use-case
 
