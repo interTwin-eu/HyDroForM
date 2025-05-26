@@ -8,6 +8,8 @@ tests/*.z*
 /openeo/wflow/wflow-output/
 /openeo/surrogate/surrogate-output/
 
+
+docker/surrogate/src/outputs/
 tests/tmp/
 tests/tmp*
 .venv
