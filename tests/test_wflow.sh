@@ -22,6 +22,6 @@ docker container run \
     -v $PWD/tests/tmp/:/data \
     -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_KEY \
     -it --rm wflow-test /bin/bash -c \
-    'python3 /app/src/read_stac.py "https://stac.intertwin.fedcloud.eu/collections/8db57c23-4013-45d3-a2f5-a73abf64adc4_WFLOW_FORCINGS_STATICMAPS" "data" \
+    'python3 /app/src/read_stac.py "https://stac.intertwin.fedcloud.eu/collections/6cd6cf68-4858-43b8-8569-f81970ddf6f2_WFLOW_FORCINGS_STATICMAPS" "data" \
     && run_wflow "/data/wflow_sbm.toml" \
     && python3 /app/src/to_zarr.py "/data/forcings.nc" "/data/staticmaps.nc" "/data/run_default/output.nc" "/data"'

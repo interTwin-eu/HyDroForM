@@ -4,9 +4,7 @@ urllib3
 zarr<3.0.0
 cf-xarray==0.10.4
 dask
-# replace r2s with https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac/-/tree/update_url
-raster2stac @ git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git@update_url#egg=raster2stac
-#raster2stac==0.0.7
+raster2stac==0.0.8
 s3fs # to access aws s3 bucket
 rioxarray==0.17.0
 xarray==2024.3.0

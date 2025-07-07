@@ -12,7 +12,7 @@ fi
 source $PWD/tests/.env_mlflow
 
 # Source credentials for AWS S3 bucket
-source $PWD/tests/.env_s3
+source $PWD/tests/.env_s3_intertwin
 
 docker build --no-cache -f $SURR_DIR/Dockerfile -t surrogate-test $SURR_DIR
 
@@ -30,9 +30,9 @@ if [ -z "$1" ]; then
 	surrogate-test:latest /bin/bash -c "python ./use-case/gen_surr_config.py \
 		--config './use-case/training_local.yaml' \
 		--output './use-case/training_local_updated.yaml' \
-		--cp 'train_temporal_range=[\"2015-01-01\", \"2016-12-01\"]' \
-		--cp 'valid_temporal_range=[\"2015-01-01\", \"2016-12-01\"]' \
-		--cp 'test_temporal_range=[\"2015-01-01\", \"2016-12-01\"]' \
+		--cp 'train_temporal_range=[\"2001-01-01\", \"2001-03-31\"]' \
+		--cp 'valid_temporal_range=[\"2001-01-01\", \"2001-03-31\"]' \
+		--cp 'test_temporal_range=[\"2001-01-01\", \"2001-03-31\"]' \
 		&& cat ./use-case/training_local_updated.yaml \
 		&& itwinai exec-pipeline --config-dir ./use-case --config-name training_local_updated"
 

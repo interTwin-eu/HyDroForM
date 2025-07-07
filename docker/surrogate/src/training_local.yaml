@@ -120,9 +120,9 @@ data_source:
           client_kwargs:
               endpoint_url: "https://objectstore.eodc.eu:2222" 
   s3:
-    static_inputs: "s3://rucio/interTwin_EURAC/hydroform/wflow/be76bdf2-858c-4350-986c-40b57ab0247f_/wflow_output_statics.zarr"
-    dynamic_inputs: "s3://rucio/interTwin_EURAC/hydroform/wflow/be76bdf2-858c-4350-986c-40b57ab0247f_/wflow_output_dynamics.zarr"
-    target_variables: "s3://rucio/interTwin_EURAC/hydroform/wflow/be76bdf2-858c-4350-986c-40b57ab0247f_/wflow_output_dynamics.zarr"
+    static_inputs: "s3://rucio/interTwin_EURAC/hydroform/wflow/6af2cc6a-d2ba-4743-a528-9b49f79c439e_/wflow_output_statics.zarr"
+    dynamic_inputs: "s3://rucio/interTwin_EURAC/hydroform/wflow/6af2cc6a-d2ba-4743-a528-9b49f79c439e_/wflow_output_dynamics.zarr"
+    target_variables: "s3://rucio/interTwin_EURAC/hydroform/wflow/6af2cc6a-d2ba-4743-a528-9b49f79c439e_/wflow_output_dynamics.zarr"
   
 
 static_categorical_inputs:
@@ -130,7 +130,6 @@ static_categorical_inputs:
    - wflow_soil
 
 static_inputs:
-  - thetaS
   - thetaR
   - KsatVer
   - c
@@ -147,10 +146,60 @@ mask_variables:
   - mask_missing
   # - mask_lake
 
+
+# Preprocess
+
+preprocessor: null
+    # static_inputs:
+    #     lazy: False
+    #     variant:
+    #       - _target_: hython.preprocessor.Log10p
+    #         variable:
+    #             - "KsatVer"
+    # dynamic_inputs:
+    #     lazy: False
+    #     variant:
+    #       - _target_: hython.preprocessor.Log10p
+    #         variable:
+    #             - "precip"
+
 # Scaling
 
-scaling_variant: minmax
-scaling_use_cached: True
+scaling_use_cached: False
+scaling_static_range:
+    thetaS: [0.25, 0.95] 
+    thetaR: [0.01, 0.35] # it was 0.25 in table
+    KsatVer: [1, 10000]
+    c: [1, 20]
+    f: [0.00001, 0.1] # from training data (it is fitted)
+    M: [1, 3000]
+    RootingDepth: [100, 2000 ] #5000] # (mm)
+    Swood: [0.0, 0.5] # -
+    Sl: [0.02, 0.2] #(mm)
+    Kext: [0.48, 0.96] # 
+
+scaler:
+    static_inputs:
+        lazy: False
+        variant:
+          - _target_: hython.scaler.BoundedScaler
+            variable:
+              thetaR: ${scaling_static_range.thetaR}
+              KsatVer: ${scaling_static_range.KsatVer}
+              c: ${scaling_static_range.c}
+    dynamic_inputs:
+        lazy: False
+        variant:
+          - _target_: hython.scaler.MinMax01Scaler
+            variable:
+              - "precip"
+              - "pet"
+              - "temp"
+    target_variables:
+        lazy: False
+        variant:
+          - _target_: hython.scaler.MinMax01Scaler
+            variable: ${target_variables}
 
 # MLFLow
 tracking_uri: null # http://mlflow.intertwin.fedcloud.eu/
@@ -178,10 +227,10 @@ training_pipeline:
       dataset: ${dataset}
       data_lazy_load: ${data_lazy_load}
       data_source: ${data_source}
-      scaling_variant: ${scaling_variant}
+      preprocessor: ${preprocessor}
+      scaler: ${scaler}
       scaling_use_cached: ${scaling_use_cached}
       experiment_name: ${experiment_name}
-      run_id: ${run_id}
       work_dir: ${work_dir}
       train_downsampler: ${train_downsampler}
       valid_downsampler: ${valid_downsampler}
@@ -191,7 +240,6 @@ training_pipeline:
       config:
         experiment: ${experiment_name}/${run_id}
         experiment_name: ${experiment_name}
-        run_id: ${run_id}
         work_dir: ${work_dir}
         batch_size: ${batch}
         learning_rate: ${learning_rate}
@@ -229,12 +277,12 @@ training_pipeline:
         # model logger
         model_logger: ${model_logger}
         
+      run_id: $(run_id)
       strategy: ${strategy}
       epochs: ${epochs}
       measure_gpu_data: True
-      measure_communication_overhead: True
       measure_epoch_time: True
-      run_id: $(run_id)
+      torch_profiling: False
       random_seed: ${seed}
       profiling_wait_epochs: 1
       profiling_warmup_epochs: 1
@@ -263,25 +311,26 @@ hpo:
       dataset: ${dataset}
       data_lazy_load: ${data_lazy_load}
       data_source: ${data_source}
-      scaling_variant: ${scaling_variant}
+      preprocessor: ${preprocessor}
+      scaler: ${scaler}
       scaling_use_cached: ${scaling_use_cached}
       experiment_name: ${experiment_name}
-      run_id: ${run_id}
       work_dir: ${work_dir}
       train_downsampler: ${train_downsampler}
       valid_downsampler: ${valid_downsampler}
+      seq_length: ${seq_length}
     - _target_: itwinai.plugins.hython.trainer.RNNDistributedTrainer
       model: ${model}
       config:
         experiment: ${experiment_name}/${run_id}
         experiment_name: ${experiment_name}
-        run_id: ${run_id}
         work_dir: ${work_dir}
         batch_size: ${batch}
         learning_rate: ${learning_rate}
         num_workers_dataloader: ${num_workers_dataloader}
         pin_gpu_memory: True
         hython_trainer: ${hython_trainer}
+        dynamic_downsampler: ${dynamic_downsampler}
         seq_length: ${seq_length}
         target_variables: ${target_variables}
         dynamic_inputs: ${dynamic_inputs}
@@ -314,13 +363,13 @@ hpo:
         # model logger
         model_logger: ${model_logger}
         
+      run_id: $(run_id)
       time_ray: ${time_ray}
       strategy: ${strategy}
       epochs: ${epochs}
       measure_gpu_data: True
-      measure_communication_overhead: True
       measure_epoch_time: True
-      run_id: $(run_id)
+      torch_profiling: False
       random_seed: ${seed}
       profiling_wait_epochs: 1
       profiling_warmup_epochs: 1
@@ -354,7 +403,7 @@ hpo:
         #   reduction_factor: 6
         #   brackets: 1
       ray_run_config:
-        _target_: ray.train.RunConfig
+        _target_: ray.tune.RunConfig
         # storage_path must be an absolute path. Defaulting to the directory from which the
         # job is launched using the itwinai custom OmegaConf resolver ${itwinai.cwd:}
         storage_path: ${itwinai.cwd:}/ray_checkpoints
@@ -381,7 +430,3 @@ hpo:
           lower: 90
           upper: 365
           q: 30
-        interval_value:
-          type: choice
-          categories: [3, 5, 10]
-        
