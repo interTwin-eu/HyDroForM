@@ -10,14 +10,16 @@ WORKDIR /hydromt
 ##################### Python setup #####################
 
 RUN apt-get update && \
-    apt-get -y install vim && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y gdal-bin libgdal-dev && \
+    pip install --upgrade pip setuptools wheel
+
+ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
+ENV C_INCLUDE_PATH=/usr/include/gdal
 
 COPY requirements.txt /hydromt/
-#COPY all_basins.geojson /hydromt/
 
-RUN pip install --upgrade pip setuptools wheel
-RUN pip install --no-cache-dir -r requirements.txt 
+RUN pip install --no-cache-dir -r requirements.txt
+#COPY all_basins.geojson /hydromt/
 
 RUN git clone -b feature/stac_zarr_storage https://github.com/interTwin-eu/openeo-processes-dask.git
 RUN cd openeo-processes-dask/openeo_processes_dask/specs && \ 
