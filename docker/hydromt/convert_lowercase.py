@@ -7,11 +7,12 @@ Usage:
     python convert_lowercase.py /path/to/config.toml
 """
 
-import toml
-import sys
 import logging
-import re
 import os
+import re
+import sys
+
+import toml
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -21,6 +22,7 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()],
 )
 
+
 def set_permissions():
     """
     Set permissions for the current working directory to 777.
@@ -28,6 +30,7 @@ def set_permissions():
     cwd = os.getcwd()
     os.chmod(cwd, 0o777)
     logger.info(f"Set permissions for {cwd} to 777")
+
 
 # List of keys that should not be converted to lowercase
 exceptions = [
@@ -55,6 +58,7 @@ exceptions = [
 # Regex pattern to match datetime strings
 datetime_pattern = re.compile(r"\d{4}-\d{2}-\d{2}t\d{2}:\d{2}:\d{2}", re.IGNORECASE)
 
+
 def to_lowercase(data):
     """
     Recursively convert all keys to lowercase, except for the keys in the exceptions list.
@@ -73,6 +77,7 @@ def to_lowercase(data):
     else:
         return data
 
+
 def append_output_vertical(config):
     """
     Append [output.vertical] section with actevap and vwc to the TOML configuration.
@@ -88,6 +93,7 @@ def append_output_vertical(config):
 
     logger.info("Appended values: [output.vertical] actevap='actevap', vwc='vwc'")
     return config
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

@@ -13,7 +13,7 @@ s:author:
     s:email: juraj.zvolensky@eurac.edu
     s:name: Juraj Zvolensky
 
-class: CommandLineTool   
+class: CommandLineTool
 id: hydromt-config-update
 
 requirements:
@@ -44,6 +44,6 @@ outputs:
     outputBinding:
       glob: "output/wflow.ini"
 
-baseCommand: 
+baseCommand:
   - bash
   - /hydromt/config-update/update.sh

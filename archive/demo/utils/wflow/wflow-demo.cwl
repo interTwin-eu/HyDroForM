@@ -30,7 +30,7 @@ $graph:
           glob: "wflow_sbm.toml"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/wflow-demo:latest 
+        dockerPull: potato55/wflow-demo:latest
         dockerOutputDirectory: /output
       InitialWorkDirRequirement:
         listing:
@@ -43,7 +43,7 @@ $graph:
       NetworkAccess:
         class: NetworkAccess
         networkAccess: true
-  
+
   - class: CommandLineTool
     id: run-wflow
     baseCommand: [bash, "-c"]

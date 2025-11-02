@@ -11,7 +11,7 @@ RUN apt update && apt install -y python3 python3-pip git
 
 WORKDIR /app
 
-RUN mkdir /app/env 
+RUN mkdir /app/env
 
 COPY Project.toml /app/env
 COPY Manifest.toml /app/env
@@ -51,5 +51,3 @@ COPY ./src/read_stac.py /app/src/read_stac.py
 COPY ./src/decode_keys.py /app/src/decode_keys.py
 
 RUN chmod +x /app/src/stac.py /app/src/to_zarr.py /app/src/read_stac.py /app/src/decode_keys.py
-
-

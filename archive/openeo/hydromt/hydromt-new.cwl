@@ -35,7 +35,7 @@ $graph:
           glob: "wflow.ini"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt-demo:stac  
+        dockerPull: potato55/hydromt-demo:stac
         dockerOutputDirectory: /hydromt
       ResourceRequirement:
         coresMax: 1
@@ -75,7 +75,7 @@ $graph:
           glob: "model/forcings.nc"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt-demo:stac 
+        dockerPull: potato55/hydromt-demo:stac
         dockerOutputDirectory: /hydromt
       ResourceRequirement:
         coresMax: 1
@@ -110,7 +110,7 @@ $graph:
           glob: "*"
     requirements:
       DockerRequirement:
-        dockerPull: potato55/hydromt-demo:stac  
+        dockerPull: potato55/hydromt-demo:stac
         dockerOutputDirectory: /hydromt
       InitialWorkDirRequirement:
         listing:

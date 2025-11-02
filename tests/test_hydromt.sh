@@ -10,7 +10,7 @@ echo $AWS_ACCESS_KEY
 echo $AWS_SECRET_KEY
 
 if [ ! -d "$HYDROMT_DIR/tmp" ]; then
-  mkdir -p $HYDROMT_DIR/tmp 
+  mkdir -p $HYDROMT_DIR/tmp
 fi
 
 docker build --no-cache -f $HYDROMT_DIR/Dockerfile -t hydromt-test $HYDROMT_DIR

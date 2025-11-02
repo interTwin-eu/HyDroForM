@@ -9,23 +9,25 @@ WORKDIR /hydromt
 
 ##################### Python setup #####################
 
-RUN apt-get update && \
-    apt-get install -y gdal-bin libgdal-dev && \
-    pip install --upgrade pip setuptools wheel
+RUN apt-get update && apt-get install -y \
+    gdal-bin \
+    libgdal-dev \
+    python3-gdal \
+    vim \
+    && pip install --upgrade pip setuptools wheel
 
 ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal
 
 COPY requirements.txt /hydromt/
 
-RUN pip install --no-cache-dir GDAL==3.12.0 && pip install --no-cache-dir -r requirements.txt
 #COPY all_basins.geojson /hydromt/
 
 RUN git clone -b feature/stac_zarr_storage https://github.com/interTwin-eu/openeo-processes-dask.git
-RUN cd openeo-processes-dask/openeo_processes_dask/specs && \ 
+RUN cd openeo-processes-dask/openeo_processes_dask/specs && \
     git clone https://github.com/eodcgmbh/openeo-processes.git -b 2024.7.0
 RUN cd .
-RUN cd openeo-processes-dask && pip install . 
+RUN cd openeo-processes-dask && pip install .
 RUN cd .
 
 RUN pip uninstall -y pydantic && pip install pydantic==2.8.2 openeo_pg_parser_networkx==2024.10.0
@@ -62,4 +64,3 @@ COPY --from=build /usr/local/lib/python3.10/site-packages /usr/local/lib/python3
 COPY --from=build /usr/local/bin /usr/local/bin
 COPY --from=build /usr/bin/vim /usr/bin/vim
 COPY --from=build /usr/share/vim /usr/share/vim
-

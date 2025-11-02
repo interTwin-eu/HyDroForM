@@ -1,4 +1,4 @@
-#!/usr/bin/env bash 
+#!/usr/bin/env bash
 
 container_id=$(docker run -v "$(pwd)/docker/hydromt/output/hydromt:/data" -d wflow-app:latest /bin/bash -c "while true; do sleep 30; done;")
 

@@ -12,17 +12,17 @@ ENV HYDRA_FULL_ERROR=1
 
 # !! Workaraound for overriding the default image plugin which does not have latest developments
 RUN git clone -b iacopo https://github.com/interTwin-eu/hython-itwinai-plugin.git
-RUN cd /app/hython-itwinai-plugin && pip install . 
+RUN cd /app/hython-itwinai-plugin && pip install .
 RUN cd .
 
 COPY requirements.txt ./requirements.txt
 
-# Breaks if not using --use-pep517 (https://github.com/pypa/pip/issues/6334) 
-RUN pip install --upgrade pip && pip install --no-cache-dir --use-pep517 -r requirements.txt 
+# Breaks if not using --use-pep517 (https://github.com/pypa/pip/issues/6334)
+RUN pip install --upgrade pip && pip install --no-cache-dir --use-pep517 -r requirements.txt
 
-# !! Remove when fixing image plugin 
+# !! Remove when fixing image plugin
 RUN git clone -b main https://github.com/interTwin-eu/hython.git
-RUN cd /app/hython && pip install . 
+RUN cd /app/hython && pip install .
 RUN cd .
 
 RUN mkdir -p ./use-case
@@ -33,7 +33,3 @@ COPY src/decode_keys.py ./use-case
 COPY src/gen_surr_config.py ./use-case
 COPY src/training_local.yaml ./use-case
 COPY src/training_vega.yaml ./use-case
-
-
-
-

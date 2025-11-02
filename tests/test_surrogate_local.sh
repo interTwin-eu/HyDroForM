@@ -5,7 +5,7 @@ echo $PWD
 SURR_DIR=$PWD/docker/surrogate
 
 if [ ! -d "$SURR_DIR/tmp" ]; then
-  mkdir -p $SURR_DIR/tmp 
+  mkdir -p $SURR_DIR/tmp
 fi
 
 # Source credentials for MLFLOW server

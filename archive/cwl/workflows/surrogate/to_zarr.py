@@ -9,21 +9,21 @@ python3 to_zarr.py /home/jzvolensky/eurac/projects/TEMP/HyDroForM/openeo/wflow/w
 
 """
 
-import xarray as xr
+import logging
+import os
+import sys
+from typing import List
+
 import numpy as np
+import xarray as xr
+from hython.io import read_from_zarr, write_to_zarr
 from hython.preprocessor import reshape
-from hython.io import write_to_zarr, read_from_zarr
 from hython.utils import build_mask_dataarray
 from numcodecs import Blosc
 
-import os
-import sys
-import logging
-from typing import List
-
 OUTPUT_NAME: str = "demo"
 
-DYNAMIC: List[str]  = ["precip", "pet", "temp"]
+DYNAMIC: List[str] = ["precip", "pet", "temp"]
 STATIC: List[str] = ["thetaS", "thetaR"]
 TARGET: List[str] = ["vwc", "actevap"]
 MASK_FROM_STATIC: List[str] = ["thetaS"]
@@ -36,6 +36,7 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+
 
 def main(
     dynamics: xr.Dataset,
@@ -67,7 +68,7 @@ def main(
     try:
         dynamics = dynamics.rename({"latitude": "lat", "longitude": "lon"})
         statics = statics.rename({"latitude": "lat", "longitude": "lon"})
-    except:
+    except BaseException:
         pass
 
     logger.info("Reversing latitude dimension")
@@ -162,7 +163,6 @@ def main(
 
 
 if __name__ == "__main__":
-
     logger.info("Starting conversion to zarr")
 
     # Load the Paths and check if they are files
@@ -184,9 +184,8 @@ if __name__ == "__main__":
     wflow_output_path = sys.argv[3]
     logger.info(f"Reading wflow output from {wflow_output_path}")
     if os.path.isdir(wflow_output_path):
-        logger.error(
-            f"WFLOW_OUTPUT Error: Path is a directory {wflow_output_path}, should be a file"
-        )
+        logger.error(f"WFLOW_OUTPUT Error: Path is a directory {
+            wflow_output_path}, should be a file")
 
     zarr_output_path = sys.argv[4]
     logger.info(f"Zarr output path {zarr_output_path}")

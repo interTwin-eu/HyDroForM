@@ -1,6 +1,6 @@
 #!/usr/local/julia/bin/julia
 
-#/usr/bin/env -S julia --project=/env 
+#/usr/bin/env -S julia --project=/env
 
 
 using Pkg
@@ -17,4 +17,3 @@ using Wflow
     Wflow.run(arg)
 
 end
-

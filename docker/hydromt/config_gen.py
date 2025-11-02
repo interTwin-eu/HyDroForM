@@ -21,10 +21,10 @@ Usage:
     python config_gen.py --use-env
 """
 
-import os
 import argparse
 import configparser
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -33,6 +33,7 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[logging.StreamHandler()],
 )
+
 
 def parse_env_vars(
     var_names: list[str], default_values: dict[str, str] | None = None
@@ -63,7 +64,9 @@ def parse_env_vars(
                     f"Environment variable {var} not set. Using default value: {value}"
                 )
             else:
-                raise EnvironmentError(f"Environment variable {var} not set and no default value provided.")
+                raise EnvironmentError(
+                    f"Environment variable {var} not set and no default value provided."
+                )
         env_vars[var] = value
         logger.info(f"Environment variable {var} set to: {value}")
     return env_vars
@@ -138,9 +141,7 @@ def main():
 
     if args.use_env:
         logger.info("Reading configuration from environment variables...")
-        env_values = parse_env_vars(
-            ["RES", "PRECIP_FN", "STARTTIME", "ENDTIME"]
-        )
+        env_values = parse_env_vars(["RES", "PRECIP_FN", "STARTTIME", "ENDTIME"])
         res = float(env_values["RES"])
         precip_fn = env_values["PRECIP_FN"]
         starttime = env_values["STARTTIME"]
@@ -246,6 +247,7 @@ def main():
 
     generate_config(config_dict, output_path=output_path)
     logger.info("CONFIG UPDATE STEP COMPLETE. WOOHOO!")
+
 
 if __name__ == "__main__":
     main()

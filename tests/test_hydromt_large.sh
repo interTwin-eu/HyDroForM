@@ -10,7 +10,7 @@ echo $AWS_ACCESS_KEY
 echo $AWS_SECRET_KEY
 
 if [ ! -d "$HYDROMT_DIR/tmp" ]; then
-  mkdir -p $HYDROMT_DIR/tmp 
+  mkdir -p $HYDROMT_DIR/tmp
 fi
 
 docker build --no-cache -f $HYDROMT_DIR/Dockerfile -t hydromt-test $HYDROMT_DIR
@@ -28,5 +28,3 @@ docker container run \
     && hydromt build wflow model -r \"{'subbasin': [ 11.293337, 45.014857 ], 'strord': 3}\" -d data_catalog.yaml -i wflow.ini -vvv \
     && python /hydromt/convert_lowercase.py "/hydromt/model/wflow_sbm.toml" \
     && python /hydromt/stac.py --staticmaps_path "/hydromt/model/staticmaps.nc" --forcings_path "/hydromt/model/forcings.nc" --output_dir "/hydromt/model/stac" "
-
-

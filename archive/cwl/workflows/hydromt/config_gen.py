@@ -10,10 +10,10 @@ TODO:
 - Sell the whole workflow to the highest bidder
 """
 
-import os
 import argparse
 import configparser
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -56,6 +56,7 @@ def set_permissions():
     cwd = os.getcwd()
     os.chmod(cwd, 0o777)
     logger.info(f"Set permissions for {cwd} to 777")
+
 
 def generate_config(config_dict: dict):
     config = configparser.ConfigParser()
@@ -161,6 +162,7 @@ def main():
     }
     generate_config(config_dict)
     logger.info("CONFIG UPDATE STEP COMPLETE. WOOHOO!")
+
 
 if __name__ == "__main__":
     main()

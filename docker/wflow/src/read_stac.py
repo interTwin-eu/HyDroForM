@@ -9,22 +9,22 @@ sample usage:
 
 python read_stac.py https://example.com/stac/collection.json /path/to/output
 """
-import os
-import requests
-import pystac
-import s3fs
 import logging
-import xarray as xr
+import os
+
 import boto3
 import botocore.auth
 import botocore.awsrequest
-
+import pystac
+import requests
+import s3fs
+import xarray as xr
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
@@ -38,6 +38,7 @@ def validate_stac_availability(collection_url: str) -> bool:
         logger.error(f"Error accessing STAC URL {collection_url}: {e}")
         return False
 
+
 def list_items(collection_url: str) -> list:
     try:
         catalog = pystac.read_file(collection_url)
@@ -46,6 +47,7 @@ def list_items(collection_url: str) -> list:
     except Exception as e:
         logger.error(f"Error listing items from STAC collection {collection_url}: {e}")
         return []
+
 
 def download_collection(collection_url: str, output_dir: str) -> None:
     """
@@ -90,10 +92,14 @@ def download_collection(collection_url: str, output_dir: str) -> None:
                         anon=False,
                         key=os.getenv("AWS_ACCESS_KEY_ID"),
                         secret=os.getenv("AWS_SECRET_ACCESS_KEY"),
-                        client_kwargs={'endpoint_url': 'https://objectstore.eodc.eu:2222'}
+                        client_kwargs={
+                            "endpoint_url": "https://objectstore.eodc.eu:2222"
+                        },
                     )
                     if fs.exists(asset_url):
-                        with fs.open(asset_url, "rb") as fsrc, open(asset_path, "wb") as fdst:
+                        with fs.open(asset_url, "rb") as fsrc, open(
+                            asset_path, "wb"
+                        ) as fdst:
                             fdst.write(fsrc.read())
                         logger.info(f"Downloaded asset '{asset_key}' to {asset_path}")
                     else:
@@ -108,6 +114,7 @@ def download_collection(collection_url: str, output_dir: str) -> None:
         logger.info(f"Downloaded all assets to {output_dir}")
     except Exception as e:
         logger.error(f"Error downloading STAC collection from {collection_url}: {e}")
+
 
 def download_config_file(collection_url: str, output_dir: str) -> None:
     """
@@ -125,13 +132,13 @@ def download_config_file(collection_url: str, output_dir: str) -> None:
         links = catalog.links
 
         for link in links:
-            if link.rel == "wflow_sbm_toml": 
+            if link.rel == "wflow_sbm_toml":
                 config_url = link.href
                 fs = s3fs.S3FileSystem(
                     anon=False,
                     key=os.getenv("AWS_ACCESS_KEY"),
                     secret=os.getenv("AWS_SECRET_KEY"),
-                    client_kwargs={'endpoint_url': 'https://objectstore.eodc.eu:2222'}
+                    client_kwargs={"endpoint_url": "https://objectstore.eodc.eu:2222"},
                 )
                 if fs.exists(config_url):
                     with fs.open(config_url, "rb") as f:
@@ -142,40 +149,54 @@ def download_config_file(collection_url: str, output_dir: str) -> None:
                     logger.info(f"Downloaded config file to {config_file_path}")
                 else:
                     logger.error(f"Config file {config_url} does not exist in S3.")
-    
+
     except Exception as e:
-        logger.error(f"Error downloading config file from STAC collection {collection_url}: {e}")
+        logger.error(
+            f"Error downloading config file from STAC collection {collection_url}: {e}"
+        )
+
 
 def main(collection_urls: list, output_dir: str) -> None:
     for collection_url in collection_urls:
         logger.info(f"Processing STAC collection: {collection_url}")
-        
+
         if not validate_stac_availability(collection_url):
-            logger.error(f"STAC collection {collection_url} is not available. Skipping...")
+            logger.error(
+                f"STAC collection {collection_url} is not available. Skipping..."
+            )
             continue
         else:
             logger.info(f"STAC collection {collection_url} is available.")
 
         items = list_items(collection_url)
         if not items:
-            logger.error(f"No items found in STAC collection {collection_url}. Skipping...")
+            logger.error(
+                f"No items found in STAC collection {collection_url}. Skipping..."
+            )
             continue
-        
+
         logger.info("Downloading assets from STAC collection...")
         download_collection(collection_url, output_dir)
         download_config_file(collection_url, output_dir)
-        
+
         logger.info(f"Finished processing STAC collection: {collection_url}")
 
     logger.info("All operations completed successfully.")
 
+
 if __name__ == "__main__":
     import argparse
-    
-    parser = argparse.ArgumentParser(description="Download STAC collections and config files.")
-    parser.add_argument("collection_urls", type=str, nargs="+", help="List of STAC collection URLs.")
-    parser.add_argument("output_dir", type=str, help="Directory to save downloaded files.")
-    
+
+    parser = argparse.ArgumentParser(
+        description="Download STAC collections and config files."
+    )
+    parser.add_argument(
+        "collection_urls", type=str, nargs="+", help="List of STAC collection URLs."
+    )
+    parser.add_argument(
+        "output_dir", type=str, help="Directory to save downloaded files."
+    )
+
     args = parser.parse_args()
-    
+
     main(args.collection_urls, args.output_dir)

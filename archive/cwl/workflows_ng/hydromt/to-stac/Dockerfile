@@ -11,5 +11,3 @@ RUN apt-get update && \
     apt-get -y install vim && \
     apt-get -y install python3-pip && \
     rm -rf /var/lib/apt/lists/*
-
-    

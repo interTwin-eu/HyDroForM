@@ -10,14 +10,14 @@ RUN apt-get update && \
 
 COPY requirements.txt wflow.ini /hydromt/
 
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt 
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 # INSTALL openeo-processes-dask and submodule
 RUN git clone -b feature/load_stac_odc https://github.com/interTwin-eu/openeo-processes-dask.git
-RUN cd openeo-processes-dask/openeo_processes_dask/specs && \ 
+RUN cd openeo-processes-dask/openeo_processes_dask/specs && \
     git clone https://github.com/eodcgmbh/openeo-processes.git -b 2024.7.0
 RUN cd .
-RUN cd openeo-processes-dask && pip install . 
+RUN cd openeo-processes-dask && pip install .
 RUN cd .
 
 RUN mkdir -p /hydromt/output /hydromt/data

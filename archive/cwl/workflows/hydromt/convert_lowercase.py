@@ -10,11 +10,12 @@ Usage:
     python convert_lowercase.py /path/to/config.toml
 """
 
-import toml
-import sys
 import logging
-import re
 import os
+import re
+import sys
+
+import toml
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -23,6 +24,7 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[logging.StreamHandler()],
 )
+
 
 def set_permissions():
     """
@@ -33,6 +35,7 @@ def set_permissions():
     cwd = os.getcwd()
     os.chmod(cwd, 0o777)
     logger.info(f"Set permissions for {cwd} to 777")
+
 
 set_permissions()
 
@@ -61,6 +64,7 @@ exceptions = [
 
 # Regex pattern to match datetime strings just in case, dates can be wonky
 datetime_pattern = re.compile(r"\d{4}-\d{2}-\d{2}t\d{2}:\d{2}:\d{2}", re.IGNORECASE)
+
 
 def to_lowercase(data):
     """

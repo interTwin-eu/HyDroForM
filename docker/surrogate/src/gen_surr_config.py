@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
-import yaml
+import argparse
 import ast
 import logging
-import argparse
+
+import yaml
 from omegaconf import OmegaConf
 
 logging.basicConfig(
@@ -21,18 +22,18 @@ def parse_arguments():
             "Generate a surrogate YAML configuration file from a template and command line overrides.\n\n"
             "Examples:\n"
             "  python gen_surr_config.py --config config.yaml --output test.yaml \\\n"
-            "    --cp \"model=TEST_MODEL\" \\\n"
-            "    --cp \"metric_fn._target_=hython.metrics.MAE_TEST\" \\\n"
-            "    --cp 'train_temporal_range=[\"3500-01-01\", \"3600-01-01\"]'\n\n"
+            '    --cp "model=TEST_MODEL" \\\n'
+            '    --cp "metric_fn._target_=hython.metrics.MAE_TEST" \\\n'
+            '    --cp \'train_temporal_range=["3500-01-01", "3600-01-01"]\'\n\n'
             "Formatting for --cp:\n"
             "  - Use dot notation for nested keys, e.g. metric_fn._target_=hython.metrics.MAE_TEST\n"
-            "  - Lists: train_temporal_range=[\"YYYY-MM-DD\", \"YYYY-MM-DD\"]\n"
+            '  - Lists: train_temporal_range=["YYYY-MM-DD", "YYYY-MM-DD"]\n'
             "  - Strings: key=value\n"
             "  - Numbers: key=123\n"
             "  - Booleans: key=True\n"
             "  - Multiple --cp can be used to override multiple parameters."
         ),
-        formatter_class=argparse.RawTextHelpFormatter
+        formatter_class=argparse.RawTextHelpFormatter,
     )
 
     parser.add_argument(

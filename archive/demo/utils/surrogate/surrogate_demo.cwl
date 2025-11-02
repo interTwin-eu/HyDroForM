@@ -4,7 +4,7 @@ $namespaces:
 s:softwareVersion: 0.9.9
 s:dateCreated: '2024-10-17'
 s:keywords: Hydrology, EO, CWL, AP, InterTwin, Magic
-s:codeRepository: 
+s:codeRepository:
 s:author:
   - s:name: Iacopo Federico Ferrario
     s:email: iacopofederico.ferrario@eurac.edu
@@ -20,7 +20,7 @@ $graph:
     # baseCommand: ["/bin/bash", "-c"]
     # arguments: ["itwinai exec-pipeline --config /usr/src/app/use-case/config.yaml"]
     inputs:
-      # - id: config            The config is local in the image 
+      # - id: config            The config is local in the image
       #   type: string          so we cant really pass it in cwl
       #   inputBinding:         so we just call it from the command
       #     position: 1         In the future replace with a link to the config
@@ -63,7 +63,7 @@ $graph:
         outputSource: exec-itwinai/output
     steps:
       - id: exec-itwinai
-        in: 
+        in:
           # config: config
           pipe-key: pipe-key
         out: [output]

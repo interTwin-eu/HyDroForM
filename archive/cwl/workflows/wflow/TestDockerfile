@@ -6,7 +6,7 @@ RUN apt update
 
 WORKDIR /app
 
-RUN mkdir /app/env 
+RUN mkdir /app/env
 
 COPY Project.toml /app/env
 COPY Manifest.toml /app/env
@@ -30,4 +30,3 @@ COPY ./src/wflow.jl /usr/bin/wflow
 
 RUN chmod +x /usr/bin/run_wflow
 RUN chmod +x /usr/bin/wflow
-

@@ -88,7 +88,7 @@ cerra_orography:
 eobs:
   data_type: RasterDataset
   path: https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/wflow_forcings/eobsv27_forcings.nc
-  driver: netcdf 
+  driver: netcdf
   filesystem: http
   crs: 4326
   meta:
@@ -97,7 +97,7 @@ eobs:
 eobs_v28:
   data_type: RasterDataset
   path: https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/wflow_forcings/eobsv28_forcings.nc
-  driver: netcdf 
+  driver: netcdf
   filesystem: http
   crs: 4326
   meta:
@@ -106,7 +106,7 @@ eobs_v28:
 eobs_orography:
   data_type: RasterDataset
   path: https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/eobsv27/elev_ens_0.1deg_reg_v27.0e.nc
-  driver: netcdf 
+  driver: netcdf
   filesystem: http
   crs: 4326
   meta:
@@ -201,8 +201,8 @@ soilgrids_2020_stac:
   nodata: -32768
   crs: 4326
   mask_nodata: True
-  unit_mult: # soil grids -> wflow , depths 0-5, 5-15, 15-30, 30-60, 60-100, 100-200 cm 
-    bd_sl1: 0.01 # cg/cm3 ->  g/cm3 
+  unit_mult: # soil grids -> wflow , depths 0-5, 5-15, 15-30, 30-60, 60-100, 100-200 cm
+    bd_sl1: 0.01 # cg/cm3 ->  g/cm3
     bd_sl2: 0.01
     bd_sl3: 0.01
     bd_sl4: 0.01
@@ -226,7 +226,7 @@ soilgrids_2020_stac:
     sndppt_sl4: 0.1
     sndppt_sl5: 0.1
     sndppt_sl6: 0.1
-    ph_sl1: 0.1 # pH 10 -> pH 
+    ph_sl1: 0.1 # pH 10 -> pH
     ph_sl2: 0.1
     ph_sl3: 0.1
     ph_sl4: 0.1
@@ -258,10 +258,10 @@ rivers_lin2019:
   crs: 4326
   rename:
     width_m: rivwth
-    QMEAN: qbankfull 
-  meta: 
+    QMEAN: qbankfull
+  meta:
     category:
-      hydrosphere: surface water 
+      hydrosphere: surface water
     url: https://zenodo.org/records/3552776#.YVbOrppByUk
 hydrolakes_v10:
   data_type: GeoDataFrame
@@ -291,7 +291,7 @@ rgi60_global:
     ID: simple_id
     RGIID: RGI_id
   meta:
-    category: 
+    category:
       hydrosphere: surface water
     notes: Randolph Glacier Inventory
 grand_v1.3:

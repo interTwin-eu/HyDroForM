@@ -19,8 +19,8 @@ training_pipeline:
           static_names: [ 'thetaS', 'RootingDepth', 'Swood','KsatVer', "Sl"]
           target_names: [ "vwc","actevap"]
           mask_names: ["mask_missing", "mask_lake"]
-          train_temporal_range: ["2016-01-01", "2018-12-31"] 
-          test_temporal_range: ["2019-01-01", "2020-12-31"] 
+          train_temporal_range: ["2016-01-01", "2018-12-31"]
+          test_temporal_range: ["2019-01-01", "2020-12-31"]
       - class_path: hython.itwinai.data.RNNProcessor
         init_args:
           dataset: LSTMDataset

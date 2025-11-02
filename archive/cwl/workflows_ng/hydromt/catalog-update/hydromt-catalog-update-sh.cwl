@@ -77,7 +77,7 @@ requirements:
           eobs:
             data_type: RasterDataset
             path: https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/wflow_forcings/eobsv27_forcings.nc
-            driver: netcdf 
+            driver: netcdf
             filesystem: http
             crs: 4326
             meta:
@@ -86,7 +86,7 @@ requirements:
           eobs_v28:
             data_type: RasterDataset
             path: https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/wflow_forcings/eobsv28_forcings.nc
-            driver: netcdf 
+            driver: netcdf
             filesystem: http
             crs: 4326
             meta:
@@ -95,7 +95,7 @@ requirements:
           eobs_orography:
             data_type: RasterDataset
             path: https://eurac-eo.s3.amazonaws.com/INTERTWIN/HYDROFORM/eobsv27/elev_ens_0.1deg_reg_v27.0e.nc
-            driver: netcdf 
+            driver: netcdf
             filesystem: http
             crs: 4326
             meta:
@@ -237,10 +237,10 @@ requirements:
             crs: 4326
             rename:
               width_m: rivwth
-              QMEAN: qbankfull 
-            meta: 
+              QMEAN: qbankfull
+            meta:
               category:
-                hydrosphere: surface water 
+                hydrosphere: surface water
               url: https://zenodo.org/records/3552776#.YVbOrppByUk
           hydrolakes_v10:
             data_type: GeoDataFrame
@@ -269,7 +269,7 @@ requirements:
               ID: simple_id
               RGIID: RGI_id
             meta:
-              category: 
+              category:
                 hydrosphere: surface water
               notes: Randolph Glacier Inventory
           grand_v1.3:
