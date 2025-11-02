@@ -129,8 +129,8 @@ def download_config_file(collection_url: str, output_dir: str) -> None:
                 config_url = link.href
                 fs = s3fs.S3FileSystem(
                     anon=False,
-                    key="9DPH3I91JYRSY106ZCB0",   #os.getenv("AWS_ACCESS_KEY"),
-                    secret="XIadtArgCzkNlhVjrEkEtHNhrA3Pt1cjtAtdV23K",    #os.getenv("AWS_SECRET_KEY"),
+                    key=os.getenv("AWS_ACCESS_KEY"),
+                    secret=os.getenv("AWS_SECRET_KEY"),
                     client_kwargs={'endpoint_url': 'https://objectstore.eodc.eu:2222'}
                 )
                 if fs.exists(config_url):

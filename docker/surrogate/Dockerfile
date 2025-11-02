@@ -3,6 +3,10 @@
 #FROM ghcr.io/intertwin-eu/itwinai:torch-slim-latest
 FROM ghcr.io/intertwin-eu/hython-itwinai-plugin:v0.4
 
+LABEL version="1.0"
+LABEL description="Itwinai based Docker image for training surrogate models"
+LABEL maintainer="Juraj Zvolensky, Iacopo Ferrario"
+LABEL organization="Eurac Research"
 
 ENV HYDRA_FULL_ERROR=1
 
@@ -25,6 +29,7 @@ RUN mkdir -p ./use-case
 RUN mkdir -p ./model
 RUN mkdir -p /data
 
+COPY src/decode_keys.py ./use-case
 COPY src/gen_surr_config.py ./use-case
 COPY src/training_local.yaml ./use-case
 COPY src/training_vega.yaml ./use-case

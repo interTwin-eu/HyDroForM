@@ -1,8 +1,8 @@
 FROM python:3.10-bullseye AS build
 
-LABEL version="EC Demo Review"
+LABEL version="1.0"
 LABEL description="Hydromt Docker image for building and updating hydromt models"
-LABEL maintainer="Juraj Zvolensky"
+LABEL maintainer="Juraj Zvolensky, Iacopo Ferrario"
 LABEL organization="Eurac Research"
 
 WORKDIR /hydromt
@@ -28,6 +28,8 @@ RUN cd .
 
 RUN pip uninstall -y pydantic && pip install pydantic==2.8.2 openeo_pg_parser_networkx==2024.10.0
 
+RUN pip install pystac==1.14.0
+
 ##################### HydroMT Components setup #####################
 
 RUN mkdir -p /hydromt/output /hydromt/data
@@ -39,13 +41,15 @@ COPY data_catalog.yaml /hydromt/data_catalog.yaml
 COPY stac.py /hydromt/stac.py
 COPY config_gen.py /hydromt/config_gen.py
 COPY convert_lowercase.py /hydromt/convert_lowercase.py
+COPY decode_keys.sh /hydromt/decode_keys.sh
 COPY build.sh /hydromt/build.sh
 ##################### Set executables #####################
 
 RUN chmod +x  /hydromt/stac.py \
               /hydromt/config_gen.py \
               /hydromt/build.sh \
-              /hydromt/convert_lowercase.py
+              /hydromt/convert_lowercase.py \
+              /hydromt/decode_keys.sh
 
 FROM python:3.10-bullseye
 

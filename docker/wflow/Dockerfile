@@ -1,5 +1,10 @@
 FROM  julia:1.10.1-bookworm
 
+LABEL version="1.0"
+LABEL description="Wflow Docker image for running hydrological workflows"
+LABEL maintainer="Juraj Zvolensky, Iacopo Ferrario"
+LABEL organization="Eurac Research"
+
 USER root
 
 RUN apt update && apt install -y python3 python3-pip git
@@ -43,8 +48,8 @@ RUN pip3 install --break-system-packages -r /app/requirements.txt
 COPY ./src/stac.py /app/src/stac.py
 COPY ./src/to_zarr.py /app/src/to_zarr.py
 COPY ./src/read_stac.py /app/src/read_stac.py
+COPY ./src/decode_keys.py /app/src/decode_keys.py
 
-RUN chmod +x /app/src/stac.py /app/src/to_zarr.py /app/src/read_stac.py
-
+RUN chmod +x /app/src/stac.py /app/src/to_zarr.py /app/src/read_stac.py /app/src/decode_keys.py
 
 

@@ -25,7 +25,10 @@ echo "running lowercase"
 docker exec -it $container_id python /hydromt/convert_lowercase.py "/hydromt/model/wflow_sbm.toml"
 
 echo "Wrapping output files"
-docker exec -it $container_id python /hydromt/stac.py --staticmaps_path "/hydromt/model/staticmaps.nc" --forcings_path "/hydromt/model/forcings.nc" --output_dir "/hydromt/model/stac"
+docker exec -it $container_id python /hydromt/stac.py --staticmaps_path "/hydromt/model/staticmaps.nc" \
+                                                      --forcings_path "/hydromt/model/forcings.nc" \
+                                                      --wflow_sbm_path "/hydromt/model/wflow_sbm.toml" \
+                                                      --output_dir "/hydromt/model/stac"
 echo "Finished wrapping output files"
 
 docker cp $container_id:/hydromt ./output/hydromt

@@ -4,6 +4,9 @@
 .env*
 tests/*.z*
 
+scripts/
+
+.secrets.baseline
 /openeo/hydromt/hydromt-output/
 /openeo/wflow/wflow-output/
 /openeo/surrogate/surrogate-output/
