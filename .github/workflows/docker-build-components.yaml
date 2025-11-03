@@ -27,6 +27,34 @@ jobs:
         component: [hydromt, surrogate, wflow]
 
     steps:
+      - name: Show initial disk usage
+        run: df -h
+
+      - name: Free up disk space and move Docker storage
+        run: |
+          echo "=== Cleaning up system to free space ==="
+          sudo apt-get clean
+          sudo apt-get autoremove -y
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          
+          echo "=== Removing preinstalled Docker images and cache ==="
+          docker image prune -af || true
+          docker builder prune -af || true
+          sudo rm -rf /var/lib/docker || true
+          
+          echo "=== Moving Docker data to /mnt/docker for more space ==="
+          sudo mkdir -p /mnt/docker
+          sudo systemctl stop docker
+          sudo rsync -aP /var/lib/docker/ /mnt/docker/ || true
+          sudo rm -rf /var/lib/docker
+          sudo ln -s /mnt/docker /var/lib/docker
+          sudo systemctl start docker
+          
+          echo "=== Running final cleanup ==="
+          docker system prune -af --volumes || true
+          echo "=== Disk usage after cleanup ==="
+          df -h
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -55,8 +83,19 @@ jobs:
           context: ./docker/${{ matrix.component }}
           file: ./docker/${{ matrix.component }}/Dockerfile
           push: true
+          load: false 
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=${{ matrix.component }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.component }}
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1
+
+      - name: Clean up after build
+        if: always()
+        run: |
+          echo "=== Cleaning up after build ==="
+          docker system prune -af --volumes || true
+          echo "=== Final disk usage ==="
+          df -h
