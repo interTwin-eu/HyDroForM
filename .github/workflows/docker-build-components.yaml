@@ -5,6 +5,8 @@ on:
     branches: [main, update]
     paths:
       - 'docker/**'
+      - '.github/workflows/docker-*.yaml'
+      - '.github/workflows/docker-*.yml'
   release:
     types: [published]
   workflow_dispatch:
