@@ -21,7 +21,7 @@ ENV C_INCLUDE_PATH=/usr/include/gdal
 
 COPY requirements.txt /hydromt/
 
-RUN pip install -r /hydromt/requirements.txt    
+RUN pip install -r requirements.txt    
 #COPY all_basins.geojson /hydromt/
 
 RUN git clone -b feature/stac_zarr_storage https://github.com/interTwin-eu/openeo-processes-dask.git
