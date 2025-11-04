@@ -10,30 +10,36 @@ WORKDIR /hydromt
 ##################### Python setup #####################
 
 RUN apt-get update && apt-get install -y \
-    gdal-bin \
-    libgdal-dev \
-    python3-gdal \
     vim \
     && pip install --upgrade pip setuptools wheel
 
-ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
-ENV C_INCLUDE_PATH=/usr/include/gdal
-
 COPY requirements.txt /hydromt/
 
-RUN pip install -r requirements.txt    
+# # Install GDAL Python bindings matching system GDAL version
+# RUN pip install GDAL==$(gdal-config --version)
+# Install requirements (GDAL already removed from requirements.txt)
+
+RUN pip install -r /hydromt/requirements.txt
 #COPY all_basins.geojson /hydromt/
+# RUN git clone -b feature/stac_zarr_storage https://github.com/interTwin-eu/openeo-processes-dask.git
+# RUN cd openeo-processes-dask/openeo_processes_dask/specs && \
+#     git clone https://github.com/eodcgmbh/openeo-processes.git -b 2024.7.0
+# RUN cd .
+# RUN cd openeo-processes-dask && pip install .
+# RUN cd .
+# RUN pip uninstall -y pydantic && pip install pydantic==2.8.2 openeo_pg_parser_networkx==2024.10.0
+# clone commit https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac/-/commit/0df2519c93698314becedf230255b8ce6b5c29a9
 
-RUN git clone -b feature/stac_zarr_storage https://github.com/interTwin-eu/openeo-processes-dask.git
-RUN cd openeo-processes-dask/openeo_processes_dask/specs && \
-    git clone https://github.com/eodcgmbh/openeo-processes.git -b 2024.7.0
-RUN cd .
-RUN cd openeo-processes-dask && pip install .
-RUN cd .
+RUN git clone https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git
+RUN cd raster-to-stac && git checkout 0df2519c93698314becedf230255b8ce6b5c29a9 
 
-RUN pip uninstall -y pydantic && pip install pydantic==2.8.2 openeo_pg_parser_networkx==2024.10.0
+ENV R2S_VERSION=0.9.0
 
-RUN pip install pystac==1.14.0
+RUN cd raster-to-stac && sed -i "s/SEMANTIC_VERSION/$R2S_VERSION/g" pyproject.toml
+
+RUN pip install raster2stac @ git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git@0df2519c93698314becedf230255b8ce6b5c29a9
+
+# RUN pip install pystac==1.14.0
 
 ##################### HydroMT Components setup #####################
 

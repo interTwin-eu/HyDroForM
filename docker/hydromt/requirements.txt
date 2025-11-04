@@ -110,6 +110,7 @@ python-dotenv==1.1.0
 pytz==2025.2
 pytzdata==2020.1
 PyYAML==6.0.2
+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac/-/commit/0df2519c93698314becedf230255b8ce6b5c29a9
 raster2stac @ git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git@771e9f0761ffa70376d314f86804dcfcca6e831c
 rasterio==1.4.3
 referencing==0.36.2
@@ -146,4 +147,3 @@ yarl==1.20.0
 zarr==2.18.3
 zict==3.0.0
 zipp==3.21.0
-GDAL==3.12.0
