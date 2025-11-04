@@ -64,8 +64,10 @@ geoparquet==0.0.3
 gwwapi==0.0.2
 h5netcdf==1.6.1
 h5py==3.13.0
-hydromt @ git+https://github.com/interTwin-eu/hydromt.git@e3870f6b0158d98600af09a2ee5bd5144d618ab3
-hydromt_wflow @ git+https://github.com/interTwin-eu/hydromt_wflow.git@dec44803239e6c079da592613b739782d7bddd22
+# hydromt @ git+https://github.com/interTwin-eu/hydromt.git@e3870f6b0158d98600af09a2ee5bd5144d618ab3
+# hydromt_wflow @ git+https://github.com/interTwin-eu/hydromt_wflow.git@dec44803239e6c079da592613b739782d7bddd22
+hydromt @ git+https://github.com/interTwin-eu/hydromt.git@stac#egg=hydromt
+hydromt_wflow @ git+https://github.com/interTwin-eu/hydromt_wflow.git@stac#egg=hydromt_wflow
 idna==3.10
 importlib_metadata==8.7.0
 Jinja2==3.1.6
@@ -86,7 +88,7 @@ numba==0.61.2
 numcodecs==0.13.1
 numpy==1.26.4
 odc-geo==0.4.3
-odc-stac @ git+https://github.com/jzvolensky/odc-stac.git@76910c1dce84d63960f2dc3321cbc22a35653c47
+odc-stac @ git+https://github.com/jzvolensky/odc-stac.git@hotfix#egg=odc-stac
 openeo==0.41.0
 openeo-pg-parser-networkx==2024.10.0
 packaging==25.0
