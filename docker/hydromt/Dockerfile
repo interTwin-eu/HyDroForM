@@ -40,6 +40,14 @@ RUN cd raster-to-stac && sed -i "s/SEMANTIC_VERSION/$R2S_VERSION/g" pyproject.to
 # Install raster-to-stac from the local directory (with fixed version)
 RUN pip install ./raster-to-stac
 
+# INSTALL openeo-processes-dask and submodule
+RUN git clone -b feature/load_stac_odc https://github.com/interTwin-eu/openeo-processes-dask.git
+RUN cd openeo-processes-dask/openeo_processes_dask/specs && \ 
+    git clone https://github.com/eodcgmbh/openeo-processes.git -b 2024.7.0
+RUN cd .
+RUN cd openeo-processes-dask && pip install . 
+RUN cd .
+
 # RUN pip install pystac==1.14.0
 
 ##################### HydroMT Components setup #####################
