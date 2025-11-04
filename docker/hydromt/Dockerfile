@@ -37,7 +37,8 @@ ENV R2S_VERSION=0.9.0
 
 RUN cd raster-to-stac && sed -i "s/SEMANTIC_VERSION/$R2S_VERSION/g" pyproject.toml
 
-RUN pip install git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git@0df2519c93698314becedf230255b8ce6b5c29a9
+# Install raster-to-stac from the local directory (with fixed version)
+RUN pip install ./raster-to-stac
 
 # RUN pip install pystac==1.14.0
 
