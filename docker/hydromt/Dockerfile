@@ -50,6 +50,9 @@ RUN cd .
 
 # RUN pip install pystac==1.14.0
 
+# overwrite the xarray installation with a later version
+RUN pip install xarray==2024.10.0
+
 ##################### HydroMT Components setup #####################
 
 RUN mkdir -p /hydromt/output /hydromt/data
