@@ -141,7 +141,7 @@ ujson==5.10.0
 universal_pathlib==0.2.6
 urllib3==2.4.0
 wrapt==1.17.2
-xarray==2024.3.0
+xarray==2024.10.0
 xmltodict==0.14.2
 xvec==0.2.0
 yarl==1.20.0

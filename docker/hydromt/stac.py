@@ -186,8 +186,7 @@ def main(*args) -> None:
         requests.post(r2s.collection_url, json=stac_collection_to_post)
         stac_items = []
         with open(f"{output_dir}/inline_items.csv", "r") as f:
-            logger.info(f"Attempting to upload the items to STAC API: {
-                STAC_API_URL}{r2s.collection_id}/items")
+            logger.info(f"Attempting to upload the items to STAC API: {STAC_API_URL}{r2s.collection_id}/items")
             stac_items = f.readlines()
             for it in stac_items:
                 stac_data_to_post = json.loads(it)
