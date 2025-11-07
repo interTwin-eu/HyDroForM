@@ -148,11 +148,12 @@ def main():
 
     if args.use_env:
         logger.info("Reading configuration from environment variables...")
-        env_values = parse_env_vars(["RES", "PRECIP_FN", "STARTTIME", "ENDTIME"])
+        env_values = parse_env_vars(["RES", "PRECIP_FN", "STARTTIME", "ENDTIME", "TEMP_PET_FN"])
         res = float(env_values["RES"])
         precip_fn = env_values["PRECIP_FN"]
         starttime = env_values["STARTTIME"]
         endtime = env_values["ENDTIME"]
+        temp_pet_fn = env_values["TEMP_PET_FN"]
     else:
         logger.info("Reading configuration from command line arguments...")
         res = args.res
@@ -219,7 +220,7 @@ def main():
             "chunksize": 1,
         },
         "setup_temp_pet_forcing": {
-            "temp_pet_fn": "cerra_stac",
+            "temp_pet_fn": temp_pet_fn,
             "kin_fn": "cerra_land_stac",
             "press_correction": "True",
             "temp_correction": "True",
