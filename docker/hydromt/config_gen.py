@@ -52,6 +52,7 @@ def parse_env_vars(
         "PRECIP_FN": "emo1_stac",
         "STARTTIME": "2001-01-01T00:00:00",
         "ENDTIME": "2001-03-31T00:00:00",
+        "TEMP_PET_FN": "emo1_stac"
     }
 
     env_vars = {}
@@ -102,6 +103,12 @@ def setup_parser() -> argparse.ArgumentParser:
         type=str,
         default="2001-03-31T00:00:00",
         help="End time for the simulation",
+    )
+    parser.add_argument(
+        "--temp_pet_fn",
+        type=str,
+        default="emo1_stac",
+        help="Temperature and potential evapotranspiration forcing file name",
     )
     logger.info("Parser setup complete.")
     return parser
