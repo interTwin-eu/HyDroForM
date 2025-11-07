@@ -160,6 +160,7 @@ def main():
         precip_fn = args.precip_fn
         starttime = args.starttime
         endtime = args.endtime
+        temp_pet_fn = args.temp_pet_fn
 
     config_dict = {
         "setup_config": {
