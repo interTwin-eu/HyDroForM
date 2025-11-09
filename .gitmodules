@@ -1,0 +1,4 @@
+[submodule "example/openeo-processes-dask"]
+	path = example/openeo-processes-dask
+	url = https://github.com/jzvolensky/openeo-processes-dask.git
+	branch = run_oscar

@@ -1,0 +1,14 @@
+functions:
+  oscar:
+  - cluster_id:
+      name: hydroform-wflow
+      cpu: '1.0'
+      memory: 2Gi
+      image: ghcr.io/intertwin-eu/hydroform/wflow:sha-27b00ad
+      script: configs/oscar_wflow_script.sh 
+      log_level: CRITICAL
+      vo: dev.intertwin.eu
+      environment:
+        secrets:
+          AWS_ACCESS_KEY_ID: ""
+          AWS_SECRET_ACCESS_KEY: ""
