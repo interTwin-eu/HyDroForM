@@ -1,0 +1,19 @@
+functions:
+  oscar:
+  - cluster_id:
+      name: hydroform-surrogate
+      cpu: '1.0'
+      memory: 8Gi
+      image: ghcr.io/intertwin-eu/hydroform/surrogate:sha-b598b58
+      script: configs/oscar_surrogate_script.sh
+      log_level: CRITICAL
+      vo: dev.intertwin.eu
+      environment:
+        secrets:
+          AWS_ACCESS_KEY_ID: ""
+          AWS_SECRET_ACCESS_KEY: ""
+          MLFLOW_TRACKING_URI: ""
+          MLFLOW_TRACKING_USERNAME: ""
+          MLFLOW_TRACKING_PASSWORD: ""
+          MLFLOW_TRACKING_INSECURE_TLS: ""
+          

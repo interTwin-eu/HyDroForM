@@ -129,6 +129,6 @@ python oscar.py \
   --output=output
 ```
 
-You need to add your EGI token, you can get it from [https://aai.egi.eu/token/](https://aai.egi.eu/token/). 
+You need to add your EGI token, you can get it from [https://aai.egi.eu/token/](https://aai.egi.eu/token/).
 
 Remember, you need to be in the [interTwin VO](https://aai.egi.eu/registry/co_petitions/start/coef:622).

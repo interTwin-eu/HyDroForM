@@ -1,127 +1,201 @@
 #!/usr/bin/env python
+import argparse
+import json
+import logging
 import os
 import uuid
-import argparse
-import logging
+
 import requests
-import json    
+import s3fs
 from raster2stac import Raster2STAC
 
+# Constant UUID for collection and wflow sbm
+# This UUID is used to identify the collection and wflow sbm in the STAC API
+UUID = str(uuid.uuid4())
+
+# Read AWS environment variables
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+
+
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO,
-    handlers=[logging.StreamHandler()]
+    handlers=[logging.StreamHandler()],
 )
 
 logging.getLogger().setLevel(logging.DEBUG)
-numba_logger = logging.getLogger('numba')
+numba_logger = logging.getLogger("numba")
 numba_logger.setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+
+if not AWS_ACCESS_KEY_ID or not AWS_SECRET_ACCESS_KEY:
+    raise ValueError(
+        "AWS_ACCESS_KEY and AWS_SECRET_KEY environment variables must be set"
+    )
+else:
+    logger.info("AWS_ACCESS_KEY and AWS_SECRET_KEY environment variables are set")
+    logger.info(f"AWS_ACCESS_KEY: {AWS_ACCESS_KEY_ID}")
+    logger.info(f"AWS_SECRET_KEY: {AWS_SECRET_ACCESS_KEY}")
+
 parser = argparse.ArgumentParser()
-parser.add_argument('--staticmaps_path', help='Static maps from HydroMT')
-parser.add_argument('--forcings_path', help='Forcings from HydroMT')
-parser.add_argument('--wflow_sbm_path', help='Wflow sbm from HydroMT')
-parser.add_argument('--output_dir', help='Output folder for the STAC Collection')
+parser.add_argument("--staticmaps_path", help="Static maps from HydroMT")
+parser.add_argument("--forcings_path", help="Forcings from HydroMT")
+parser.add_argument("--wflow_sbm_path", help="Wflow sbm from HydroMT")
+parser.add_argument("--output_dir", help="Output folder for the STAC Collection")
+
+
+def _upload_to_s3(
+    file_path: str, bucket_name: str = "rucio", s3_path: str = None
+) -> str:
+    """
+    Upload a file to S3 and return the S3 path.
+
+    Args:
+        file_path (str): Path to the file to upload.
+        bucket_name (str): Name of the S3 bucket. Defaults to "rucio".
+        s3_path (str): S3 path where the file will be uploaded. If not provided, a default path is generated.
+
+    Returns:
+        str: The S3 path of the uploaded file, or None if the upload fails.
+    """
+    if not os.path.exists(file_path):
+        logger.error(f"File {file_path} does not exist.")
+        return None
+
+    if not s3_path:
+        filename = os.path.basename(file_path)
+        s3_path = f"interTwin_EURAC/{UUID}_{filename}"
+        logger.info(f"S3 path not provided. Using default path: {s3_path}")
+
+    try:
+        fs = s3fs.S3FileSystem(
+            anon=False,
+            key=AWS_ACCESS_KEY_ID,
+            secret=AWS_SECRET_ACCESS_KEY,
+            client_kwargs={"endpoint_url": "https://objectstore.eodc.eu:2222"},
+        )
+
+        full_s3_path = f"s3://{bucket_name}/{s3_path}"
+        fs.put(file_path, full_s3_path)
+        logger.info(
+            f"Uploaded {file_path} to S3 bucket {bucket_name} at path {full_s3_path}"
+        )
+
+        return full_s3_path
+
+    except Exception as e:
+        logger.error(f"Error uploading {file_path} to S3: {e}")
+        return None
 
 
 def main(*args) -> None:
-
     try:
         args = parser.parse_args()
     except Exception as e:
         logger.error(f"Error parsing arguments: {e}")
         return
-    
+
     logger.info(f"Arguments: {args}")
-    
+
     staticmaps_path = args.staticmaps_path
-    
+
     forcings_path = args.forcings_path
 
     output_dir = args.output_dir
 
     wflow_sbm_file = args.wflow_sbm_path
 
+    try:
+        wflow_sbm_file = _upload_to_s3(
+            wflow_sbm_file,
+            bucket_name="rucio",
+            s3_path=f"interTwin_EURAC/hydroform/{UUID}_{os.path.basename(wflow_sbm_file)}",
+        )
+        logger.info(f"Uploaded Wflow sbm file to S3: {wflow_sbm_file}")
+    except Exception as e:
+        logger.error(f"Error uploading Wflow sbm file to S3: {e}")
+        return
+
     os.makedirs(output_dir, exist_ok=True)
 
     logger.info(f"staticmaps_path: {staticmaps_path}")
     logger.info(f"forcings_path: {forcings_path}")
 
-    #Upload the Wflow_SBM to S3 first
-
     r2s = Raster2STAC(
-        data = [[f"{staticmaps_path}"],[f"{forcings_path}"]], 
-        collection_id = f"{uuid.uuid4()}_WFLOW_FORCINGS_STATICMAPS", 
-        collection_url = "https://stac.openeo.eurac.edu/api/v1/pgstac/collections", # collection_ur, the STAC API where we foresee to share this Collection
-        output_folder= output_dir, #TODO: check if ok to write in this local new directory
+        data=[[f"{staticmaps_path}"], [f"{forcings_path}"]],
+        collection_id=f"{UUID}_WFLOW_FORCINGS_STATICMAPS",
+        collection_url="https://stac.intertwin.fedcloud.eu/collections/",
+        output_folder=output_dir,
         description="Collection containing the forcings.nc and staticmaps.nc files generated by HydroMT, necessary to run WFLOW.",
         title="HydroMT result files",
         ignore_warns=False,
-        keywords=['intertwin', 'climate'],
-        links= [{
-            "rel": "license",
-            "href": "https://cds.climate.copernicus.eu/api/v2/terms/static/licence-to-use-copernicus-products.pdf",
-            "title": "License to use Copernicus Products",
-        },
-        {
-            # Define the path in advance instead
-            "rel": "wflow_sbm_toml",
-            "href": f"{wflow_sbm_file}",
-            "title": "Wflow sbm file"
-        }
+        keywords=["intertwin", "climate"],
+        links=[
+            {
+                "rel": "license",
+                "href": "https://cds.climate.copernicus.eu/api/v2/terms/static/licence-to-use-copernicus-products.pdf",
+                "title": "License to use Copernicus Products",
+            },
+            {
+                # Define the path in advance instead
+                "rel": "wflow_sbm_toml",
+                "href": f"{wflow_sbm_file}",
+                "title": "Wflow sbm file",
+            },
         ],
         providers=[
             {
                 "url": "https://cds.climate.copernicus.eu/cdsapp#!/dataset/10.24381/cds.622a565a",
                 "name": "Copernicus",
-                "roles": [
-                    "producer"
-                ]
+                "roles": ["producer"],
             },
             {
                 "url": "https://cds.climate.copernicus.eu/cdsapp#!/dataset/10.24381/cds.622a565a",
                 "name": "Copernicus",
-                "roles": [
-                    "licensor"
-                ]
+                "roles": ["licensor"],
             },
             {
                 "url": "http://www.eurac.edu",
                 "name": "Eurac Research - Institute for Earth Observation",
-                "roles": [
-                    "host"
-                ]
-            }
+                "roles": ["host"],
+            },
         ],
         stac_version="1.0.0",
-        s3_upload=False,
-        bucket_file_prefix = "INTERTWIN/",
-        bucket_name = "eurac-eo",
-        aws_access_key = "", #TODO: don't publish this in the repo
-        aws_secret_key = "",
-        aws_region = "s3-eu-west-1",
+        s3_upload=True,
+        s3_endpoint_url="https://objectstore.eodc.eu:2222",
+        bucket_file_prefix=f"interTwin_EURAC/hydroform/{UUID}_",
+        bucket_name="rucio",
+        aws_access_key=AWS_ACCESS_KEY_ID,
+        aws_secret_key=AWS_SECRET_ACCESS_KEY,
         version=None,
         license="proprietary",
-        write_collection_assets=True
+        write_collection_assets=True,
     )
 
     r2s.generate_netcdf_stac()
 
-    STAC_API_URL = "https://stac.openeo.eurac.edu/api/v1/pgstac/collections"
+    STAC_API_URL = "https://stac.intertwin.fedcloud.eu/collections/"
 
-    with open(f"{output_dir}/{r2s.collection_id}.json","r") as f:
+    with open(f"{output_dir}/{r2s.collection_id}.json", "r") as f:
+        logger.info(f"Attempting to upload the collection to STAC API: {STAC_API_URL}")
         stac_collection_to_post = json.load(f)
-        requests.post(r2s.collection_url,json=stac_collection_to_post)
+        requests.post(r2s.collection_url, json=stac_collection_to_post)
         stac_items = []
-        with open(f"{output_dir}/inline_items.csv","r") as f:
+        with open(f"{output_dir}/inline_items.csv", "r") as f:
+            logger.info(f"Attempting to upload the items to STAC API: {STAC_API_URL}{r2s.collection_id}/items")
             stac_items = f.readlines()
             for it in stac_items:
                 stac_data_to_post = json.loads(it)
-                requests.post(f"{STAC_API_URL}/{r2s.collection_id}/items",json=stac_data_to_post)
+                requests.post(
+                    f"{STAC_API_URL}{r2s.collection_id}/items", json=stac_data_to_post
+                )
 
-if __name__ == '__main__':
+    logger.info(f"STAC OUTPUT URL: {STAC_API_URL}{r2s.collection_id}")
+
+
+if __name__ == "__main__":
     main()
-

@@ -1,0 +1,19 @@
+functions:
+  oscar:
+  - cluster_id:
+      name: hydroform-hydromt
+      cpu: '1.0'
+      memory: 3Gi
+      image: ghcr.io/intertwin-eu/hydroform/hydromt:sha-ecfc2a7 #ghcr.io/intertwin-eu/hydroform/hydromt:sha-17359f3
+      script: ./configs/oscar_hydromt_script.sh 
+      log_level: CRITICAL   
+      vo: dev.intertwin.eu
+      environment:
+        secrets:
+          AWS_ACCESS_KEY_ID: ""
+          AWS_SECRET_ACCESS_KEY: ""
+          RES: "0.0089999999"
+          PRECIP_FN: "emo1_stac"
+          TEMP_PET_FN: "emo1_stac"
+          STARTTIME: "2001-01-01T00:00:00"
+          ENDTIME: "2001-03-31T00:00:00"

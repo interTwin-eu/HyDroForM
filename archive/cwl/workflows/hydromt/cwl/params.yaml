@@ -4,7 +4,7 @@
 
 # Region of interest
 # {'subbasin':[ 11.4750, 46.8717 ], 'strord':3}"
-region: "{'subbasin': [11.4750, 46.8720]}" 
+region: "{'subbasin': [11.4750, 46.8720]}"
 # Resolution of the Model
 res: 0.00899999
 # Precipitation forcing dataset
@@ -14,7 +14,7 @@ setupconfig:
   class: File
   path: "https://raw.githubusercontent.com/jzvolensky/Itwin-tech-meeting/main/example/hydromt/wflow.ini"
 # HydroMT Data Catalog
-catalog: 
+catalog:
   class: File
   path: "https://raw.githubusercontent.com/jzvolensky/Itwin-tech-meeting/main/example/hydromt/cwl/tempcatalog.yaml"
 # Script to update the Wflow.ini configuration file
@@ -27,4 +27,4 @@ config_gen:
 # !cwltool --verbose --no-read-only --force-docker-pull --outdir ./hydromt-output hydromt-build-workflow.cwl#hydromt-workflow params.yaml
 
 
-# cwltool --verbose --no-read-only --force-docker-pull --outdir ./hydromt-output hydromt-build-workflow.cwl#hydromt-workflow params.yaml > output.log 2>&1 
+# cwltool --verbose --no-read-only --force-docker-pull --outdir ./hydromt-output hydromt-build-workflow.cwl#hydromt-workflow params.yaml > output.log 2>&1

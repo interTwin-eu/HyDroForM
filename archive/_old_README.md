@@ -73,10 +73,10 @@ region: "{'subbasin':[ 11.4750, 46.8717 ], 'strord':3}"
 setupconfig:
   class: File
   path: wflow.ini
-catalog: 
+catalog:
   class: File
   path: hydromt_data.yaml
-volume_data: 
+volume_data:
   class: Directory
   path: /mnt/CEPH_PROJECTS/InterTwin/Wflow/data
 ```
@@ -108,7 +108,7 @@ Wflow is Deltares’ solution for modelling hydrological processes, allowing use
 #### params-wflow.yaml
 
 The `params-wflow.yaml` file contains the definitions of the required inputs for the Wflow application. The user needs to specify the following inputs. Similarly to HydroMT, these inputs can be described in a `yaml file`:
-  
+
   ```yaml
   runconfig:
     class: File
@@ -150,7 +150,7 @@ When updating the model, the user should be able to select whether to overwrite 
 
 `cwltool --no-read-only --no-match-user wflow-run.cwl params_wflow.yaml`
 
-## TODO: Surrogate 
+## TODO: Surrogate
 
 >Inputs:
 >- WFLOW's parameters
@@ -161,7 +161,7 @@ When updating the model, the user should be able to select whether to overwrite 
 >- trained weights
 >
 >User Parameters:
->- set of WFLOW's parameters 
+>- set of WFLOW's parameters
 >
 >Volumes:
 >- v1: data catalog
@@ -252,7 +252,7 @@ The output of the Wflow application package is a set of hydrological variables. 
 
 ## Testing
 
-- HydroMT 
+- HydroMT
 
 `cd HyDroForM && ./tests/test_hydromt.sh`
 

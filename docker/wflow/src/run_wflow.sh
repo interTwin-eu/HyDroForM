@@ -7,10 +7,9 @@
 ## processing arguments
 
 runconfig=$1
- 
+
 ## run application
 
-wflow "$runconfig" # default to 4 threads 
+wflow "$runconfig" # default to 4 threads
 
 ## add result to catalog
-

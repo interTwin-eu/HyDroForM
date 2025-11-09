@@ -1,20 +1,18 @@
 #!/usr/bin/env python
 """
-Simple script to read a TOML configuration file and convert all keys to lowercase,
-except for specific keys that should remain unchanged.
-Uses argv to pass the input location of the TOML file and overwrites it with the new file.
-
-It is incredible that this sh** is even necessary, but it is what it is...
+Simple script to read a TOML configuration file, convert all keys to lowercase,
+and append specific values to the TOML file.
 
 Usage:
     python convert_lowercase.py /path/to/config.toml
 """
 
-import toml
-import sys
 import logging
-import re
 import os
+import re
+import sys
+
+import toml
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -24,17 +22,15 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()],
 )
 
+
 def set_permissions():
     """
-    Set permissions for the current working directory to 777
-    Not sure if this is completely necessary but CWL tool
-    is a pain in the ass about permissions
+    Set permissions for the current working directory to 777.
     """
     cwd = os.getcwd()
     os.chmod(cwd, 0o777)
     logger.info(f"Set permissions for {cwd} to 777")
 
-set_permissions()
 
 # List of keys that should not be converted to lowercase
 exceptions = [
@@ -59,8 +55,9 @@ exceptions = [
     "leaf_area_index",
 ]
 
-# Regex pattern to match datetime strings just in case, dates can be wonky
+# Regex pattern to match datetime strings
 datetime_pattern = re.compile(r"\d{4}-\d{2}-\d{2}t\d{2}:\d{2}:\d{2}", re.IGNORECASE)
+
 
 def to_lowercase(data):
     """
@@ -81,16 +78,41 @@ def to_lowercase(data):
         return data
 
 
-logger.info(f"Reading configuration file: {sys.argv[1]}")
-config = toml.load(sys.argv[1])
+def append_output_vertical(config):
+    """
+    Append [output.vertical] section with actevap and vwc to the TOML configuration.
+    """
+    logger.info("Appending [output.vertical] section to the configuration")
+    if "output" not in config:
+        config["output"] = {}
+    if "vertical" not in config["output"]:
+        config["output"]["vertical"] = {}
 
-logger.info("Converting keys to lowercase")
-config = to_lowercase(config)
+    config["output"]["vertical"]["actevap"] = "actevap"
+    config["output"]["vertical"]["vwc"] = "vwc"
 
-set_permissions()
+    logger.info("Appended values: [output.vertical] actevap='actevap', vwc='vwc'")
+    return config
 
-logger.info(f"Writing configuration file: {sys.argv[1]}")
-with open(sys.argv[1], "w") as f:
-    toml.dump(config, f)
 
-logger.info("Done")
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        logger.error("Usage: python convert_lowercase.py /path/to/config.toml")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    logger.info(f"Reading configuration file: {input_file}")
+    config = toml.load(input_file)
+
+    logger.info("Converting keys to lowercase")
+    config = to_lowercase(config)
+
+    config = append_output_vertical(config)
+
+    set_permissions()
+
+    logger.info(f"Writing updated configuration file: {input_file}")
+    with open(input_file, "w") as f:
+        toml.dump(config, f)
+
+    logger.info("Done")

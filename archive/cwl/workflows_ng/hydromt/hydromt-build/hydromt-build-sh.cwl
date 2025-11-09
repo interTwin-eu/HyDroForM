@@ -10,7 +10,7 @@ requirements:
       - entryname: build_hydromt.sh
         entry: |
           #!/usr/bin/env bash
-          
+
           region=$1
           setupconfig=$2
           catalog=$3
@@ -24,7 +24,7 @@ requirements:
           hydromt build wflow model \
           -r "$region" \
           -d "$catalog" \
-          -i "$setupconfig" -vvv 
+          -i "$setupconfig" -vvv
 
           echo "Finished running hydromt build wflow model"
 

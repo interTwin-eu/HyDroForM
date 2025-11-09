@@ -16,7 +16,7 @@ echo "catalog: $catalog"
 hydromt build wflow model \
 -r "$region" \
 -d "$catalog" \
--i "$setupconfig" -vvv 
+-i "$setupconfig" -vvv
 echo "Finished running hydromt build wflow model"
 
 echo "Wrapping output files"

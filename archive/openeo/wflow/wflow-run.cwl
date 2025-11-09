@@ -129,7 +129,7 @@ $graph:
       - id: netcdf_output
         type: Directory
         outputBinding:
-          glob: . 
+          glob: .
     requirements:
       DockerRequirement:
         dockerPull: potato55/wflow-test:latest

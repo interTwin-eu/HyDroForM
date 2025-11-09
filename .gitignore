@@ -1,17 +1,24 @@
 !hydromt/cwl/81iegmjn/
 
 .oscar-venv/
+.env*
+tests/*.z*
 
+scripts/
+
+.secrets.baseline
 /openeo/hydromt/hydromt-output/
 /openeo/wflow/wflow-output/
 /openeo/surrogate/surrogate-output/
 
-tests/tmp/
 
+docker/surrogate/src/outputs/
+tests/tmp/
+tests/tmp*
 .venv
 object_urls.txt
 
-*.geojson
+
 *.nc
 *.log
 .vscode/

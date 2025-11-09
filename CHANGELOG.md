@@ -5,6 +5,25 @@
 Since we are working on 1 branch now and my commit messages are getting \
 ridiculously long, I thought it would be a good idea to start a changelog.
 
+## 01/11/2025 preparation for the review
+
+### Changes
+
+- Move old stuff to the archive
+- Rework the README to reflect the current state of the project
+- Update the environment.yaml to include all necessary packages for local development
+- add `example/usecase.ipynb` with a simple OpenEO workflow to run the use case
+- Add github action to build and push the docker images
+- Add documentation for the new features and changes
+- Updated labels of docker images in the Dockerfiles
+
+### In progress
+
+- Final fixes for the use case containers
+- Final testing and preparation of the use case example
+- Final review of the documentation
+- SQAaaS integration after this update
+
 ## 10/07/2024 Reworking the project structure in preparation for OpenEO demo
 
 ### Fixes

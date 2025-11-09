@@ -10,10 +10,10 @@ TODO:
 - Sell the whole workflow to the highest bidder
 """
 
-import os
 import argparse
 import configparser
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -193,6 +193,7 @@ def main():
     }
     generate_config(config_dict)
     logger.info("CONFIG UPDATE STEP COMPLETE. WOOHOO!")
+
 
 if __name__ == "__main__":
     main()

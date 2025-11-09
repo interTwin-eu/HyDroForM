@@ -1,0 +1,22 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "basid": 226 }, "geometry": { "type": "Point", "coordinates": [ 15.43282626, 47.07842215 ] } },
+{ "type": "Feature", "properties": { "basid": 315 }, "geometry": { "type": "Point", "coordinates": [ 13.87600537, 48.0900632 ] } },
+{ "type": "Feature", "properties": { "basid": 341 }, "geometry": { "type": "Point", "coordinates": [ 14.42515738, 48.04347134 ] } },
+{ "type": "Feature", "properties": { "basid": 356 }, "geometry": { "type": "Point", "coordinates": [ 13.42810628, 48.455991 ] } },
+{ "type": "Feature", "properties": { "basid": 581 }, "geometry": { "type": "Point", "coordinates": [ 15.02349159, 46.58695904 ] } },
+{ "type": "Feature", "properties": { "basid": 747 }, "geometry": { "type": "Point", "coordinates": [ 14.52481288, 46.10007608 ] } },
+{ "type": "Feature", "properties": { "basid": 758 }, "geometry": { "type": "Point", "coordinates": [ 6.486498536, 44.55190508 ] } },
+{ "type": "Feature", "properties": { "basid": 784 }, "geometry": { "type": "Point", "coordinates": [ 6.271045866, 46.15060129 ] } },
+{ "type": "Feature", "properties": { "basid": 812 }, "geometry": { "type": "Point", "coordinates": [ 5.724081935, 45.19337783 ] } },
+{ "type": "Feature", "properties": { "basid": 879 }, "geometry": { "type": "Point", "coordinates": [ 12.88353929, 48.77091662 ] } },
+{ "type": "Feature", "properties": { "basid": 919 }, "geometry": { "type": "Point", "coordinates": [ 10.28363393, 48.46549967 ] } },
+{ "type": "Feature", "properties": { "basid": 940 }, "geometry": { "type": "Point", "coordinates": [ 10.88803107, 48.40697033 ] } },
+{ "type": "Feature", "properties": { "basid": 948 }, "geometry": { "type": "Point", "coordinates": [ 6.888607997, 46.34956713 ] } },
+{ "type": "Feature", "properties": { "basid": 1028 }, "geometry": { "type": "Point", "coordinates": [ 8.329828541, 47.57034859 ] } },
+{ "type": "Feature", "properties": { "basid": 1031 }, "geometry": { "type": "Point", "coordinates": [ 8.234797688, 47.51662472 ] } },
+{ "type": "Feature", "properties": { "basid": 1359 }, "geometry": { "type": "Point", "coordinates": [ 11.11501, 46.070134 ] } },
+{ "type": "Feature", "properties": { "basid": 1435 }, "geometry": { "type": "Point", "coordinates": [ 11.293337, 45.014857 ] } }
+]
+}

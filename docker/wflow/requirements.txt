@@ -1,9 +1,10 @@
-xarray
 numpy
 numcodecs
 urllib3
-zarr
+zarr<3.0.0
 cf-xarray==0.10.4
 dask
-hython[io] @ git+https://github.com/interTwin-eu/hython.git@main#egg=hython
-raster2stac @ git+https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac.git@feature/add_netcdf_collection_2#egg=raster-to-stac
+raster2stac==0.0.8
+s3fs # to access aws s3 bucket
+rioxarray==0.17.0
+xarray==2024.3.0
