@@ -223,12 +223,12 @@ def main():
         "setup_temp_pet_forcing": {
             "temp_pet_fn": temp_pet_fn,
             "kin_fn": "cerra_land_stac",
-            "press_correction": "True",
+            "press_correction": "False",
             "temp_correction": "True",
             "wind_correction": "False",
-            "dem_forcing_fn": "cerra_orography",
+            "dem_forcing_fn": "emo1_orography_stac",
             "pet_method": "makkink",
-            "skip_pet": "False",
+            "skip_pet": "True",
             "chunksize": 1,
         },
         "setup_constant_pars": {
