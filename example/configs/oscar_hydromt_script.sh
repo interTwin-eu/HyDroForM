@@ -14,12 +14,14 @@ echo "Generating config file for HydroMT"
 # Set defaults or use environment variables if provided
 model_resolution="${MODEL_RESOLUTION:-0.008999999999}"
 precip_fn="${PRECIP_FN:-emo1_stac}"
+temp_pet_fn="${TEMP_PET_FN:-emo1_stac}"
 starttime="${STARTTIME:-2001-01-01T00:00:00}"
 endtime="${ENDTIME:-2001-03-31T00:00:00}"
 
 if ! python config_gen.py \
     --res "$model_resolution" \
     --precip_fn "$precip_fn" \
+    --temp_pet_fn "$temp_pet_fn" \
     --starttime "$starttime" \
     --endtime "$endtime"
 then

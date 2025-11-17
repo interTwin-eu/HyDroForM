@@ -13,7 +13,7 @@ if [ ! -d "$HYDROMT_DIR/tmp" ]; then
   mkdir -p $HYDROMT_DIR/tmp
 fi
 
-docker build --no-cache -f $HYDROMT_DIR/Dockerfile -t hydromt-test $HYDROMT_DIR
+docker build --no-cache -f $HYDROMT_DIR/Dockerfile -t hydromt-ecreview $HYDROMT_DIR
 
 # Run the container
 # 1. config generation
@@ -23,16 +23,18 @@ docker build --no-cache -f $HYDROMT_DIR/Dockerfile -t hydromt-test $HYDROMT_DIR
 
 model_resolution="${MODEL_RESOLUTION:-0.008999999999}"
 precip_fn="${PRECIP_FN:-emo1_stac}"
+temp_pet_fn="${TEMP_PET_FN:-emo1_stac}"
 starttime="${STARTTIME:-2001-01-01T00:00:00}"
 endtime="${ENDTIME:-2001-03-31T00:00:00}"
 
 docker container run \
     -v $PWD/tests/tmp:/hydromt/model \
     -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_KEY \
-    -it --rm potato55/hydromt-test:r2sfix /bin/bash -c "
+    -it --rm hydromt-ecreview /bin/bash -c "
     python config_gen.py \
         --res \"$model_resolution\" \
         --precip_fn \"$precip_fn\" \
+        --temp_pet_fn \"$temp_pet_fn\" \
         --starttime \"$starttime\" \
         --endtime \"$endtime\" \
     && hydromt build wflow model -r \"{'subbasin': [11.4750, 46.8720]}\" -d data_catalog.yaml -i wflow.ini -vvv \
