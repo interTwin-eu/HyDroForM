@@ -10,8 +10,7 @@
 - [Use case components](#use-case-components)
     - [HydroMT](#hydromt)
     - [Wflow](#wflow)
-    - [Surrogate model based on ItwinAI](#surrogate-model-based-on-it
-winai)
+    - [Surrogate model based on ItwinAI](#surrogate-model-based-on-itwinai)
 - [OSCAR](#oscar)
 - [Running the use case using openEO and OSCAR](#running-the-use-case-using-openeo-and-oscar)
 - [openEO OSCAR integration](#openeo-oscar-integration)
