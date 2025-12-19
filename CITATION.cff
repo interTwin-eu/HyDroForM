@@ -2,49 +2,32 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: raster2stac
+title: HyDroForM
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
 type: software
 authors:
-  - given-names: Michele
-    family-names: Claus
-    affiliation: Eurac Research - Institute for Earth Observation
-    orcid: 'https://orcid.org/0000-0003-3680-381X'
-  - family-names: Dhinakaran
-    given-names: Suriyah
-    affiliation: Eurac Research - Institute for Earth Observation
-    orcid: 'https://orcid.org/0009-0007-0355-7372'
-  - given-names: Rufai Omowunmi
-    family-names: Balogun
-    orcid: 'https://orcid.org/0000-0002-7741-2957'
-    affiliation: Eurac Research - Institute for Earth Observation
   - family-names: Zvolensky
     given-names: Juraj
     affiliation: Eurac Research - Institute for Earth Observation
     orcid: 'https://orcid.org/0009-0000-9185-7955'
-  - orcid: 'https://orcid.org/0000-0002-1032-9825'
-    affiliation: >-
-      Eurac Research - Center for Climate Change and
-      Transformation
-    given-names: Piero
-    family-names: Campalani
+  - family-names: Ferrario
+    given-names: Iacopo
+    orcid: 'https://orcid.org/0009-0009-5770-1012'
+    affiliation: Eurac Research - Institute for Earth Observation
+  - given-names: Estibaliz
+    family-names: Parcero
+    affiliation: Universitat Politècnica de València
 identifiers:
   - type: swh
-    value: 'swh:1:snp:ab5d7b1f1cb82c1dd54627a23e834d1474fa2d66'
-repository-code: >-
-  https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac
+    value: 'swh:1:snp:5e138ea6648017a45026dff2f11116348497a191'
+repository-code: 'https://github.com/interTwin-eu/HyDroForM'
+repository-artifact: >-
+  https://github.com/orgs/interTwin-eu/packages?repo_name=HyDroForM
 abstract: >-
-  raster2stac allows the creation of STAC Collections with
-  Items and Assets starting from different kinds of raster
-  datasets. It also enables automatic upload of the
-  resulting files to an S3 buckets, making them publicly
-  accessible worldwide. The goal is to make datasets easily
-  accessible, interoperable, and shareable.
-keywords:
-  - STAC
-  - COG
-  - Zarr
-  - FAIR
-license: MIT
+  HyDroForM stands for "Hydrological Drought Forecasting
+  Model with HydroMT and Wflow". It is a Digital Twin for
+  Drought Early Warning in the Alps developed as a use case
+  for the InterTwin project.
+license: Apache-2.0
